@@ -1,0 +1,1074 @@
+﻿@model SupportPlansandClients
+@using System.Net;
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Inter Font -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rsms/inter@v3.15/dst/inter.css">
+
+    @{
+        var uniqueClientNames1 = Model.ClientDetails.Select(a => a.clientFullName).Distinct().ToList();
+
+        int baseHeight1 = 169;
+        int additionalHeightPerClient1 = 20;
+        int totalHeight1 = baseHeight1 + (uniqueClientNames1.Count * additionalHeightPerClient1);
+    }
+
+    <style>
+        .containerHeader {
+            background-image: url("@Url.Content("~/Images/AppointmentsHdrBG.jpg")");
+            height: @totalHeight1.ToString()px;
+            background-size: cover;
+            background-position: left;
+            position: relative;
+            width: 100%;
+        }
+
+        .welcome-label {
+            position: absolute;
+            top: 48px; /* 30px + 18px (line-height of the first label) */
+            left: 30px;
+            color: #FFF;
+            font-family: 'Inter', sans-serif;
+            font-size: 40px;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .schedule-label {
+            position: absolute;
+            top: 93px;
+            left: 30px;
+            color: var(--blue-blue-10, #B4E4F9);
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        .custom-container {
+            position: relative;
+            margin-top: 30px;
+            max-width: 800px;
+            height: 1469px;
+            margin-left: 30px;
+        }
+
+        .address-label {
+            margin-left: 8px;
+        }
+
+        .location-icon {
+            height: 24px;
+            width: 24px;
+            margin-right: 8px;
+        }
+
+        .custom-container-small {
+            height: 50px;
+            border-bottom: 1px solid lightgrey;
+        }
+
+        .venue-container {
+            height: 56px;
+            border: 1px solid lightgrey;
+            padding-left: 0px;
+            display: flex;
+            align-items: center;
+            margin-top: 24px;
+            margin-left: 10px;
+            overflow: hidden;
+            width: fit-content;
+        }
+
+        .custom-container-large {
+            /* height: auto; */
+            border: 1px solid lightgrey;
+            box-sizing: border-box;
+            margin-top: 24px;
+            /*   margin-bottom:20px; */
+            border-radius: 5px;
+            left: 10%;
+            top: 100px;
+        }
+
+        .venue-container label {
+            font-size: 24px;
+            font-weight: 500;
+            line-height: 120%;
+            white-space: nowrap;
+        }
+
+        /*         .client-image {
+                    width: 56px;
+                    height: 56px;
+                    margin-top: 24px;
+                    margin-right: 10px;
+                    border-radius: 50%;
+                    margin-right: 8px;
+                    object-fit: cover;
+                } */
+
+        .client-image {
+            width: 100px;
+            height: 100px;
+            margin-right: 10px;
+            object-fit: cover;
+            border-radius: 8px; /* This sets the border radius to make it a circle */
+            overflow: hidden; /* This ensures the image stays within the rounded corners */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a shadow for depth (optional) */
+        }
+
+        .overview-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 20px;
+            font-weight: 500;
+            line-height: 120%;
+            margin-top: 24px;
+            margin-left: 0px;
+        }
+
+        .current-balance-container, .case-manager-container {
+            height: 76px;
+            border: 1px solid lightgrey;
+        }
+
+        .current-balance-container {
+            margin-left: 0px;
+        }
+
+        .other-details-value {
+            position: relative;
+            padding-top: 8px;
+            left: 24px;
+            color: var(--black-black-100, #1A1919);
+            /* Body Small/Regular */
+            font-family: Inter;
+            font-size: 15px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 120%; /* 18px */
+        }
+
+        /* here label */
+
+        .people-involved-label,
+        .venue-label,
+        .services-authorised-to-commence-label,
+        .support-plan-review-date-label,
+        .summary-current-situation-label,
+        .current-balance-label,
+        .case-manager-label,
+        .package-level-label {
+            position: relative;
+            top: 16px;
+            left: 24px;
+            margin-bottom: 10px; /* Adjust this value as needed */
+
+            color: var(--black-black-60, #626262);
+            /* Body Small/Medium */
+            font-family: Inter;
+            font-size: 15px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 120%; /* 18px */
+        }
+
+        /* here value*/
+
+        .case-manager-value,
+        .venue-label-value,
+        .services-authorised-to-commence-value,
+        .support-plan-review-date-value,
+        .summary-current-situation-value,
+        .current-balance-value,
+        .case-manager-value,
+        .people-involved-value,
+        .services-authorised-to-commence-value,
+        .package-level-value {
+            padding-top: 10px; /* Adjust this value as needed */
+            position: relative;
+            left: 24px;
+            color: var(--black-black-100, #1A1919);
+            margin-top: 8px;
+            /* Body Small/Regular */
+            font-family: Inter;
+            font-size: 15px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 120%; /* 18px */
+        }
+
+        /* Other Details */
+
+        .other-details-label
+{
+            position: relative;
+            top: 16px;
+            left: 24px;
+            margin-bottom: 10px; /* Adjust this value as needed */
+            color: var(--black-black-60, #626262);
+            /* Body Small/Medium */
+            font-family: Inter;
+            font-size: 15px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 120%; /* 18px */
+        }
+
+
+        .other-details-value
+{
+            padding-top: 10px; /* Adjust this value as needed */
+            position: relative;
+            left: 24px;
+            color: var(--black-black-100, #1A1919);
+            margin-top: 8px;
+            /* Body Small/Regular */
+            font-family: Inter;
+            font-size: 15px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 120%; /* 18px */
+        }
+
+
+        .budget-row {
+            display: flex;
+            justify-content: space-between;
+            width: 752px; /* The combined width of the two divs */
+        }
+
+            .budget-row > div {
+                width: 376px;
+                min-height: 76px;
+                border-bottom: 1px solid lightgrey;
+                box-sizing: border-box;
+            }
+
+        .budget-header {
+            background-color: #EDEDED;
+        }
+
+        .adjustments-row {
+            background-color: #FFF2E4;
+        }
+
+        .income-row {
+            background-color: #EBFAE2;
+        }
+
+        .expenses-row {
+            background-color: #FFF2E4;
+        }
+
+        .custom-container-small2 {
+            min-height: 76px; /* Adjust the height to 76px */
+            border: 1px solid lightgrey;
+            box-sizing: border-box;
+        }
+
+        .custom-container-small3 {
+            min-height: 76px; /* Adjust the height to 76px */
+            border: 1px solid lightgrey;
+            box-sizing: border-box;
+        }
+
+        .custom-container-small4 {
+            height: 76px; /* Adjust the height to 76px */
+            border: 1px solid lightgrey;
+            box-sizing: border-box;
+        }
+
+        .budget-row-long {
+            display: flex;
+            justify-content: space-between;
+            width: 752px; /* The combined width of the two divs */
+        }
+
+            .budget-row-long > div {
+                width: 752px;
+                border-bottom: 1px solid lightgrey;
+                box-sizing: border-box;
+            }
+
+        .custom-container-wide {
+            width: 752px;
+            height: 80px;
+            margin-top: 24px; /* This will add a space of 24px above your container */
+            /* You can add other CSS properties as required */
+        }
+
+        .goal-label, .overview-label, .progress-label {
+            margin-top: 24px;
+            color: #000;
+            font-family: Inter, sans-serif;
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 24px;
+            margin-bottom: 20px; /* adjust this to the space you want */
+        }
+
+        .goal-container {
+            margin-top: 24px;
+            width: 752px;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            margin-top: 24px;
+            background: #F6F6F6;
+            border: 1px solid lightgrey;
+            border-radius: 5px;
+            padding: 16px;
+            margin-bottom: 20px
+        }
+
+        .goal-content {
+            display: flex;
+            align-items: center;
+        }
+
+        .goal-image {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 16px;
+        }
+
+        .goal-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .goal-label {
+            margin-bottom: 8px;
+        }
+
+        .custom-container-small4 {
+            height: 76px;
+            box-sizing: border-box;
+            /* Remove the border property */
+        }
+
+        .green-tick-image {
+            width: 124px;
+            height: 124px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 16px;
+        }
+
+        .goal-image {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 16px;
+            margin-left: 16px; /* This will add 16px to the left of the image */
+        }
+
+        .goal-label2 {
+            color: var(--black-black-50, #808080);
+            /* Body Small/Medium */
+            font-family: Inter;
+            font-size: 15px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 120%; /* 18px */
+        }
+
+        .goal-label3 {
+            color: var(--black-black-100, #1A1919);
+            /* Body Small/Regular */
+            font-family: Inter;
+            font-size: 15px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 120%; /* 18px */
+        }
+
+        .progress-container {
+            margin-top: 24px;
+            width: 752px;
+            min-height: 231px;
+            margin-top: 24px;
+            border-radius: 5px;
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid var(--green-green-60, #57AD23);
+            background: var(--green-green-10, #EBFAE2);
+        }
+
+        .progress-container-na,
+        .progress-action-container-na,
+        .progress-action-container-2-na {
+            background: #F6F6F6;
+            // Light grey background border: 1px solid grey;
+            // Grey border
+        }
+
+
+        .progress-container-na {
+            margin-top: 24px;
+            width: 752px;
+            min-height: 231px;
+            border-radius: 12px;
+            border: 1px solid var(--green-green-60, #57AD23);
+            background: #F6F6F6;
+            padding: 16px;
+        }
+
+        .grey-background {
+            background-color: #F6F6F6;
+            border-color: lightgrey;
+        }
+
+        .progress-action-container,
+        .progress-action-container-2 {
+            /* ... existing styles ... */
+            border-color: #57AD23; /* Overriding border to grey */
+        }
+
+            .progress-action-container.grey-background,
+            .progress-action-container-2.grey-background {
+                background-color: #F6F6F6; /* Overriding background to lightgrey */
+            }
+
+        .progress-content {
+            display: flex;
+            align-items: center;
+        }
+
+        .progress-image {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 16px;
+        }
+
+        .progress-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .progress-label1 {
+            margin-bottom: 8px;
+            color: var(--black-black-100, #1A1919);
+            font-family: Inter;
+            font-size: 15px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 120%; /* 18px */
+        }
+
+        .green-tick-image {
+            width: 124px;
+            height: 124px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 16px;
+        }
+
+        .progress-image {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 16px;
+            margin-left: 16px;
+        }
+
+
+        .progress-action-content {
+            display: flex;
+            align-items: center;
+        }
+
+        .progress-action-container {
+            margin-top: 13px;
+            width: 720px;
+            min-height: 76px;
+            background: #EBFAE2;
+            border: 1px solid lightgrey;
+        }
+
+        .progress-action-container-2 {
+            display: flex;
+            width: 360.5px;
+            min-height: 76px;
+            background: #EBFAE2;
+            border: 1px solid lightgrey;
+        }
+
+        .progress-action-row {
+            display: flex;
+            width: 752px; /* The combined width of the two divs */
+        }
+
+            .progress-action-row > div {
+                width: 360.5px;
+                border-bottom: 1px solid lightgrey;
+                box-sizing: border-box;
+            }
+
+
+        .client-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .client-label {
+            color: var(--black-black-100, #1A1919);
+            /* Heading/H4 */
+            font-family: Inter;
+            font-size: 24px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 120%; /* 28.8px */
+            width: 243px;
+        }
+
+        .address-label {
+            color: var(--black-black-100, #1A1919);
+            /* Body Small/Regular */
+            font-family: Inter;
+            font-size: 15px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 120%; /* 18px */
+            width: 320px;
+        }
+
+        .progress-label3 {
+            padding-left: 16px;
+            padding-top: 16px;
+            color: var(--black-black-50, #808080);
+            /* Body Small/Medium */
+            font-family: Inter;
+            font-size: 15px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 120%; /* 18px */
+        }
+
+        .progress-label4 {
+            padding-left: 16px;
+            color: var(--black-black-100, #1A1919);
+            /* Body Small/Regular */
+            font-family: Inter;
+            font-size: 15px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 120%; /* 18px */
+        }
+
+        .progress-action-progress-label1 {
+            padding-left: 16px;
+            padding-top: 16px;
+            color: var(--black-black-50, #808080);
+            /* Body Small/Medium */
+            font-family: Inter;
+            font-size: 15px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 120%; /* 18px */
+        }
+
+        .progress-action-progress-label2 {
+            padding-left: 16px;
+            color: var(--black-black-100, #1A1919);
+            /* Body Small/Regular */
+            font-family: Inter;
+            font-size: 15px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 120%; /* 18px */
+        }
+
+        .progress-action-progress-label3 {
+            padding-left: 16px;
+            padding-top: 16px;
+            color: var(--black-black-50, #808080);
+            /* Body Small/Medium */
+            font-family: Inter;
+            font-size: 15px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 120%; /* 18px */
+        }
+
+        .progress-action-progress-label4 {
+            padding-left: 16px;
+            color: var(--black-black-100, #1A1919);
+            /* Body Small/Regular */
+            font-family: Inter;
+            font-size: 15px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 120%; /* 18px */
+        }
+
+        .goal-container {
+            display: flex; /* Makes sure the container adopts flex layout */
+            justify-content: space-between; /* Spaces out the two child elements */
+            position: relative; /* Ensures the positioning of children is relative to this container */
+        }
+
+        .goal-content {
+            width: calc(100% - 40px); /* Allows space for the carrot and its margin */
+        }
+
+        .carrot {
+            position: absolute;
+            right: 30px; /* 30px away from the right edge of goal-container */
+            top: 50%; /* Vertically center the carrot */
+            transform: translateY(-50%);
+            cursor: pointer; /* Makes the carrot appear clickable */
+        }
+
+        .multi-clients-label {
+            position: absolute;
+            z-index: 1;
+            top: 123px;
+            left: 270px;
+            color: var(--blue-blue-10, #B4E4F9);
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 1.2;
+            padding-top: 8px;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            background-color: #ffffff;
+            color: #000000;
+            border: 1px solid #cccccc;
+            border-radius: 20px;
+            padding: 0 13.5px;
+            height: 32px;
+            margin: 0 5px;
+        }
+
+            .button i {
+                margin-right: 5px;
+            }
+
+            .button.active {
+                background-color: lightblue;
+            }
+
+
+        .client-name-container {
+            /* height: 96px;*/
+            /* border: 1px solid lightgrey; */
+            padding-left: 0px;
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+            margin-left: 0px;
+            overflow: hidden;
+            width: fit-content;
+        }
+
+            .client-name-container label {
+                font-size: 24px;
+                margin-top: 10px;
+                font-weight: 500;
+                line-height: 120%;
+                white-space: nowrap;
+            }
+
+        .centered-content {
+            z-index: 1;
+            min-height: 80vh; /* adjust based on your needs */
+            display: flex;
+            flex-direction: column; /* This ensures children of this container are stacked vertically */
+            align-items: center; /* Horizontally centers content */
+            justify-content: center; /* Vertically centers content */
+            font-size: 30px;
+            width: 800px;
+        }
+
+            .centered-content h1 {
+                font-size: 25px;
+            }
+
+            .centered-content p {
+                font-size: 15px;
+            }
+
+        /* Custom CSS for waiting cursor */
+        .waiting-cursor {
+            cursor: wait !important;
+        }
+
+        .custom-container-large::after {
+            content: '';
+            display: block;
+            height: 20px;
+        }
+
+        .other-details {
+            border-bottom: 1px solid lightgrey;
+            border-radius: 5px;
+            padding: 15px; /* Add some padding inside the border */
+            margin-top: 20px; /* Add some space above the section */
+
+            font-family: Inter, sans-serif;
+        }
+
+            /* Apply the common font style to all text inside other-details */
+            .other-details, .other-details * {
+                font-family: inherit; /* This ensures that the font style cascades down */
+            }
+
+        .client-signature-image, .carer-signature-image {
+            width: 300px;
+            height: 150px;
+        }
+
+
+        @@media only screen and (max-width: 599px) {
+
+
+            .address-label {
+                width: 200px;
+                height: 100px;
+            }
+
+            .budget-row {
+                flex-direction: column;
+                width: 270px;
+                min-height: 76px;
+            }
+
+            .budget-row > div {
+                width: 270px;
+                margin: 2px;
+            }
+
+            .message-container {
+                width: 800px;
+                height: 130px;
+            }
+
+            .goal-container {
+                width: 270px;
+            }
+
+            .custom-container-large {
+                width: 320px;
+            }
+
+            .budget-row-long {
+                width: 270px;
+                height: 200px;
+            }
+
+            .progress-container {
+                width: 270px;
+            }
+
+            .progress-action-container, .progress-action-container-2 {
+                width: 240px;
+            }
+
+            .progress-action-row {
+                width: 240px;
+            }
+
+            .button-group {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                align-items: baseline;
+                margin-top: 30px;
+            }
+
+            .button {
+                text-align: center;
+                margin: 5px 0;
+            }
+
+            .client-name-container {
+                display: flex;
+                padding: 8px;
+                align-items: center;
+                margin-top: 24px;
+                margin-left: 0px;
+                overflow: hidden;
+                width: fit-content;
+            }
+
+                .client-name-container label {
+                    white-space: normal;
+                    width: fit-content;
+                }
+        }
+    </style>
+
+</head>
+<body>
+
+    <div class="containerHeader">
+        <div class="welcome-label">Support Plan</div>
+        <div class="schedule-label">Below is the support plans for your connection(s).</div>
+    </div>
+
+    @{
+        var uniqueClientNames = Model.ClientDetails.Select(a => a.clientFullName).Distinct().ToList();
+    }
+
+    @*     @if (uniqueClientNames.Count > 1)
+    { *@
+    <div class="multi-clients-label">
+        <div>You are connected with multiple clients:</div>
+        <ul>
+            @foreach (var clientName in uniqueClientNames)
+            {
+                <li>@WebUtility.HtmlDecode(clientName)</li>
+            }
+        </ul>
+    </div>
+    @*    } *@
+
+    @{
+        var uniqueClients = Model.ClientDetails
+        .GroupBy(a => new { a.clientID, a.clientFullName })
+        .Select(g => g.First())
+        .ToList();
+    }
+
+    <div class="custom-container">
+        <div class="button-group">
+
+            @if (uniqueClientNames.Count > 1)
+            {
+                @foreach (var client in uniqueClients)
+                {
+                    <button class="button client-button rounded-pill" data-clientid="@client.clientID" id="client_btn_@client.clientID">
+                        <i class="fa-solid fa-user"></i> @client.clientFullName
+                    </button>
+                }
+            }
+        </div>
+
+        <div class="supportPlanContainer">
+            @Html.Partial("SupportPlanPartial", Model)
+        </div>
+
+    </div> <!-- Closing the custom-container div -->
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $('.goal-container').on('click', function () {
+            var carrot = $(this).find('.carrot');
+
+            // Get the data-target value of goal-content
+            var targetId = $(this).find('.goal-content').data('target');
+
+            // Use the target ID to find the progress container
+            var progressContainer = $(targetId);
+
+            console.log("Goal container clicked!");
+
+            if (carrot.text() === '▼') {
+                console.log("Changing carrot to ▲");
+                carrot.text('▲');
+            } else {
+                console.log("Changing carrot to ▼");
+                carrot.text('▼');
+            }
+
+            console.log("Selected progress container:", progressContainer);
+
+            // New debugging lines
+            console.log("Number of progress containers selected:", progressContainer.length);
+            console.log("Outer HTML of progress container:", progressContainer.prop('outerHTML'));
+
+            if (progressContainer.is(":visible")) {
+                console.log("Hiding progress container.");
+            } else {
+                console.log("Showing progress container.");
+            }
+
+            console.log("Progress container CSS display property:", progressContainer.css("display"));
+            progressContainer.toggle();
+            console.log("Progress container CSS display property after toggle:", progressContainer.css("display"));
+        });
+
+
+
+    </script>
+
+    <script>
+
+        $(document).ready(function () {
+            $('.client-button').on('click', function () {
+                var selectedClientID = $(this).data('clientid');
+
+                console.log("client button clicked"); // Add this
+                startProcessing();
+
+                // UI Feedback
+                $('.button').removeClass('active');
+                $(this).addClass('active');
+
+                updateStatements(selectedClientID);
+            });
+
+            // Add this event handler for the button with "button-all" class
+            $('.button-all').on('click', function () {
+                $('.button').removeClass('active');
+                $(this).addClass('active');
+
+                updateStatements(null); // calling the function with null removes the filter
+            });
+
+            function updateStatements(clientId) {
+                var dataToSend = {
+                    clientId: clientId
+                };
+
+                console.log(clientId); // Add this
+
+                $.ajax({
+                    url: '/SupportPlan/SupportPlanAction',
+                    type: 'GET',
+                    data: dataToSend,
+                    success: function (data) {
+                        $('#supportPlanContainer').html(data);
+                        stopProcessing();
+                    },
+                    error: function (error) {
+                        console.error("Error fetching client details:", error);
+                        stopProcessing();
+                    }
+                });
+            }
+        });
+
+    </script>
+    <script>
+        function startProcessing() {
+            document.body.classList.add('waiting-cursor');
+            // Your processing logic here
+
+            // When done, call stopProcessing
+            //stopProcessing();
+        }
+
+        function stopProcessing() {
+            document.body.classList.remove('waiting-cursor');
+        }
+    </script>
+
+    <script>
+
+        function adjustLabelPositions() {
+            console.log('Function called');
+
+            // Retrieve label, wrapper, and client list elements
+            let welcomeLabel = document.querySelector('.welcome-label');
+            let scheduleLabel = document.querySelector('.schedule-label');
+            let multiClientsLabel = document.querySelector('.multi-clients-label');
+            let clientListItems = multiClientsLabel.querySelectorAll('li');
+            let mainWrapper = document.querySelector('.custom-container');
+
+            if (!welcomeLabel || !scheduleLabel || !multiClientsLabel || !mainWrapper) {
+                console.log("Labels or main-wrapper not found. Exiting function.");
+                return;
+            }
+
+            // Position .schedule-label 20px below .welcome-label
+            let welcomeBottom = welcomeLabel.offsetTop + welcomeLabel.offsetHeight;
+            scheduleLabel.style.top = (welcomeBottom + 20) + "px";
+
+            // Position .multi-clients-label 16px below .schedule-label
+            let scheduleBottom = scheduleLabel.offsetTop + scheduleLabel.offsetHeight;
+            multiClientsLabel.style.top = (scheduleBottom + 16) + "px";
+
+            // Calculate the new height for .containerHeader based on the client count and labels
+            const baseHeight = 28;
+            const additionalHeightPerClient = 20;
+            let clientCount = clientListItems.length;
+            console.log('Client count:', clientCount);
+
+            const calculatedHeight = baseHeight + (clientCount * additionalHeightPerClient);
+            let multiClientsBottom = multiClientsLabel.offsetTop + multiClientsLabel.offsetHeight;
+            const newHeight = calculatedHeight + multiClientsBottom - welcomeLabel.offsetTop;
+
+            // Log new calculated height
+            console.log('New calculated height:', newHeight);
+
+            // Apply the new height to .containerHeader
+            const containerHeader = document.querySelector('.containerHeader');
+            containerHeader.style.height = newHeight + 30 + "px";
+
+            // Position .main-wrapper immediately below .containerHeader
+            const containerHeaderBottom = containerHeader.offsetTop + containerHeader.offsetHeight;
+            mainWrapper.style.marginTop = containerHeaderBottom - 280 + "px";
+        }
+
+        // Attach event listeners
+        document.addEventListener("DOMContentLoaded", adjustLabelPositions);
+        window.addEventListener("resize", adjustLabelPositions);
+
+    </script>
+
+    <script>
+
+        // not needed.atm.
+
+        // window.onload = function () {
+
+        //     console.log('height function called');
+
+        //     var element = document.querySelector('.custom-container-large');
+        //     var height = element.offsetHeight;
+        //     element.style.height = height + 20 + 'px';
+        // };
+
+    </script>
+
+    <script>
+
+        $(document).ready(function () {
+            adjustFormsContainer();
+            $(window).resize(adjustFormsContainer); // Adjust on window resize
+
+            function adjustFormsContainer() {
+                var uniqueClientsCount = @Html.Raw(Json.Serialize(uniqueClients.Count));
+                if (uniqueClientsCount === 1) {
+                    // Adjust for a single client
+                    $('.supportPlanContainer').css('margin-top', '80px'); // adjustment
+                } else {
+                    // Default or no adjustment needed
+                    $('.supportPlanContainer').css('margin-top', '80px'); // Reset to default
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

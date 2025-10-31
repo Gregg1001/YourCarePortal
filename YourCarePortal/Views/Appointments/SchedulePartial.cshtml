@@ -1,0 +1,96 @@
+﻿@model IEnumerable<YourCarePortal.Models.Schedule>
+@using System.Net;
+
+@if (Model.FirstOrDefault() == null)
+{
+    <div class="centered-content">
+        <h1>There a no Appointments for this client.</h1>
+        <p>You can check with the Provider.</p>
+    </div>
+}
+
+else
+{
+
+    var groupedAppointments = Model
+    .Select(a => new
+    {
+        Appointment = a,
+        Date = DateTime.Parse(a.Date)
+    })
+    .GroupBy(a => new { a.Date.Year, a.Date.Month });
+
+    <div id="scheduleContainer1">
+
+        @foreach (var monthGroup in groupedAppointments)
+        {
+            DateTime groupDate = monthGroup.First().Date;
+            string monthLabel = groupDate.ToString("MMMM yyyy");
+
+            <div class="month-label">@monthLabel</div>
+
+            var dayGroups = monthGroup.GroupBy(a => a.Date.Day);
+
+            foreach (var dayGroup in dayGroups)
+            {
+                bool isFirstRowInDay = true;
+
+                <div class="day-group-container">
+                    @foreach (var item in dayGroup)
+                    {
+                        var appointment = item.Appointment;
+                        string dayOfWeek = item.Date.ToString("ddd");
+                        string dayOfMonth = item.Date.ToString("dd");
+
+                        <div class="day-group-row">
+                            @if (isFirstRowInDay)
+                            {
+                                <div class="day-group-date" style="grid-row: span @dayGroup.Count()">
+                                    <div class="day-group-date1" style="color: #276600;">@dayOfWeek</div>
+                                    <div style="color: #276600;">@dayOfMonth</div>
+                                </div>
+
+                                isFirstRowInDay = false;
+                            }
+                            else
+                            {
+                                <div class="day-group-blank"></div>
+                            }
+                            <div class="day-group-detail td-outer-border">
+                                <div class="icon-container">
+                                    <i class="fa-regular fa-clock clock-icon"></i>
+                                    <div style="color: #276600;">@appointment.Start - @appointment.End</div>
+                                </div>
+                                <div class="icon-container">
+                                    <i class="fa-solid fa-location-dot clock-icon"></i>
+                                    <div>@WebUtility.HtmlDecode("Home")</div>
+                                </div>
+                                <div>Client: @WebUtility.HtmlDecode(appointment.ClientFullName)</div>
+                            </div>
+                            <div class="servicetypename-container">
+                                <div class="bold-text">@appointment.ServiceTypeName</div>
+                                <div class="icon-container">
+                                    <i class="fa-solid fa-user"></i>
+                                    <div>@WebUtility.HtmlDecode(appointment.CareWorker)</div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class="day-spacer"></div>
+                </div>
+            }
+        }
+    </div>
+
+
+@functions {
+    public string CapitalizeFirstLetter(string input)
+    {
+        if (string.IsNullOrEmpty(input))
+            return string.Empty;
+
+        return char.ToUpper(input[0]) + input.Substring(1).ToLower();
+    }
+}
+
+}

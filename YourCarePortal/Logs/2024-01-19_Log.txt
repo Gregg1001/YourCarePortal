@@ -1,0 +1,7 @@
+'2024-01-19 09:47:38','label:/Images/thumbnailTCP.png',22,1
+'2024-01-19 09:48:12','label:/Images/thumbnailTCP.png',22,1
+'2024-01-19 09:49:50','label:/Images/thumbnailTCP.png',22,1
+'2024-01-19 09:51:24','label:/Images/thumbnailTCP.png',22,1
+'2024-01-19 09:53:21','label:/Images/thumbnailTCP.png',22,1
+'2024-01-19 09:55:17','label:/Images/thumbnailTCP.png',22,1
+'2024-01-19 10:25:01','label:/Images/thumbnailTCP.png',22,1

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>C:\Repos\YourCarePortal\bin\Release\net6.0\publish\</_PublishTargetUrl>
+    <History>True|2024-06-06T04:08:31.0198317Z;True|2024-05-15T18:18:38.8378319+10:00;True|2024-03-18T08:36:19.1161940+10:00;True|2024-03-18T08:31:12.9761768+10:00;True|2024-03-15T09:46:46.7643003+10:00;True|2024-03-15T09:37:51.9318078+10:00;True|2024-03-15T09:31:47.3492453+10:00;True|2024-03-15T09:19:34.8612591+10:00;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+</Project>

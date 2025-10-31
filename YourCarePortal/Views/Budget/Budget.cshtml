@@ -1,0 +1,562 @@
+﻿@using System.Globalization;
+@using System.Net;
+
+@model YourCarePortal.Models.BudgetandClients;
+
+@if (Context.Session.GetString("DebugFlag") == "true")
+{
+    <h2>DEBUG ON:</h2>
+    <p>@ViewBag.DebugMessage</p>
+    <pre>@ViewBag.JsonString</pre>
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Inter Font -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rsms/inter@v3.15/dst/inter.css">
+
+    @{
+        var uniqueClientNames1 = Model.ClientDetails.Select(a => a.clientFullName).Distinct().ToList();
+
+        int baseHeight1 = 189;
+        int additionalHeightPerClient1 = 20;
+        int totalHeight1 = baseHeight1 + (uniqueClientNames1.Count * additionalHeightPerClient1);
+    }
+
+    <style>
+        .containerHeader {
+            background-image: url("@Url.Content("~/Images/AppointmentsHdrBG.jpg")");
+            height: @totalHeight1.ToString()px;
+            background-size: cover;
+            background-position: left;
+            position: relative;
+            width: 100%;
+        }
+
+
+        .today-label {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            color: var(--blue-blue-10, #B4E4F9);
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        .welcome-label {
+            position: absolute;
+            top: 48px; /* 30px + 18px (line-height of the first label) */
+            left: 30px;
+            color: #FFF;
+            font-family: 'Inter', sans-serif;
+            font-size: 40px;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .schedule-label {
+            position: absolute;
+            top: 93px;
+            left: 30px;
+            color: var(--blue-blue-10, #B4E4F9);
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        .custom-container {
+            max-width: 800px;
+            height: 950px;
+            margin-left: 30px
+        }
+
+        .custom-container-small {
+            height: 50px;
+            border-bottom: 1px solid lightgrey;
+        }
+
+        .client-name-container {
+            /* height: 56px; */
+            /* border: 1px solid lightgrey; */
+            padding-left: 0px;
+            display: flex;
+            align-items: center;
+            margin-top: 24px;
+            margin-left: 0px;
+            overflow: hidden;
+            width: fit-content;
+        }
+
+        .custom-container-large {
+            /* Height: calc(1200px); */
+            border: 1px solid lightgrey;
+            box-sizing: border-box;
+            margin-top: 24px;
+            border-radius: 5px;
+        }
+
+        .client-name-container label {
+            font-size: 24px;
+            font-weight: 500;
+            line-height: 120%;
+            white-space: nowrap;
+        }
+
+        .client-image {
+            width: 100px;
+            height: 100px;
+            margin-right: 10px;
+            object-fit: cover;
+            border-radius: 8px; /* This sets the border radius to make it a circle */
+            overflow: hidden; /* This ensures the image stays within the rounded corners */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a shadow for depth (optional) */
+        }
+
+        .overview-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 20px;
+            font-weight: 500;
+            line-height: 120%;
+            margin-top: 24px;
+            margin-left: 0px;
+        }
+
+        .current-balance-container, .date-locked-container {
+            height: 98px;
+            border: 1px solid lightgrey;
+            border-radius: 5px;
+            margin-top: 24px;
+        }
+
+        .current-balance-container {
+            margin-left: 0px;
+        }
+
+        .date-locked-container {
+            margin-left: 12px;
+        }
+
+        .current-balance-label {
+            position: relative;
+            top: 16px;
+            left: 24px;
+            margin-bottom: 10px; /* Adjust this value as needed */
+        }
+
+        .current-balance-value-label {
+            margin-top: 10px; /* Adjust this value as needed */
+            position: relative;
+            left: 24px;
+        }
+
+        .date-locked-label {
+            position: relative;
+            top: 16px;
+            left: 24px;
+            margin-bottom: 10px; /* Adjust this value as needed */
+        }
+
+        .date-locked-label-value {
+            margin-top: 10px; /* Adjust this value as needed */
+            position: relative;
+            left: 24px;
+        }
+
+
+        .budget-row {
+            display: flex;
+            justify-content: space-between;
+            width: 752px; /* The combined width of the two divs */
+        }
+
+            .budget-row > div {
+                width: 376px;
+                border-bottom: 1px solid lightgrey;
+                box-sizing: border-box;
+            }
+
+        .budget-header {
+            background-color: #EDEDED;
+        }
+
+        .adjustments-row {
+            background-color: #FFF2E4;
+        }
+
+        .income-row {
+            background-color: #EBFAE2;
+        }
+
+        .expenses-row {
+            background-color: #FFF2E4;
+        }
+
+        .total-text {
+            color: var(--black-black-100, #1A1919);
+            /* font-family: Inter; */
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 120%; /* 24px */
+            border-top: 1px solid #1A1919; /* Add this line for the top border */
+        }
+
+        .TotalRow {
+            font-weight: 500;
+        }
+
+        .button-group {
+            z-index: 1;
+            position: absolute;
+            top: 250px;
+            /*GS+*/
+            padding-left: 30px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            background-color: #ffffff;
+            color: #000000;
+            border: 1px solid #cccccc;
+            border-radius: 20px;
+            padding: 0 13.5px;
+            height: 32px;
+            margin: 0 5px;
+        }
+
+            .button i {
+                margin-right: 5px;
+            }
+
+            .button.all {
+                background-color: #B4E4F9;
+                color: #005B80;
+                padding: 0 10.8px;
+                border-radius: 20px;
+                margin-top: 16px;
+            }
+
+            .button.active {
+                background-color: lightblue;
+            }
+
+        .multi-clients-label {
+            z-index: 1;
+            position: absolute;
+            top: 123px;
+            left: 270px;
+            color: var(--blue-blue-10, #B4E4F9);
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 1.2;
+            padding-top: 8px;
+        }
+
+        .centered-content {
+            z-index: 1;
+            min-height: 80vh; /* adjust based on your needs */
+            display: flex;
+            flex-direction: column; /* This ensures children of this container are stacked vertically */
+            align-items: center; /* Horizontally centers content */
+            justify-content: center; /* Vertically centers content */
+            font-size: 30px;
+        }
+
+
+            .centered-content h1 {
+                font-size: 30px;
+            }
+
+            .centered-content p {
+                font-size: 15px;
+            }
+
+        /* Custom CSS for waiting cursor */
+        .waiting-cursor {
+            cursor: wait !important;
+        }
+
+        .budgetContainer {
+            top: 270px;
+            position: absolute;
+        }
+
+
+        @@media only screen and (max-width: 599px) {
+
+            .budget-row {
+                flex-direction: column;
+                width: 270px;
+            }
+
+                .budget-row > div {
+                    width: 270px;
+                    margin: 2px;
+                }
+
+            .current-balance-container, .date-locked-container {
+                width: 200px;
+            }
+
+            .custom-container-small {
+                width: 290px;
+            }
+
+
+            .button-group {
+                position: absolute;
+                top: 200px;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                align-items: baseline;
+            }
+
+            .button {
+                text-align: center;
+                margin: 5px 0;
+            }
+
+            .client-name-container {
+                display: flex;
+                padding: 8px;
+                align-items: center;
+                margin-top: 24px;
+                margin-left: 0px;
+                overflow: hidden;
+                width: fit-content;
+            }
+
+                .client-name-container label {
+                    white-space: normal;
+                    width: fit-content;
+                }
+        }
+    </style>
+</head>
+<body>
+
+    @{
+        var uniqueClientNames = Model.ClientDetails.Select(a => a.clientFullName).Distinct().ToList();
+    }
+
+    @*  @if (uniqueClientNames.Count > 1)
+    { *@
+    <div class="multi-clients-label">
+        <div>You are connected with multiple clients:</div>
+        <ul>
+            @foreach (var clientName in uniqueClientNames)
+            {
+                <li>@WebUtility.HtmlDecode(clientName)</li>
+            }
+        </ul>
+    </div>
+    @*  } *@
+
+    @{
+        var uniqueClients = Model.ClientDetails
+        .GroupBy(a => new { a.clientID, a.clientFullName })
+        .Select(g => g.First())
+        .ToList();
+    }
+
+    <div class="containerHeader">
+        <div class="welcome-label">HCP Budget</div>
+        <div class="schedule-label">Below is the budget for your connection(s).</div>
+    </div>
+
+    <div class="main-wrapper">
+        <div class="button-group">
+
+            @if (uniqueClientNames.Count > 1)
+            {
+                @foreach (var client in uniqueClients)
+                {
+                    <button class="button client-button rounded-pill" data-clientid="@client.clientID" id="client_btn_@client.clientID">
+                        <i class="fa-solid fa-user"></i> @client.clientFullName
+                    </button>
+                }
+            }
+        </div>
+
+        <div class="budgetContainer">
+            @Html.Partial("BudgetPartial", Model)
+        </div>
+
+    </div>
+
+
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $('.client-button').on('click', function () {
+                var selectedClientID = $(this).data('clientid');
+
+                console.log("client button clicked"); // Add this
+                startProcessing();
+                // UI Feedback
+                $('.button').removeClass('active');
+                $(this).addClass('active');
+
+                updateBudget(selectedClientID);
+            });
+
+            function updateBudget(clientId) {
+                var dataToSend = {
+                    clientId: clientId
+                };
+
+                console.log(clientId); // Add this
+
+                $.ajax({
+                    url: '/Budget/BudgetAction',
+                    type: 'GET',
+                    data: dataToSend,
+                    success: function (data) {
+                        $('#budgetContainer').html(data);
+                        stopProcessing();
+                    },
+                    error: function (error) {
+                        console.error("Error fetching client details:", error);
+                        stopProcessing();
+                    }
+                });
+            }
+        });
+
+    </script>
+    <script>
+        function startProcessing() {
+            document.body.classList.add('waiting-cursor');
+            // Your processing logic here
+
+            // When done, call stopProcessing
+            //stopProcessing();
+        }
+
+        function stopProcessing() {
+            document.body.classList.remove('waiting-cursor');
+        }
+    </script>
+
+    <script>
+
+        function adjustLabelPositions() {
+            console.log('Function called');
+
+            // Retrieve label, wrapper, and client list elements
+            let welcomeLabel = document.querySelector('.welcome-label');
+            let scheduleLabel = document.querySelector('.schedule-label');
+            let multiClientsLabel = document.querySelector('.multi-clients-label');
+            let clientListItems = multiClientsLabel.querySelectorAll('li');
+            let mainWrapper = document.querySelector('.main-wrapper');
+
+            if (!welcomeLabel || !scheduleLabel || !multiClientsLabel || !mainWrapper) {
+                console.log("Labels or main-wrapper not found. Exiting function.");
+                return;
+            }
+
+            // Position .schedule-label 20px below .welcome-label
+            let welcomeBottom = welcomeLabel.offsetTop + welcomeLabel.offsetHeight;
+            scheduleLabel.style.top = (welcomeBottom + 20) + "px";
+
+            // Position .multi-clients-label 16px below .schedule-label
+            let scheduleBottom = scheduleLabel.offsetTop + scheduleLabel.offsetHeight;
+            multiClientsLabel.style.top = (scheduleBottom + 16) + "px";
+
+            // Calculate the new height for .containerHeader based on the client count and labels
+            const baseHeight = 28;
+            const additionalHeightPerClient = 20;
+            let clientCount = clientListItems.length;
+            console.log('Client count:', clientCount);
+
+            const calculatedHeight = baseHeight + (clientCount * additionalHeightPerClient);
+            let multiClientsBottom = multiClientsLabel.offsetTop + multiClientsLabel.offsetHeight;
+            const newHeight = calculatedHeight + multiClientsBottom - welcomeLabel.offsetTop;
+
+            //write code for new top laction of button-group based on newHeight
+            // let buttonGroup = document.querySelector('.button-group');
+            // buttonGroup.style.top = (newHeight + 0) + "px";
+
+            //     let customContainerLarge = document.querySelector('.custom-container-large');
+            //     customContainerLarge.style.top = (newHeight + 0) + "px";
+
+            // let customContainerSmall = document.querySelector('.custom-container-small');
+            // customContainerSmall.style.top = (newHeight + 300) + "px";
+
+            // let buttonGroup = document.querySelector('.button-group');
+            //  buttonGroup.style.top = 0  //(newHeight + -30) + "px";
+
+            // Log new calculated height
+            // console.log('New calculated height:', newHeight);
+
+            // Apply the new height to .containerHeader
+            // const containerHeader = document.querySelector('.containerHeader');
+            // containerHeader.style.height = newHeight + "px";
+
+            // Position .main-wrapper immediately below .containerHeader
+            // const containerHeaderBottom = containerHeader.offsetTop + containerHeader.offsetHeight;
+            // mainWrapper.style.marginTop = containerHeaderBottom - 200 + "px";
+        }
+
+        // Attach event listeners
+        document.addEventListener("DOMContentLoaded", adjustLabelPositions);
+        window.addEventListener("resize", adjustLabelPositions);
+
+    </script>
+
+    <script>
+        const numberOfButtons = @Model.ClientDetails.Select(a => a.clientFullName).Distinct().Count(); // Server-side code to pass the count
+
+        console.log('numberOfButtons:' + numberOfButtons);
+
+        function adjustContainerTop() {
+            const additionalHeight = 30;
+            const buttonHeight = 32; // Height of a single button
+            const buttonMargin = 5; // Margin between buttons in responsive mode
+            var totalHeight1 = 72;
+
+            const isPhoneMode = window.innerWidth <= 768; // Example breakpoint for phone mode
+            let buttonsHeight;
+
+            if (isPhoneMode) {
+                // Calculate total height if buttons are stacked vertically
+                buttonsHeight = numberOfButtons * buttonHeight + (numberOfButtons - 1) * buttonMargin;
+            } else {
+                // In desktop mode, buttons are in a single row
+                buttonsHeight = buttonHeight + 5;
+            }
+
+            const totalTop = totalHeight1 + additionalHeight + buttonsHeight;
+
+            console.log('totalTop' + totalTop);
+
+            // Adjust the top style of .custom-container-large
+            document.querySelector('.custom-container-large').style.top = totalTop + 'px';
+        }
+
+        // Call this function on page load and whenever the window resizes
+        window.addEventListener('resize', adjustContainerTop);
+        window.addEventListener('DOMContentLoaded', adjustContainerTop);
+
+    </script>
+
+</body>
+</html>

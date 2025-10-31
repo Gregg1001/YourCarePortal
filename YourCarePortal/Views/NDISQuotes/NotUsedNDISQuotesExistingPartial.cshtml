@@ -1,0 +1,58 @@
+﻿@using System.Globalization
+@model YourCarePortal.Models.NDISQuotesandClients;
+
+@if (Model == null)
+{
+    <div class="centered-content">
+        <h1>This client does not currently have any budget at this time.</h1>
+        <p>@ViewBag.NoDataSubText</p>
+    </div>
+}
+else
+{
+    <div class="custom-container">
+        <!-- Existing Budget Display Code (omitted for brevity) -->
+        <!-- NDIS Quotes Section -->
+        <div class="ndis-quotes-section">
+            <h2>NDIS Quotes</h2>
+
+            @if (Model.NDISQuotes.Lines != null)
+            {
+                <div class="ndis-quotes-grid">
+                    <div class="ndis-quote-header">ID</div>
+                    <div class="ndis-quote-header">Client Name</div>
+                    <div class="ndis-quote-header">Rate Index</div>
+                    <div class="ndis-quote-header">Start Date</div>
+                    <div class="ndis-quote-header">End Date</div>
+                    <div class="ndis-quote-header">Amount</div>
+                    <div class="ndis-quote-header">Locked</div>
+                    <div class="ndis-quote-header">Create Date</div>
+                    <div class="ndis-quote-header">Modify Date</div>
+                    <div class="ndis-quote-header">Status</div>
+@* 
+                    @foreach (var quote in Model.NDISQuotes.Lines)
+                    {
+                        <div>@quote.Id</div>
+                        <div>@quote.QhClientName</div>
+                        <div>@quote.QhRateIdx</div>
+                        <div>@quote.QhStart</div>
+                        <div>@quote.QhEnd</div>
+                        <div>@quote.QhAmount</div>
+                        <div>@quote.QhLocked</div>
+                        <div>@quote.QhCreate</div>
+                        <div>@quote.QhModify</div>
+                        <div>@quote.Status</div>
+                    } *@
+
+
+
+
+                </div>
+            }
+            else
+            {
+                <div>No NDIS Quotes available.</div>
+            }
+        </div>
+    </div>
+}

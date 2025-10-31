@@ -1,0 +1,206 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal Example</title>
+    <style>
+        .modal-custom {
+            display: flex; /* Enable flexbox */
+            align-items: center; /* Center vertically */
+            justify-content: center; /* Center horizontally */
+            /* position: fixed; /* Stay in place */ */
+            top: 0;
+            left: 0;
+            right: 0; /* Added for clarity */
+            bottom: 0; /* Added for clarity */
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            background-color: rgba(0,0,0,0.4); /* Black with opacity */
+            z-index: 1000; /* Make sure it's on top of other content */
+            overflow: auto; /* Enable scroll if needed */
+        }
+
+        /* Modal content box */
+        .modal-content-custom {
+            background-color: #fefefe;
+            margin: auto; /* Helps in centering for older browsers */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 40%; /* Adjust as needed */
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+            border-radius: 4px; /* Assuming there's a slight border radius */
+        }
+
+        /* Header style */
+        .modal-header-custom {
+            padding: 10px 16px;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ccc;
+        }
+
+        /* Title style */
+        .modal-title-custom {
+            margin: 0;
+            font-size: 18px; /* Assuming standard modal title size */
+        }
+
+        /* Close button */
+        .close-custom {
+            color: #aaa;
+            cursor: pointer;
+            font-size: 24px;
+            border: none;
+            background: none;
+        }
+
+        /* Modal body */
+        .modal-body-custom {
+            padding: 16px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        /* Footer with button */
+        .modal-footer-custom {
+            padding: 12px 16px;
+            text-align: right;
+            background-color: #f4f4f4;
+            border-top: 1px solid #ccc;
+        }
+
+        /* Button style */
+        .btn-custom-close {
+            padding: 10px 20px;
+            background-color: #007bff; /* Bootstrap primary color */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        /* Button hover effect */
+        .btn-custom-close:hover {
+            background-color: #0056b3;
+        }
+
+
+        .modal-custom {
+            display: none;
+            /* other styles */
+        }
+
+        .btn-custom-close {
+            display: inline-block; /* Allows the button to grow beyond content size */
+            padding: 10px 20px; /* Example padding, adjust as needed */
+            /* Retain other styles, and remove the width: 120% */
+            box-sizing: border-box; /* Include padding in the width calculation */
+            width: calc(40%); /* Not ideal if the button is already at 100% width */
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal-custom">
+
+        <!-- Modal content -->
+        <div class="modal-content-custom">
+            <div class="modal-header-custom">
+                <h5 class="modal-title-custom" id="modalLabel">Signed Document</h5>
+                <button type="button" class="close-custom" onclick="document.getElementById('myModal').style.display='none'">&times;</button>
+            </div>
+            <div class="modal-body-custom">
+                <!-- Content as per your image -->
+                <div style="text-align: center;">
+
+                    <img id="modalLogo" src="" alt="TurnPoint Software" style="margin-bottom: 24px; display: block; margin-left: 0; margin-right: auto;">
+
+                    @* <h3>Form</h3> *@
+                    @* <p>Tuesday, February 13, 2024</p> *@
+                    <!-- Signature Pad -->
+                    
+                    <h4 style="margin-left: 20px;">Participant or Advocate</h4>
+                    <div class="MyName" style="margin-left:20px">
+                        <h5>
+                            Name: @CapitalizeFirstLetter(@Context.Session.GetString("portalUserFirstName") ?? string.Empty)
+                            @CapitalizeFirstLetter(@Context.Session.GetString("portalUserSurname") ?? string.Empty)
+                        </h5>
+                    </div>
+
+                    <br />
+                          
+                    <p id="the-signing1" class=" the-signing-date">@DateTime.Now.ToString("dddd, MMMM dd, yyyy hh:mm tt")</p>
+
+                    <div class="signature-block" style="display:flex; justify-content: center;">
+                      <p>Signature:</p>
+                        @* <img src="/images/MockSignature.png" alt="{ Signature }" style="width: 400px; height: 200px; border: 1px solid black;"> *@
+                        <img id="modalContent" src="" alt="Image Signature" style="width: 400px; height: 200px; border: 1px solid black;">
+                    </div>
+
+                    <p style="margin-top: 24px;">I understand and accept that my electronic signature will be as valid as a handwritten signature and considered original to the extent allowed by applicable law.</p>
+                    @* <p style="text-decoration: underline;">Please see the Consumer Consent Disclosure.</p> *@
+
+            </div>
+
+                <div class="modal-footer-custom">
+                    <button type="button" class="btn-custom-close" onclick="document.getElementById('myModal').style.display='none';SendDataToController();">Sign Document</button>
+                </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // Get the modal
+        var modal = document.getElementById("myModal");
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("myBtn");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close-custom")[0];
+
+        // When the user clicks on the button, open the modal
+        btn.onclick = function ()
+        // When the user clicks on the button, open the modal
+        btn.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+            alert("Signature Saved Successfully");
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+
+        <script>
+
+            @functions {
+                public string CapitalizeFirstLetter(string input)
+                {
+                    if (string.IsNullOrEmpty(input))
+                        return string.Empty;
+
+                    return char.ToUpper(input[0]) + input.Substring(1).ToLower();
+                }
+            }
+
+        </script>
+
+</body>
+</html>

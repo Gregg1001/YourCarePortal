@@ -1,0 +1,8 @@
+C:\ReposLocal\final2\YourCarePortal23\YourCarePortal\obj\Release\net6.0\PubTmp\Out\YourCarePortal.exe
+C:\ReposLocal\final2\YourCarePortal23\YourCarePortal\obj\Release\net6.0\PubTmp\Out\appsettings.Development.json
+C:\ReposLocal\final2\YourCarePortal23\YourCarePortal\obj\Release\net6.0\PubTmp\Out\appsettings.json
+C:\ReposLocal\final2\YourCarePortal23\YourCarePortal\obj\Release\net6.0\PubTmp\Out\YourCarePortal.dll
+C:\ReposLocal\final2\YourCarePortal23\YourCarePortal\obj\Release\net6.0\PubTmp\Out\YourCarePortal.deps.json
+C:\ReposLocal\final2\YourCarePortal23\YourCarePortal\obj\Release\net6.0\PubTmp\Out\YourCarePortal.runtimeconfig.json
+C:\ReposLocal\final2\YourCarePortal23\YourCarePortal\obj\Release\net6.0\PubTmp\Out\YourCarePortal.pdb
+C:\ReposLocal\final2\YourCarePortal23\YourCarePortal\obj\Release\net6.0\PubTmp\Out\Newtonsoft.Json.dll

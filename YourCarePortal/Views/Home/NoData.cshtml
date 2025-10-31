@@ -1,0 +1,28 @@
+﻿
+
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        align-items: center; /* Centers vertically */
+        justify-content: center; /* Centers horizontally */
+        background-color: #ffffff;
+    }
+
+    .centered-content {
+        min-height: 80vh; /* adjust based on your needs */
+        display: flex;
+        flex-direction: column; /* This ensures children of this container are stacked vertically */
+        align-items: center; /* Horizontally centers content */
+        justify-content: center; /* Vertically centers content */
+    }
+</style>
+
+<div class="centered-content">
+    
+    <h1>@ViewBag.NoDataMessage</h1>
+
+    <p>@ViewBag.NoDataSubText</p>
+
+</div>

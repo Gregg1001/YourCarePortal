@@ -1,0 +1,601 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\obj\\Release\\net6.0\\scopedcss\\projectbundle\\YourCarePortal.bundle.scp.css",
+      "PackagePath": "staticwebassets\\YourCarePortal.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\demo\\chart-area-demo.js",
+      "PackagePath": "staticwebassets\\Content\\assets\\demo\\chart-area-demo.js"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\demo\\chart-bar-demo.js",
+      "PackagePath": "staticwebassets\\Content\\assets\\demo\\chart-bar-demo.js"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\demo\\chart-pie-demo.js",
+      "PackagePath": "staticwebassets\\Content\\assets\\demo\\chart-pie-demo.js"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\fonts\\metropolis\\Metropolis-Black.otf",
+      "PackagePath": "staticwebassets\\Content\\assets\\fonts\\metropolis\\Metropolis-Black.otf"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\fonts\\metropolis\\Metropolis-BlackItalic.otf",
+      "PackagePath": "staticwebassets\\Content\\assets\\fonts\\metropolis\\Metropolis-BlackItalic.otf"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\fonts\\metropolis\\Metropolis-Bold.otf",
+      "PackagePath": "staticwebassets\\Content\\assets\\fonts\\metropolis\\Metropolis-Bold.otf"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\fonts\\metropolis\\Metropolis-BoldItalic.otf",
+      "PackagePath": "staticwebassets\\Content\\assets\\fonts\\metropolis\\Metropolis-BoldItalic.otf"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\fonts\\metropolis\\Metropolis-ExtraBold.otf",
+      "PackagePath": "staticwebassets\\Content\\assets\\fonts\\metropolis\\Metropolis-ExtraBold.otf"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\fonts\\metropolis\\Metropolis-ExtraBoldItalic.otf",
+      "PackagePath": "staticwebassets\\Content\\assets\\fonts\\metropolis\\Metropolis-ExtraBoldItalic.otf"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\fonts\\metropolis\\Metropolis-ExtraLight.otf",
+      "PackagePath": "staticwebassets\\Content\\assets\\fonts\\metropolis\\Metropolis-ExtraLight.otf"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\fonts\\metropolis\\Metropolis-ExtraLightItalic.otf",
+      "PackagePath": "staticwebassets\\Content\\assets\\fonts\\metropolis\\Metropolis-ExtraLightItalic.otf"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\fonts\\metropolis\\Metropolis-Light.otf",
+      "PackagePath": "staticwebassets\\Content\\assets\\fonts\\metropolis\\Metropolis-Light.otf"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\fonts\\metropolis\\Metropolis-LightItalic.otf",
+      "PackagePath": "staticwebassets\\Content\\assets\\fonts\\metropolis\\Metropolis-LightItalic.otf"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\fonts\\metropolis\\Metropolis-Medium.otf",
+      "PackagePath": "staticwebassets\\Content\\assets\\fonts\\metropolis\\Metropolis-Medium.otf"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\fonts\\metropolis\\Metropolis-MediumItalic.otf",
+      "PackagePath": "staticwebassets\\Content\\assets\\fonts\\metropolis\\Metropolis-MediumItalic.otf"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\fonts\\metropolis\\Metropolis-Regular.otf",
+      "PackagePath": "staticwebassets\\Content\\assets\\fonts\\metropolis\\Metropolis-Regular.otf"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\fonts\\metropolis\\Metropolis-RegularItalic.otf",
+      "PackagePath": "staticwebassets\\Content\\assets\\fonts\\metropolis\\Metropolis-RegularItalic.otf"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\fonts\\metropolis\\Metropolis-SemiBold.otf",
+      "PackagePath": "staticwebassets\\Content\\assets\\fonts\\metropolis\\Metropolis-SemiBold.otf"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\fonts\\metropolis\\Metropolis-SemiBoldItalic.otf",
+      "PackagePath": "staticwebassets\\Content\\assets\\fonts\\metropolis\\Metropolis-SemiBoldItalic.otf"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\fonts\\metropolis\\Metropolis-Thin.otf",
+      "PackagePath": "staticwebassets\\Content\\assets\\fonts\\metropolis\\Metropolis-Thin.otf"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\fonts\\metropolis\\Metropolis-ThinItalic.otf",
+      "PackagePath": "staticwebassets\\Content\\assets\\fonts\\metropolis\\Metropolis-ThinItalic.otf"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\fonts\\metropolis\\SIL Open Font License.txt",
+      "PackagePath": "staticwebassets\\Content\\assets\\fonts\\metropolis\\SIL Open Font License.txt"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\backgrounds\\bg-angles.svg",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\backgrounds\\bg-angles.svg"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\backgrounds\\bg-pattern-shapes.png",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\backgrounds\\bg-pattern-shapes.png"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\backgrounds\\bg-waves.svg",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\backgrounds\\bg-waves.svg"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\demo\\cards\\card-img-bottom.jpg",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\demo\\cards\\card-img-bottom.jpg"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\demo\\cards\\card-img-left.jpg",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\demo\\cards\\card-img-left.jpg"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\demo\\cards\\card-img-overlay.jpg",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\demo\\cards\\card-img-overlay.jpg"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\demo\\cards\\card-img-right.jpg",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\demo\\cards\\card-img-right.jpg"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\demo\\cards\\card-img-top.jpg",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\demo\\cards\\card-img-top.jpg"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\demo\\demo-logo.svg",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\demo\\demo-logo.svg"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\demo\\demo-ocean-lg.jpg",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\demo\\demo-ocean-lg.jpg"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\demo\\demo-ocean-sm.jpg",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\demo\\demo-ocean-sm.jpg"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\demo\\pug.svg",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\demo\\pug.svg"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\demo\\user-placeholder.svg",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\demo\\user-placeholder.svg"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\favicon.png",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\favicon.png"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\illustrations\\400-error-bad-request.svg",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\illustrations\\400-error-bad-request.svg"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\illustrations\\401-error-unauthorized.svg",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\illustrations\\401-error-unauthorized.svg"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\illustrations\\403-error-forbidden.svg",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\illustrations\\403-error-forbidden.svg"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\illustrations\\404-error-with-a-cute-animal.svg",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\illustrations\\404-error-with-a-cute-animal.svg"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\illustrations\\404-error.svg",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\illustrations\\404-error.svg"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\illustrations\\500-internal-server-error.svg",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\illustrations\\500-internal-server-error.svg"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\illustrations\\503-error-service-unavailable.svg",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\illustrations\\503-error-service-unavailable.svg"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\illustrations\\504-error-gateway-timeout.svg",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\illustrations\\504-error-gateway-timeout.svg"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\illustrations\\CREDITS.md",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\illustrations\\CREDITS.md"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\illustrations\\at-work.svg",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\illustrations\\at-work.svg"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\illustrations\\browser-stats.svg",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\illustrations\\browser-stats.svg"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\illustrations\\data-report.svg",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\illustrations\\data-report.svg"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\illustrations\\problem-solving.svg",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\illustrations\\problem-solving.svg"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\illustrations\\processing.svg",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\illustrations\\processing.svg"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\illustrations\\profiles\\profile-1.png",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\illustrations\\profiles\\profile-1.png"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\illustrations\\profiles\\profile-2.png",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\illustrations\\profiles\\profile-2.png"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\illustrations\\profiles\\profile-3.png",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\illustrations\\profiles\\profile-3.png"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\illustrations\\profiles\\profile-4.png",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\illustrations\\profiles\\profile-4.png"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\illustrations\\profiles\\profile-5.png",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\illustrations\\profiles\\profile-5.png"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\illustrations\\profiles\\profile-6.png",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\illustrations\\profiles\\profile-6.png"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\illustrations\\statistics.svg",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\illustrations\\statistics.svg"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\illustrations\\team-spirit.svg",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\illustrations\\team-spirit.svg"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\assets\\img\\illustrations\\windows.svg",
+      "PackagePath": "staticwebassets\\Content\\assets\\img\\illustrations\\windows.svg"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\css\\styles.css",
+      "PackagePath": "staticwebassets\\Content\\css\\styles.css"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\img\\AppointmentsHdrBG.jpg",
+      "PackagePath": "staticwebassets\\Content\\img\\AppointmentsHdrBG.jpg"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\js\\datatables\\datatables-simple-demo.js",
+      "PackagePath": "staticwebassets\\Content\\js\\datatables\\datatables-simple-demo.js"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\js\\litepicker.js",
+      "PackagePath": "staticwebassets\\Content\\js\\litepicker.js"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\js\\markdown.js",
+      "PackagePath": "staticwebassets\\Content\\js\\markdown.js"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\js\\scripts.js",
+      "PackagePath": "staticwebassets\\Content\\js\\scripts.js"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Content\\js\\toasts.js",
+      "PackagePath": "staticwebassets\\Content\\js\\toasts.js"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Images\\AppointmentsHdrBG.jpg",
+      "PackagePath": "staticwebassets\\Images\\AppointmentsHdrBG.jpg"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Images\\Client1.png",
+      "PackagePath": "staticwebassets\\Images\\Client1.png"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Images\\Flag.png",
+      "PackagePath": "staticwebassets\\Images\\Flag.png"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Images\\GreenTick.png",
+      "PackagePath": "staticwebassets\\Images\\GreenTick.png"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Images\\GreenTick2.png",
+      "PackagePath": "staticwebassets\\Images\\GreenTick2.png"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Images\\GreyCross.png",
+      "PackagePath": "staticwebassets\\Images\\GreyCross.png"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Images\\Location.jpg",
+      "PackagePath": "staticwebassets\\Images\\Location.jpg"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Images\\Location.png",
+      "PackagePath": "staticwebassets\\Images\\Location.png"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Images\\LoginBG1.jpg",
+      "PackagePath": "staticwebassets\\Images\\LoginBG1.jpg"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Images\\MockSignature.png",
+      "PackagePath": "staticwebassets\\Images\\MockSignature.png"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Images\\Provider.png",
+      "PackagePath": "staticwebassets\\Images\\Provider.png"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Images\\QuestionMark.png",
+      "PackagePath": "staticwebassets\\Images\\QuestionMark.png"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Images\\TurnPointtwirl.png",
+      "PackagePath": "staticwebassets\\Images\\TurnPointtwirl.png"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Images\\Untitled.png",
+      "PackagePath": "staticwebassets\\Images\\Untitled.png"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Images\\thumbnailAllCare.png",
+      "PackagePath": "staticwebassets\\Images\\thumbnailAllCare.png"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Images\\thumbnailTCP.png",
+      "PackagePath": "staticwebassets\\Images\\thumbnailTCP.png"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\Images\\user-login-avatar.png",
+      "PackagePath": "staticwebassets\\Images\\user-login-avatar.png"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\css\\IndexResetPassword.css",
+      "PackagePath": "staticwebassets\\css\\IndexResetPassword.css"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\favicon.ico",
+      "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\js\\site.js",
+      "PackagePath": "staticwebassets\\js\\site.js"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\LICENSE",
+      "PackagePath": "staticwebassets\\lib\\bootstrap"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js.map"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\LICENSE.md"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.js"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.min.js"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.js"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\jquery\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery\\LICENSE.txt"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.js"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.js"
+    },
+    {
+      "Id": "C:\\Repos\\YourCarePortal\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
+    },
+    {
+      "Id": "obj\\Release\\net6.0\\staticwebassets\\msbuild.YourCarePortal.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Release\\net6.0\\staticwebassets\\msbuild.build.YourCarePortal.props",
+      "PackagePath": "build\\YourCarePortal.props"
+    },
+    {
+      "Id": "obj\\Release\\net6.0\\staticwebassets\\msbuild.buildMultiTargeting.YourCarePortal.props",
+      "PackagePath": "buildMultiTargeting\\YourCarePortal.props"
+    },
+    {
+      "Id": "obj\\Release\\net6.0\\staticwebassets\\msbuild.buildTransitive.YourCarePortal.props",
+      "PackagePath": "buildTransitive\\YourCarePortal.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

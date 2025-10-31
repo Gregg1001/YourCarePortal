@@ -1,0 +1,1027 @@
+﻿@model YourCarePortal.Models.ScheduleandClients
+@using System.Net;
+
+@{
+
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+@if (Context.Session.GetString("DebugFlag") == "true")
+{
+    <h2>DEBUG ON:</h2>
+    <p>@ViewBag.DebugMessage</p>
+    <pre>@ViewBag.JsonString</pre>
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Appointments - Your Care Portal</title>
+    <link href="Content/css/styles.css" rel="stylesheet" />
+    <link rel="icon" type="image/x-icon" href="~/Images/TurnPointtwirl.png" />
+
+
+
+    <!-- Link to "Inter" font from Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Link to Font Awesome CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Your styles with media queries for responsiveness -->
+    @{
+        var uniqueClientNames1 = Model.ClientDetails.Select(a => a.clientFullName).Distinct().ToList();
+
+        int baseHeight1 = 169;
+        int additionalHeightPerClient1 = 20;
+        int totalHeight1 = baseHeight1 + (uniqueClientNames1.Count * additionalHeightPerClient1);
+    }
+    <style>
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+        }
+
+        .main-wrapper {
+            position: absolute; /*absolute normally*/
+            max-width: 800px; /* Changed from width to max-width */
+            width: 95%; /* Making it responsive */
+            height: auto; /* Allowing it to grow as needed */
+            top: 170px;
+            margin: 30px; /* Centered horizontally */
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .containerHeader {
+            background-image: url("@Url.Content("~/Images/AppointmentsHdrBG.jpg")");
+            height: @totalHeight1.ToString()px;
+            background-size: cover;
+            width: 100%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .clock-icon {
+            font-size: 18px;
+            margin-right: 5px;
+        }
+
+        .icon-container {
+            display: flex;
+            align-items: center;
+        }
+
+        td.td-outer-border:nth-child(4) .bold-text {
+            font-weight: bold;
+        }
+
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            background-color: #ffffff;
+            color: #000000;
+            border: 1px solid #cccccc;
+            border-radius: 20px;
+            padding: 0 13.5px;
+            height: 32px;
+            margin: 0 5px;
+        }
+
+            .button i {
+                margin-right: 5px;
+            }
+
+            .button.all {
+                background-color: #B4E4F9;
+                color: #005B80;
+                padding: 0 10.8px;
+                border-radius: 20px;
+                margin-top: 16px;
+            }
+
+        .schedule-title {
+            color: var(--black-black-60, #626262);
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 1.2;
+            padding-top: 24px;
+            padding-left: 0;
+        }
+
+        .today-label {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            color: var(--blue-blue-10, #B4E4F9);
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        /*.schedule-label {
+                            position: absolute;
+                            top: 93px;
+                            left: 30px;
+                            color: var(--blue-blue-10, #B4E4F9);
+                            font-family: 'Inter', sans-serif;
+                            font-size: 15px;
+                            font-weight: 500;
+                            line-height: 1.2;
+                            padding-top: 8px;
+                        }
+
+                        .multi-clients-label {
+                            position: absolute;
+                            top: 123px;
+                            left: 30px;
+                            color: var(--blue-blue-10, #B4E4F9);
+                            font-family: 'Inter', sans-serif;
+                            font-size: 15px;
+                            font-weight: 500;
+                            line-height: 1.2;
+                            padding-top: 8px;
+                        } */
+
+        .multi-clients-label {
+            color: var(--blue-blue-10, #B4E4F9);
+        }
+
+        .welcome-label {
+            position: absolute;
+            top: 48px;
+            left: 30px;
+            color: #FFF;
+            font-family: 'Inter', sans-serif;
+            font-size: 40px;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        /*         .schedule-label {
+                                    position: relative;
+                                    top: 93px;
+                                    left: 30px;
+                                    color: var(--blue-blue-10, #B4E4F9);
+                                    font-family: 'Inter', sans-serif;
+                                    font-size: 15px;
+                                    font-weight: 500;
+                                    line-height: 1.2;
+                                    padding-top: 8px;}
+                                 */
+
+        .schedule-label {
+            position: absolute;
+            color: var(--blue-blue-10, #B4E4F9);
+            left: 30px;
+            top: 100px;
+            /* other styles remain the same  */
+        }
+
+        .multi-clients-label {
+            position: absolute; /*absolute normally */
+            top: 123px;
+            left: 30px;
+            /* other styles remain the same */
+        }
+
+        .month-label {
+            font-size: 1.5em;
+            color: #276600;
+            border-top: 1px solid lightgray;
+            border-bottom: 1px solid lightgray;
+            width: 40%;
+            text-align: left;
+            margin-top: 16px;
+            margin-bottom: 16px;
+        }
+
+        .content-wrapper {
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            background-color: #ffffff;
+            color: #000000;
+            border: 1px solid #cccccc;
+            border-radius: 20px;
+            padding: 0 13.5px;
+            height: 32px;
+            margin: 0 5px;
+        }
+
+            .button i {
+                margin-right: 5px;
+            }
+
+            .button.all {
+                background-color: #B4E4F9;
+                color: #005B80;
+                padding: 0 10.8px;
+                border-radius: 20px;
+                margin-top: 16px;
+            }
+
+            .button.active {
+                background-color: lightblue;
+            }
+
+            .button.dates {
+                margin-left: 500px;
+                border-radius: 5px;
+            }
+
+        .labels-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+        }
+
+            .labels-container div {
+                margin-bottom: 10px;
+                color: #FFF;
+                font-family: 'Inter', sans-serif;
+                font-size: 20px;
+                font-weight: 500;
+                line-height: 1.2;
+            }
+
+        .bold-text {
+            font-weight: bold;
+        }
+
+
+        #litepicker {
+            border: 1px solid #lightgrey;
+            border-radius: 5px;
+            /*is a 1-pixel-wide solid black border. */
+        }
+
+        hr {
+            border: 2px solid #999;
+        }
+
+        table hr {
+            border: 2px solid #999;
+        }
+
+        .button:disabled {
+            background-color: #cccccc;
+            color: #666666;
+        }
+
+        .day-group-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .day-group-row {
+            display: grid;
+            grid-template-columns: 1fr 2fr 2fr; /* Adjust ratios based on preference */
+
+            align-items: center;
+        }
+
+        .day-group-date {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f3f3f3;
+            padding: 14px;
+            border-radius: 5px;
+        }
+
+        .day-group-blank {
+            background-color: #f3f3f3;
+        }
+
+
+        .day-group-detail {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .icon-container {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .bold-text {
+            font-weight: bold;
+        }
+
+        .clock-icon {
+            color: #276600;
+        }
+
+        .servicetypename-container {
+            display: absolute;
+            flex-direction: column;
+            gap: 5px;
+            padding: 12.5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            z-index: 2; /* Making it higher ensures it isn't overlapped */
+        }
+
+        .day-group-container {
+            width: 100%; /* Ensure that the container takes the full width available */
+            display: flex;
+            flex-direction: column;
+            /* remove this line: gap: 10px; */
+        }
+
+        .icon-container div,
+        .bold-text {
+            padding-left: 8px; /* Adding 8px of padding to the left of text */
+        }
+
+
+        .day-spacer {
+            min-height: 16px;
+        }
+
+
+        .day-group-row {
+            display: grid;
+            grid-template-columns: 1fr 2fr 2fr; /* Adjust ratios based on preference */
+            align-items: stretch; /* To ensure all the items stretch to equal height */
+        }
+
+        /* Ensure that the divs within the grid row stretch to full height */
+        .day-group-date,
+        .day-group-detail,
+        .servicetypename-container,
+        .day-group-blank {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch; /* To make child elements take full height */
+        }
+
+        .button.active {
+            background-color: lightblue;
+        }
+
+        #clearDatePicker {
+            cursor: pointer;
+        }
+
+        .button {
+            white-space: nowrap;
+            padding: 8px 16px;
+            // Adjust padding as per your preference border: 1px solid #ccc;
+            // Sample border background-color: #f5f5f5;
+            // Sample background color transition: background-color 0.3s;
+            // Smooth transition for hover effects
+        }
+
+            .button:hover {
+                background-color: #e0e0e0;
+                // Slightly darker background on hover
+            }
+
+        .centered-content {
+            min-height: 80vh; /* adjust based on your needs */
+            display: flex;
+            flex-direction: column; /* This ensures children of this container are stacked vertically */
+            align-items: center; /* Horizontally centers content */
+            justify-content: center; /* Vertically centers content */
+        }
+
+        /* Custom CSS for waiting cursor */
+        .waiting-cursor {
+            cursor: wait !important;
+        }
+
+        .date-control {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            */ gap: 10px;
+            margin: 10px;
+        }
+
+        .litepicker .day-item.is-locked {
+            color: lightgrey !important;
+        }
+
+        .button-calendar-container {
+            /*   display: flex; */
+        }
+
+        .calendar-container {
+            display: flex;
+        }
+
+
+        @@media (max-width: 599px) { /* Targeting devices below 768px width */
+
+            .main-wrapper {
+                margin-top: 50px; /* Reduce top margin for smaller screens */
+                padding: 10px;
+                max-width: 270px; /* Changed from width to max-width */
+            }
+
+            .today-label {
+                position: absolute;
+                top: 30px;
+                left: 10px;
+                color: var(--blue-blue-10, #B4E4F9);
+                font-family: 'Inter', sans-serif;
+                font-size: 15px;
+                font-weight: 500;
+                line-height: 1.2;
+            }
+
+
+            .month-label {
+                font-size: 1.5em;
+                color: #276600;
+                border-top: 1px solid lightgray;
+                border-bottom: 1px solid lightgray;
+                width: 20%;
+                text-align: left;
+                margin-top: 16px;
+                margin-bottom: 16px;
+            }
+
+
+            .today-label, .welcome-label, .schedule-label, .multi-clients-label {
+                left: 10px; /* Adjust left positioning for labels */
+            }
+
+            .button.dates {
+                margin-left: auto; /* Adjust button margin */
+            }
+            /* Adjust grid for smaller screens */
+            .day-group-row {
+                grid-template-columns: 1fr;
+            }
+
+            .day-group-blank {
+                height: 8px;
+            }
+
+            .button-group {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                align-items: baseline;
+            }
+
+            .button {
+                text-align: center;
+                margin: 5px 0;
+            }
+
+
+            .servicetypename-container {
+                width: 270px;
+            }
+
+            .day-group-container {
+                width: 270px;
+            }
+
+            .welcome-label {
+                position: absolute;
+                top: 48px; /* 30px + 18px (line-height of the first label) */
+                left: 10px;
+                color: #FFF;
+                font-family: 'Inter', sans-serif;
+                font-size: 20px;
+                font-weight: 600;
+                line-height: 1.2;
+            }
+
+        }
+    </style>
+
+</head>
+<body>
+
+    <div class="containerHeader">
+        <div class="today-label"></div>
+        <div class="welcome-label">Schedule</div>
+        <div class="schedule-label">Please find below your scheduled appointments.</div>
+
+        @{
+            var uniqueClientNames = Model.ClientDetails.Select(a => a.clientFullName).Distinct().ToList();
+        }
+
+        @*   @if (uniqueClientNames.Count > 1) *@
+        @*  { *@
+        <div class="multi-clients-label">
+            <div>You are connected with clients:</div>
+            <ul>
+                @foreach (var clientName in uniqueClientNames)
+                {
+                    <li>@WebUtility.HtmlDecode(clientName)</li>
+                }
+            </ul>
+        </div>
+        @*   } *@
+
+        @{
+            var uniqueClients = Model.ClientDetails
+            .GroupBy(a => new { a.clientID, a.clientFullName })
+            .Select(g => g.First())
+            .ToList();
+        }
+
+        @{
+            // Initialize a list to hold the dates
+            List<string> dateList = new List<string>();
+
+            // Check if the Appointments list is not null or empty
+            if (Model.Appointments != null && Model.Appointments.Any())
+            {
+                // Iterate through each appointment and add the date to the list
+                foreach (var appointment in Model.Appointments)
+                {
+                    dateList.Add(appointment.Date);
+                }
+            }
+
+            // Convert the list to an array
+            string[] dateArray = dateList.ToArray();
+        }
+
+    </div>
+
+    @if (Model.Appointments == null)
+    {
+        <div class="centered-content">
+            <h1>No available appointments.</h1>
+            <p>Check with your provider</p>
+        </div>
+    }
+    else
+    {
+
+        <div class="main-wrapper">
+            <div class="content-wrapper">
+
+                <div class="button-calendar-container">
+                
+                    <div class="button-group">
+                        <button class="button button-all rounded-pill">All</button>
+
+                        @if (uniqueClientNames.Count > 1)
+                        {
+                            @foreach (var client in uniqueClients)
+                            {
+                                <button class="button client-button rounded-pill" data-clientid="@client.clientID" id="client_btn_@client.clientID">
+                                    <i class="fa-solid fa-user"></i> @client.clientFullName
+                                </button>
+                            }
+                        }
+                    </div>
+
+                    <div class="calendar-container col-12 col-xl-auto mt-4">
+
+                        <div class="date-control input-group input-group-joined border-1" style="width: 13rem">
+                            <span class="input-group-text"><i class="text-primary" data-feather="calendar"></i></span>
+                            <input class="form-control ps-0 pointer" id="litepicker" placeholder="From Date" />
+                            <span class="input-group-text" id="clearDatePicker"><i class="fa fa-times"></i></span>
+                        </div>
+
+                        <div class="date-control input-group input-group-joined border-1" style="width: 13rem">
+                            <span class="input-group-text"><i class="text-primary" data-feather="calendar"></i></span>
+                            <input class="form-control ps-0 pointer" id="litepicker2" placeholder="To Date" />
+                            <span class="input-group-text" id="clearDatePicker2"><i class="fa fa-times"></i></span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="schedule-container">
+
+                    @*  YourCarePortal.Models.ScheduleandClients *@
+
+                    @{
+                        if (Model.Appointments == null)
+                        {
+                            <p>
+                                No appointments found.
+                            </p>
+                        }
+                    }
+
+                    @Html.Partial("SchedulePartial", Model.Appointments)
+
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Required scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    @*    <script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/litepicker/dist/bundle.js"></script> *@
+
+    <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+
+    <style>
+        /* Example CSS for custom highlighted days */
+        .highlighted-day {
+            background-color: #276600 !important; /* Default color for highlighted days */
+            color: #fff !important; /* Ensure text color contrasts with background */
+        }
+        /* Custom tooltip style */
+        .custom-tooltip {
+            background-color: #276600;
+            color: #fff;
+            padding: 2px 5px;
+            position: absolute;
+            display: none;
+            z-index: 2;
+        }
+    </style>
+
+    <script type="text/javascript">
+        // Pass the Razor dateArray to JavaScript
+        var datesFromRazor = @Html.Raw(Json.Serialize(dateArray));
+
+        console.log('Dates from Razor:', datesFromRazor);
+
+    </script>
+
+    <script>
+
+
+        var currentStartDate = null;
+        var currentEndDate = null;
+        var currentClientID = null;
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            // Function to get today's date without the time component
+            function getTodayDate() {
+                const today = new Date();
+                today.setHours(0, 0, 0, 0); // Resets time to midnight, making the comparison date-only
+                return today;
+            }
+
+            // Mapping of month names to their numeric values
+            const monthMap = {
+                Jan: 0,
+                Feb: 1,
+                Mar: 2,
+                Apr: 3,
+                May: 4,
+                Jun: 5,
+                Jul: 6,
+                Aug: 7,
+                Sep: 8,
+                Oct: 9,
+                Nov: 10,
+                Dec: 11
+            };
+
+            // Ensure datesFromRazor is defined and has elements
+            if (!datesFromRazor || datesFromRazor.length === 0) {
+                console.log("datesFromRazor is empty or undefined");
+                return; // Exit if no dates are available to process
+            }
+
+            var dateObjects = datesFromRazor.map(dateStr => {
+                // Parse the date string
+                var parts = dateStr.split('/');
+                var day = parseInt(parts[0], 10);
+                var month = monthMap[parts[1]]; // Convert month name to month number
+                var year = parseInt(parts[2], 10);
+
+                // Construct the Date object
+                var date = new Date(year, month, day);
+
+                // Debugging: Log each converted date
+                console.log('Converted Date:', date);
+
+                return date;
+            });
+
+            // Filter out invalid dates
+            dateObjects = dateObjects.filter(date => !isNaN(date.valueOf()));
+
+            // Continue only if there are valid date objects
+            if (dateObjects.length === 0) {
+                console.log("No valid dates found.");
+                return;
+            }
+
+            // Sort dates to find the earliest and latest
+            dateObjects.sort((a, b) => a - b);
+            var minDate = dateObjects[0];
+            var maxDate = dateObjects[dateObjects.length - 1];
+
+            // Debugging: Log min and max dates
+            console.log('Min date:', minDate);
+            console.log('Max date:', maxDate);
+
+            // var lockedDays = [
+            //     new Date(new Date(2024, 2, 8).setHours(0, 0, 0, 0))
+            // ];
+
+            // Initialize the Litepicker with minDate and maxDate
+            const picker = new Litepicker({
+                element: document.getElementById('litepicker'),
+                format: 'DD/MMM/YYYY', // Adjust the format to match your date strings
+                singleMode: true,
+                numberOfMonths: 1,
+                numberOfColumns: 1,
+                // minDate: minDate,
+                minDate: getTodayDate(),
+                maxDate: maxDate,
+                // lockDays: ['2024-02-08', '2024-02-15'], // Example locked dates
+                // lockDaysFormat: 'YYYY-MM-DD', // Ensure the format matches your date strings
+            });
+
+
+            // Initialize the Litepicker with minDate and maxDate
+            const picker2 = new Litepicker({
+                element: document.getElementById('litepicker2'),
+                format: 'DD/MMM/YYYY', // Adjust the format to match your date strings
+                singleMode: true,
+                numberOfMonths: 1,
+                numberOfColumns: 1,
+                minDate: getTodayDate(),
+                // minDate: minDate,
+                maxDate: maxDate,
+                // lockDays: ['2024-02-08', '2024-02-15'], // Example locked dates
+                // lockDaysFormat: 'YYYY-MM-DD', // Ensure the format matches your date strings
+            });
+
+
+            // // Initialize the second Litepicker instance allowing selection from today onwards
+            // const picker2 = new Litepicker({
+            //     element: document.getElementById('litepicker2'),
+            //     format: 'DD/MM/YYYY',
+            //     singleMode: false,
+            //     numberOfMonths: 1,
+            //     numberOfColumns: 1,
+            //     minDate: getTodayDate(), // Ensures today's date is included as the minimum selectable date
+            //     maxDate: '2024-02-10',
+            // });
+
+
+            ////
+
+
+            $(document).ready(function () {
+                $('.client-button').on('click', function () {
+                    currentClientID = $(this).data('clientid');
+                    console.log("client button clicked");
+                    startProcessing();
+                    $('.button').removeClass('active');
+                    $(this).addClass('active');
+                    updateSchedule(currentStartDate, currentEndDate, currentClientID);
+                    stopProcessing();
+                });
+
+                $('.button-all').on('click', function () {
+                    console.log("All button clicked");
+                    startProcessing();
+                    currentStartDate = null;
+                    currentEndDate = null;
+                    currentClientID = null;
+                    picker.clearSelection();
+                    picker2.clearSelection(); // Clear selection for the second picker
+                    $('.button').removeClass('active');
+                    $(this).addClass('active');
+                    updateSchedule(currentStartDate, currentEndDate, currentClientID);
+                    stopProcessing();
+                });
+
+                document.getElementById('clearDatePicker').addEventListener('click', function () {
+                    picker.clearSelection();
+                    picker2.clearSelection(); // Clear selection for the second picker
+                    currentStartDate = null;
+                    currentEndDate = null;
+                    $('.button').removeClass('active');
+                    $('.button-all').addClass('active');
+                    updateSchedule(currentStartDate, currentEndDate, currentClientID);
+                });
+
+                document.getElementById('clearDatePicker2').addEventListener('click', function () {
+                    picker2.clearSelection(); // Clear selection for the second picker
+                    currentStartDate = null;
+                    currentEndDate = null;
+                    $('.button').removeClass('active');
+                    $('.button-all').addClass('active');
+                    updateSchedule(currentStartDate, currentEndDate, currentClientID);
+                });
+
+                const handleSelection = (pickerInstance, date) => {
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0); // Reset time to ensure date-only comparison
+                    const selectedDate = date.toJSDate(); // Convert Litepicker's date object to JavaScript Date
+
+                    if (selectedDate >= today) {
+                        if (pickerInstance === picker) {
+                            currentStartDate = date.format('YYYY-MM-DD');
+                            console.log('Start Date:', currentStartDate);
+                        } else if (pickerInstance === picker2) {
+                            currentEndDate = date.format('YYYY-MM-DD');
+                            console.log('End Date:', currentEndDate);
+                        }
+                        $('.button').removeClass('active');
+                        startProcessing();
+                        updateSchedule(currentStartDate, currentEndDate, currentClientID);
+                        stopProcessing();
+                    } else {
+                        // Show an error message to the user if the selected date is before today's date
+                        alert("The selected date cannot be earlier than today's date."); // Using alert for demonstration
+                        console.error("Selected date is before today's date."); // Log an error message to the console
+                        // Optionally, insert the message into the HTML DOM for user feedback
+                        $('#errorContainer').text("The selected date cannot be earlier than today's date.");
+                    }
+                };
+
+
+                // Adjust picker event listeners for singleMode
+                picker.on('selected', (date1) => handleSelection(picker, date1));
+                picker2.on('selected', (date1) => handleSelection(picker2, date1));
+
+
+                // Function to update the minDate or maxDate based on selection
+                function updateDateConstraints() {
+                    const startDate = picker.getDate();
+                    const endDate = picker2.getDate();
+
+                    if (startDate) {
+                        picker2.setOptions({
+                            minDate: startDate,
+                        });
+                    }
+
+                    if (endDate) {
+                        picker.setOptions({
+                            maxDate: endDate,
+                        });
+                    }
+                }
+
+                // Attach event listeners to both pickers to handle date selection
+                picker.on('selected', () => {
+                    updateDateConstraints();
+                });
+
+                picker2.on('selected', () => {
+                    updateDateConstraints();
+                });
+
+
+                function updateSchedule(startDate, endDate, clientId) {
+
+                    console.log('updateSchedule');
+
+                    var dataToSend = {};
+                    if (startDate && endDate) {
+                        dataToSend.startDate = startDate;
+                        dataToSend.endDate = endDate;
+                    }
+                    if (clientId) {
+                        dataToSend.clientId = clientId;
+                    }
+
+                    $.ajax({
+                        url: '/Appointments/AppointmentsAction',
+                        type: 'GET',
+                        data: dataToSend,
+                        success: function (data) {
+                            $('#scheduleContainer1').html(data);
+                        },
+                        error: function (error) {
+                            console.error("Error fetching schedule:", error);
+                        }
+                    });
+                }
+            });
+        });
+
+        // document.querySelectorAll('#litepicker .litepicker .is-locked').forEach(el => {
+        //     el.style.color = 'red !important';
+        // });
+
+    </script>
+
+
+    <script>
+        function startProcessing() {
+            document.body.classList.add('waiting-cursor');
+            // Your processing logic here
+
+            // When done, call stopProcessing
+            //stopProcessing();
+        }
+
+        function stopProcessing() {
+            document.body.classList.remove('waiting-cursor');
+        }
+    </script>
+
+
+    <script>
+        function adjustLabelPositions() {
+            console.log('Function called');
+
+            // Retrieve label, wrapper, and client list elements
+            let welcomeLabel = document.querySelector('.welcome-label');
+            let scheduleLabel = document.querySelector('.schedule-label');
+            let multiClientsLabel = document.querySelector('.multi-clients-label');
+            let clientListItems = multiClientsLabel.querySelectorAll('li');
+            let mainWrapper = document.querySelector('.main-wrapper');
+
+            if (!welcomeLabel || !scheduleLabel || !multiClientsLabel || !mainWrapper) {
+                console.log("Labels or main-wrapper not found. Exiting function.");
+                return;
+            }
+
+            // Position .schedule-label 20px below .welcome-label
+            let welcomeBottom = welcomeLabel.offsetTop + welcomeLabel.offsetHeight;
+            scheduleLabel.style.top = (welcomeBottom + 20) + "px";
+
+            // Position .multi-clients-label 16px below .schedule-label
+            let scheduleBottom = scheduleLabel.offsetTop + scheduleLabel.offsetHeight;
+            multiClientsLabel.style.top = (scheduleBottom + 16) + "px";
+
+            // Calculate the new height for .containerHeader based on the client count and labels
+            //GS&
+            const baseHeight = 28;
+            const additionalHeightPerClient = 10;
+            let clientCount = clientListItems.length;
+            console.log('Client count:', clientCount);
+
+            const calculatedHeight = baseHeight + (clientCount * additionalHeightPerClient);
+            let multiClientsBottom = multiClientsLabel.offsetTop + multiClientsLabel.offsetHeight;
+            const newHeight = calculatedHeight + multiClientsBottom - welcomeLabel.offsetTop;
+
+            // Log new calculated height
+            console.log('New calculated height:', newHeight);
+
+            // Apply the new height to .containerHeader
+            const containerHeader = document.querySelector('.containerHeader');
+            containerHeader.style.height = newHeight + "px";
+
+            // Position .main-wrapper immediately below .containerHeader
+            const containerHeaderBottom = containerHeader.offsetTop + containerHeader.offsetHeight;
+            mainWrapper.style.marginTop = containerHeaderBottom - 200 + "px";
+        }
+
+        // Attach event listeners
+        document.addEventListener("DOMContentLoaded", adjustLabelPositions);
+        window.addEventListener("resize", adjustLabelPositions);
+
+
+    </script>
+
+    @functions {
+        public string CapitalizeFirstLetter(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+                return string.Empty;
+
+            return char.ToUpper(input[0]) + input.Substring(1).ToLower();
+        }
+    }
+</body>
+
+</html>

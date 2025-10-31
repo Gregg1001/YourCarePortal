@@ -1,0 +1,133 @@
+﻿
+<div id="settingsContainer">
+
+<div class="custom-container-small"></div>
+
+    <div class="custom-container-large">
+        <!-- Notification settings container -->
+        <div class="notification-settings-container">
+            <!-- Notification settings label -->
+            <div class="notification-settings-label-container">
+                <div class="notification-settings-label">Notification settings</div>
+                <div class="notification-settings-label-select">Select your desired notification schedule</div>
+                <div class="notification-settings-content-container">
+
+
+
+                    <div class="form-check" style="@(ViewBag.NotificationSettings == "Notify Daily" ? "background-color: lightblue;" : "")">
+                        <input class="form-check-input" type="radio" name="notificationOptions" id="notifyDaily" value="daily" @(ViewBag.NotificationSettings == "Notify Daily" ? "checked" : "")>
+                        <label class="form-check-label" for="notifyDaily">
+                            Notify Daily
+                        </label>
+                    </div>
+                    <div class="form-check" style="@(ViewBag.NotificationSettings == "Notify Weekly" ? "background-color: lightblue;" : "")">
+                        <input class="form-check-input" type="radio" name="notificationOptions" id="notifyWeekly" value="weekly" @(ViewBag.NotificationSettings == "Notify Weekly" ? "checked" : "")>
+                        <label class="form-check-label" for="notifyWeekly">
+                            Notify Weekly
+                        </label>
+                    </div>
+                    <div class="form-check" style="@(ViewBag.NotificationSettings == "No Notifications" ? "background-color: lightblue;" : "")">
+                        <input class="form-check-input" type="radio" name="notificationOptions" id="noNotifications" value="none" @(ViewBag.NotificationSettings == "No Notifications" ? "checked" : "")>
+                        <label class="form-check-label" for="noNotifications">
+                            No Notifications
+                        </label>
+                    </div>
+
+
+                    @if (ViewBag.ShowNotificationSuccess == "true")
+                    {
+                        <button class="notification-settings-save-changes-button" disabled style="background-color: grey;">Save Changes</button>
+                    }
+                    else
+                    {
+                        <button class="notification-settings-save-changes-button">Save Changes</button>
+                    }
+
+
+                    <div class="NotificationMessage">
+                    @if (ViewBag.ShowNotificationSuccess == "true")                                
+                    {
+                        <div class="home-toast2">
+                            <div class="home-toaster-content">
+                                <img src="~/Images/GreenTick2.png"
+                                     alt="checkcircleI127"
+                                     class="home-checkcircle" />
+                                <div class="home-toaster-content1">
+                                    <span class="home-text BodyMedium">
+                                        <span>Notification updated</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                   
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Change password container -->
+        <div class="change-password-container">
+            <!-- Change password label -->
+            <div class="change-password-label-container">
+                <div class="change-password-label">Change Password</div>
+                <div class="change-password-label-select">Update your password below using letters and numbers only, and a minimum of 8 characters.</div>
+
+                <div class="new-password-label">New Password</div>
+                <input type="password" class="new-password-input" placeholder="New Password">
+
+                <div class="confirm-password-label">Confirm Password</div>
+                <input type="password" class="confirm-password-input" placeholder="Confirm Password">
+
+                <!-- Show Password Checkbox -->
+                <div class="show-password-checkbox-container">
+                    <input type="checkbox" id="showPasswordCheckbox">
+                    <label for="showPasswordCheckbox">Show Password</label>
+                </div>
+
+                <!-- Save Changes button -->
+                @if (ViewBag.ShowPasswordSuccess == "true")
+                {
+                    <button class="change-password-save-changes-button" disabled style="background-color: grey;">Save Changes</button>
+                }
+                else
+                {
+                    <button class="change-password-save-changes-button">Save Changes</button>
+                }
+
+                 @if (ViewBag.ShowPasswordSuccess == "true")
+                {
+                    <div class="home-toast2">
+                        <div class="home-toaster-content">
+                            <img src="~/Images/GreenTick2.png"
+                                    alt="checkcircleI127"
+                                    class="home-checkcircle" />
+                            <div class="home-toaster-content1">
+                                <span class="home-text BodyMedium">
+                                    <span>Password changed</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else if (ViewBag.passwordErrorMessage != null)
+                {
+                    <div class="home-toast-Error">
+                        <div class="home-toaster-content">
+
+                            <img src="~/Images/GreyCross.png" alt="Error Image" class="progress-image">
+
+                            <div class="home-toaster-content1">
+                                <span class="home-text BodyMedium">
+                                    <span>@ViewBag.passwordErrorMessage</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>  
+</div> 

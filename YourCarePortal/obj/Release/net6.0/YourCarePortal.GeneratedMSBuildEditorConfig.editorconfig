@@ -1,0 +1,167 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = YourCarePortal
+build_property.RootNamespace = YourCarePortal
+build_property.ProjectDir = C:\Repos\YourCarePortal\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Repos\YourCarePortal
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Repos/YourCarePortal/Views/Appointments/Appointments.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwb2ludG1lbnRzXEFwcG9pbnRtZW50cy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/Appointments/SchedulePartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwb2ludG1lbnRzXFNjaGVkdWxlUGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/Budget/Budget.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQnVkZ2V0XEJ1ZGdldC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/Budget/BudgetPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQnVkZ2V0XEJ1ZGdldFBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/Budget/BudgetPartialTest.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQnVkZ2V0XEJ1ZGdldFBhcnRpYWxUZXN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/ClientDetails/ClientDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50RGV0YWlsc1xDbGllbnREZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/ClientDetails/ClientDetailsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50RGV0YWlsc1xDbGllbnREZXRhaWxzUGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/CustomForms/CustomForms.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tRm9ybXNcQ3VzdG9tRm9ybXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/CustomForms/FormsList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tRm9ybXNcRm9ybXNMaXN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/CustomForms/FormsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tRm9ybXNcRm9ybXNQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/CustomForms/FormsPartialTest.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tRm9ybXNcRm9ybXNQYXJ0aWFsVGVzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/Home/.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/Home/DebugPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxEZWJ1Z1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/Home/NoData.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxOb0RhdGEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/NDISQuotes/NDISQuotes.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTkRJU1F1b3Rlc1xORElTUXVvdGVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/NDISQuotes/NotUsedNDISQuotesExisting.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTkRJU1F1b3Rlc1xOb3RVc2VkTkRJU1F1b3Rlc0V4aXN0aW5nLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/NDISQuotes/NotUsedNDISQuotesExistingPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTkRJU1F1b3Rlc1xOb3RVc2VkTkRJU1F1b3Rlc0V4aXN0aW5nUGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/NDISStatement/NDISStatement.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTkRJU1N0YXRlbWVudFxORElTU3RhdGVtZW50LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/NDISStatement/NDISStatementPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTkRJU1N0YXRlbWVudFxORElTU3RhdGVtZW50UGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/NDISStatement/NotUsedNDISStatementsDetail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTkRJU1N0YXRlbWVudFxOb3RVc2VkTkRJU1N0YXRlbWVudHNEZXRhaWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/Settings/Settings.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dGluZ3NcU2V0dGluZ3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/Settings/SettingsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dGluZ3NcU2V0dGluZ3NQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/Shared/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/Shared/IndexResetPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEluZGV4UmVzZXRQYXNzd29yZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/Shared/NoData.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXE5vRGF0YS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/Shared/_MyModalPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9NeU1vZGFsUGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/Statements/Statements.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RhdGVtZW50c1xTdGF0ZW1lbnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/Statements/StatementsDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RhdGVtZW50c1xTdGF0ZW1lbnRzRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/Statements/StatementsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RhdGVtZW50c1xTdGF0ZW1lbnRzUGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/SupportPlan/SupportPlan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwcG9ydFBsYW5cU3VwcG9ydFBsYW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/SupportPlan/SupportPlanPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwcG9ydFBsYW5cU3VwcG9ydFBsYW5QYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/YourCarePortal/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-5ursh887y9

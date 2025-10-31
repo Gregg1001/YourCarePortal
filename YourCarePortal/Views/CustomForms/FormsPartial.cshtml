@@ -1,0 +1,172 @@
+﻿@using System.Globalization;
+@using System.Linq;
+@using System.Net;
+
+@model YourCarePortal.Models.FormsandClients;
+
+@if (Model.RootFormsListPerson.Forms.Count == 0)
+{
+    <div class="centered-content1" style="padding-left: 30px;">
+        <h3>There are no Forms for this client.</h3>
+        <p>You can check with the Provider.</p>
+    </div>
+}
+
+else
+{
+    <div id="formsContainerlarge">
+
+        <div class="person-container">
+
+            @foreach (var form in Model.RootFormsListPerson.Forms)
+            {
+                DateTime latestDate = DateTime.MinValue;
+                string idToUse = null;
+
+                foreach (var entry in form.Entrys)
+                {
+                    DateTime modifiedDate;
+                    if (DateTime.TryParse(entry.Modified, out modifiedDate))
+                    {
+                        if (entry.Status == "Finalised")
+                        {
+                            if (modifiedDate > latestDate)
+                            {
+                                latestDate = modifiedDate;
+                                idToUse = entry.Id;
+                            }
+                        }
+                    }
+                }
+
+                bool anyFinalisedEntries = form.Entrys.Any(entry => entry.Status == "Finalised");
+                string formType = anyFinalisedEntries ? form.Type : $"{form.Type} - No forms available to review";
+
+                <div class="form-container" data-id="@idToUse" title="">
+                    <div class="form-type @(anyFinalisedEntries ? "" : "no-forms")">@formType</div>
+                    <button class="carrot-btn @(anyFinalisedEntries ? "" : "disabled1")" title="Open list">&#9660;</button>
+                    <button class="show-form @(anyFinalisedEntries ? "" : "disabled")" data-id="@idToUse" @(anyFinalisedEntries ? "" : "disabled")>Show Latest Form</button>
+                    <div class="entry-section">
+                        <div class="entry-header">
+                            <div class="entry-itemw">ID</div>
+                            <div class="entry-itemw">Modified</div>
+                            <div class="entry-itemw">Action</div>
+                        </div>
+                        @if (anyFinalisedEntries)
+                        {
+                            foreach (var entry in form.Entrys)
+                            {
+                                if (entry.Status != "Finalised")
+                                {
+                                    continue;
+                                }
+                                <div class="entry-row" data-id=@idToUse>
+                                    <div style="margin-left:90px" data-id=@entry.Id>@entry.Id</div>
+                                    <div style="margin-left:160px">@entry.Modified</div>
+                                    <button style="margin-left:130px" class="show-form-row @(anyFinalisedEntries ? "" : "disabled")" style="text-align:left" data-id="@entry.Id" @(anyFinalisedEntries ? "" : "disabled")>Show Form</button>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+
+    /* ok */
+    <script>
+
+        $(document).ready(function () {
+
+            console.log('show-form: DOMContentLoaded fired');
+
+            $(".person-container").on("click", function (event) {
+                let target = event.target;
+
+                while (target !== this) {
+                    if ($(target).hasClass("show-form") || $(target).hasClass("show-form-row")) {
+
+                        // Making sure clicks on '.carrot-btn' are not included
+                        if (!$(target).closest('.carrot-btn').length) {
+                            const id = $(target).data("id");  // Grabbing the 'id' embedded in HTML
+                            if (id) {
+                                console.log('id=' + id);
+
+                                window.location.href = '/CustomForms/FormsListAction?id=' + id;
+                                break;
+                            }
+                        }
+                    }
+                    target = target.parentElement;
+                }
+            });
+        });
+
+    </script>
+
+
+    /* ok */
+    <script>
+
+        $(document).ready(function () {
+            // Only trigger on carrot click
+            $('.carrot-btn').on('click', function (event) {
+
+                console.log('triggers');
+
+                // Prevents the event from affecting parent elements (like .form-container or .person-container)
+                event.stopPropagation();
+
+                // Find the parent form-container of this carrot
+                const formContainer = $(this).closest('.form-container');
+
+                // Find the first entry-section within this form-container
+                const entrySection = formContainer.find('.entry-section:first');
+
+                // Toggle visibility of entrySection
+                entrySection.toggle();
+
+                // Directly target the button as the carrot symbol is its direct text
+                const carrot = $(this);
+
+                // Update carrot symbol
+                if (carrot.text() === '▼') {
+                    carrot.text('▲');
+                } else {
+                    carrot.text('▼');
+                }
+            });
+        });
+
+
+    </script>
+
+    <script>
+        // $(document).ready(function () {
+        //     $(".person-container").on("click", ".entry-row", function (event) {
+        //         console.log("person-container clicked"); // Debug Line
+
+        //         var id = $(this).find("[data-id]").attr("data-id");
+
+        //         console.log('my id = ' + id);
+
+        //         // Redirect to the appropriate URL with the retrieved id
+        //         window.location.href = '/CustomForms/FormsListAction?id=' + id;
+
+        //         console.log("Redirect condition met");
+        //     });
+        // });
+    </script>
+
+    
+}
+
+
+
+
+
+

@@ -1,0 +1,641 @@
+﻿@using System.Globalization;
+
+
+@if (Context.Session.GetString("DebugFlag") == "true")
+{
+    <h2>DEBUG ON:</h2>
+    <p>@ViewBag.DebugMessage</p>
+    <pre>@ViewBag.JsonString</pre>
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Inter Font -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rsms/inter@v3.15/dst/inter.css">
+
+    <style>
+        .containerHeader {
+            background-image: url("@Url.Content("~/Images/AppointmentsHdrBG.jpg")");
+            height: 169px;
+            background-size: cover;
+            background-position: left;
+            position: relative;
+            width: 100%;
+        }
+
+        .welcome-label {
+            position: absolute;
+            top: 48px;
+            left: 30px;
+            color: #FFF;
+            font-family: 'Inter', sans-serif;
+            font-size: 40px;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .schedule-label {
+            position: absolute;
+            top: 93px;
+            left: 30px;
+            color: var(--blue-blue-10, #B4E4F9);
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        .custom-container {
+            top: 170px;
+            position: absolute;
+
+            max-width: 800px;
+            height: 880px;
+            margin: 30px;
+        }
+
+        .custom-container-small {
+            top: 270px;
+            position: absolute;
+
+            height: 50px;
+            border-bottom: 1px solid lightgrey;
+        }
+
+        .custom-container-large {
+            height: 764px;
+            box-sizing: border-box;
+            margin-top: 24px;
+            border-radius: 5px;
+        }
+
+        .notification-settings-container {
+            position: relative;
+            width: 800px;
+            height: 390px;
+            background-color: #fff;
+            box-sizing: border-box;
+            border: 1px solid lightgrey;
+           
+
+            border-radius: 5px;
+        }
+
+        .change-password-container {
+            position: relative;
+            width: 800px;
+            height: 470px;
+            background-color: #fff;
+            box-sizing: border-box;
+            border: 1px solid lightgrey;
+            border-radius: 5px;
+            margin-top: 24px;
+        }
+
+        .notification-settings-label-container,
+        .change-password-label-container {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            width: 752px;
+            height: 54px;
+            background-color: #fff;
+            box-sizing: border-box;
+            border: 1px solid lightgrey;
+        }
+
+        .notification-settings-label,
+        .change-password-label {
+            color: #000;
+            font-family: 'Inter', sans-serif;
+            font-size: 20px;
+            font-weight: 500;
+            line-height: 120%; /* This is equivalent to approximately 24px, as you noted */
+
+        }
+
+        .notification-settings-label-select {
+            color: var(--black-black-60, #626262);
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 400;
+            line-height: 120%; /* This is equivalent to approximately 18px, as you noted */
+        }
+
+        .notification-settings-content-container {
+            position: relative;
+            width: 752px;
+            height: 174px;
+            background-color: #fff; /* Or any color you prefer */
+            box-sizing: border-box; 
+            border: 1px solid lightgrey; /* Optional border, adjust as needed */
+            /*  border-color:  purple; */
+        }
+
+        .notification-settings-content-container .form-check {
+            width: 320px;
+            height: 52px;
+            border: 1px solid lightgrey;
+            border-radius: 5px;
+            box-sizing: border-box;
+            padding-left: 16px; /* Moves the radio button 16px from the left edge of the container */
+            display: flex;
+            align-items: center;
+            justify-content: flex-start; /* Aligns items to the left of the container */
+            margin-bottom: 8px; /* This will add the gap between them */
+        }
+
+        .notification-settings-content-container .form-check-input {
+            margin: 0;
+            margin-right: 12px; /* Spaces out the radio button from its label */
+        }
+
+        .notification-settings-content-container .form-check-label {
+            margin: 0; /* Removes Bootstrap's default margin */
+            margin-left: 16px; /* Moves the label text 16px to the right */
+        }
+
+        .new-password-label {
+            color: var(--black-black-100, #1A1919);
+            font-family: 'Inter', sans-serif;
+            font-size: 17px;
+            font-weight: 400;
+            line-height: 120%;
+            margin-top: 24px;  /* To add a space of 24px above the label */
+        }
+
+        .new-password-input {
+            width: 320px;
+            height: 48px;
+            color: var(--black-black-40, #A5A5A5);
+            font-family: 'Inter', sans-serif;
+            font-size: 17px;
+            font-weight: 400;
+            line-height: 120%;
+            border: 1px solid #ccc;  /* Add a border if needed */
+            border-radius: 4px; /* Add rounded corners if needed */
+            padding: 0 12px;  /* Add some padding */
+            margin-top: 12px;  /* Space the input field from the label */
+        }
+
+        .confirm-password-label {
+            color: var(--black-black-100, #1A1919);
+            font-family: 'Inter', sans-serif;
+            font-size: 17px;
+            font-weight: 400;
+            line-height: 120%;
+            margin-top: 24px;  /* Space the label from the previous input field */
+        }
+
+        .confirm-password-input {
+            width: 320px;
+            height: 48px;
+            color: var(--black-black-40, #A5A5A5);
+            font-family: 'Inter', sans-serif;
+            font-size: 17px;
+            font-weight: 400;
+            line-height: 120%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 0 12px;
+            margin-top: 12px;  /* Space the input field from its label */
+        }
+
+        .change-password-save-changes-button {
+            width: 146px;
+            height: 48px;
+            border: none;
+            border-radius: 8px;
+            background: var(--blue-blue-50, #005B80);
+            color: #fff;  /* Button text color */
+            font-family: 'Inter', sans-serif;
+            font-size: 17px;
+            font-weight: 400;
+            line-height: 120%;
+            cursor: pointer;  /* Changes the mouse cursor when hovering over the button */
+            margin-top: 24px;  /* Space the button from the previous input field */
+            display: flex;  /* Center the text horizontally */
+            justify-content: center;  /* Center the text horizontally */
+            align-items: center;  /* Center the text vertically */
+            box-shadow: 0px 5px 3px -2px rgba(0, 0, 0, 0.02), 0px 3px 1px -2px rgba(0, 0, 0, 0.06);
+        }
+
+        .notification-settings-save-changes-button {
+            width: 146px;
+            height: 48px;
+            border: none;
+            border-radius: 8px;
+            background: var(--blue-blue-50, #005B80);
+            color: #fff;  
+            font-family: 'Inter', sans-serif;
+            font-size: 17px;
+            font-weight: 400;
+            line-height: 120%;
+            cursor: pointer; 
+            margin-top: 24px;  
+            display: flex;
+            justify-content: center;  
+            align-items: center;  
+            box-shadow: 0px 5px 3px -2px rgba(0, 0, 0, 0.02), 0px 3px 1px -2px rgba(0, 0, 0, 0.06);
+        }
+
+        .notification-settings-content-container .form-check-input {
+            margin: 0;
+           
+        }
+
+        .notification-settings-content-container .form-check-label {
+            margin: 0; /* Removes Bootstrap's default margin */
+            margin-left: 24px;
+        }
+
+
+        .home-toast,
+        .home-toast2{
+            gap: 16px;
+            width: 100%;
+            height: auto;
+            display: flex;
+            padding: 13px 16px;
+            overflow: hidden;
+            align-self: stretch;
+            align-items: center;
+            flex-shrink: 0;
+            border-color: rgba(237, 237, 237, 1);
+            border-style: solid;
+            border-width: 1px;
+            border-radius: 8px;
+            background: var(--green-green-10, #EBFAE2);
+        }
+
+        .home-toast-Error {
+            gap: 16px;
+            width: 100%;
+            height: auto;
+            display: flex;
+            padding: 13px 16px;
+            overflow: hidden;
+            align-self: stretch;
+            align-items: center;
+            flex-shrink: 0;
+            border-color: rgba(237, 237, 237, 1);
+            border-style: solid;
+            border-width: 1px;
+            border-radius: 8px;
+            background: lightgrey;
+        }
+
+        .home-toaster-content {
+            gap: 16px;
+            display: flex;
+            flex-grow: 1;
+            align-items: center;
+        }
+
+        .home-checkcircle {
+            width: 36px;
+            height: 36px;
+        }
+
+        .home-toaster-content1 {
+            gap: 4px;
+            width: 668px;
+            display: flex;
+            flex-grow: 1;
+            align-items: flex-start;
+            flex-shrink: 0;
+            flex-direction: column;
+        }
+
+        .home-text {
+            color: var(--dl-color-black-black100);
+            height: auto;
+            text-align: left;
+            line-height: 120.00000476837158%;
+        }
+
+        .progress-image {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 16px;
+            margin-left: 16px;
+        }
+
+        .form-check-input,
+        .form-check-label,
+        .form-check:hover {
+            cursor: pointer;
+        }
+
+        @@media only screen and (max-width: 599px) {
+            /* Adjustments for mobile */
+
+
+                .notification-settings-container {
+                    width: 320px;
+                }
+
+                .notification-settings-content-container {
+                    width: 270px;
+                
+                }
+                .notification-settings-content-container .form-check {
+                    width: 250px;
+           
+                }
+
+                .notification-settings-label-container{
+                    width: 270px;
+
+                }
+
+                .change-password-container {
+                    width: 320px;
+                }
+
+                .change-password-label-select, .change-password-label-container {
+                    width: 270px;
+                    height:100px;
+                }
+
+                .new-password-input,.confirm-password-input{
+                    width: 270px;
+                }
+
+            }
+
+    </style>
+
+</head>
+<body>
+
+    <div class="containerHeader">
+        <div class="welcome-label">Settings</div>
+        <div class="schedule-label">Below is the settings for your portal login.</div>
+    </div>
+
+    <div>@ViewBag.passwordErrorMessage</div>
+
+    <div class="custom-container">
+
+        <div class="settingsContainer">
+            @Html.Partial("SettingsPartial")
+        </div>
+
+    </div>
+    
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            // Event Binding
+            $('body').on('click', '.change-password-save-changes-button', function () {
+                console.log("Change password button clicked");
+                startProcessing();
+
+                // Fetch values from input elements by class
+                var newPassword = $('.new-password-input').val();
+                var confirmPassword = $('.confirm-password-input').val();
+
+                console.log(newPassword)
+                console.log(confirmPassword)
+
+                // Update settings
+                updateSettings(newPassword, confirmPassword);
+                console.log("applyStoredRadioButton")
+                
+            });
+
+            function updateSettings(newPassword, confirmPassword) {
+                var dataToSend = {
+                    password_change1: newPassword,
+                    password_change2: confirmPassword
+                };
+
+                console.log('dataToSend'); // Debugging
+                console.log(dataToSend.password_change1); // Debugging
+                console.log(confirmPassword); // Debugging
+
+                // AJAX call
+                $.ajax({
+                    url: '/Settings/SettingsAction',
+                    type: 'GET',  // POST is recommended for settings changes
+                    data: dataToSend,
+                    success: function (data) {
+                        $('#settingsContainer').html(data);
+                        stopProcessing();
+                        console.log('AJAX call success'); // Debugging
+                        applyStoredRadioButton();
+                    },
+                    error: function (error) {
+                        console.error("Error during the password change:", error);
+                        stopProcessing();
+                    }
+                });
+            }
+        });
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            // Existing code to handle the checkbox behavior
+            $('body').on('change', '#showPasswordCheckbox', function () {
+                // Get password fields
+                const newPasswordInput = document.querySelector('.new-password-input');
+                const confirmPasswordInput = document.querySelector('.confirm-password-input');
+
+                // Toggle their type attributes
+                if (this.checked) {
+                    newPasswordInput.type = 'text';
+                    confirmPasswordInput.type = 'text';
+                } else {
+                    newPasswordInput.type = 'password';
+                    confirmPasswordInput.type = 'password';
+                }
+            });
+
+            // New code to handle the click event on '.new-password-input'
+            $('body').on('click', '.new-password-input', function () {
+                $(".home-toast2").hide();
+                console.log('new-password-input clicked');
+            });
+
+            // Enable/Disable button based on input length on change event
+            $('body').on('change', '.new-password-input', function () {
+                if ($(this).val().length >= 8) {
+                    // Check if the input length is 8 or more characters
+                    $(".change-password-save-changes-button").prop("disabled", false).css("background-color", "var(--blue-blue-50, #005B80)");
+                    console.log('new-password-input changed and has valid length');
+                } else {
+                    $(".change-password-save-changes-button").prop("disabled", true).css("background-color", "grey");
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            initRadioBtnClickHandler();
+            initSaveChangesClickHandler();
+            initNotificationOptionsClickHandler();
+            applyStoredRadioButton();  // Apply the radio button state on initial page load.
+        });
+
+        function initRadioBtnClickHandler() {
+            $(document).on('click', '.form-check', handleRadioBtnClick);
+            $(document).on('change', '.form-check-input', handleRadioBtnChange);
+        }
+
+        function handleRadioBtnClick(e) {
+            if (!$(e.target).is('.form-check-input')) {
+                var radioButton = $(this).find(".form-check-input");
+                radioButton.prop("checked", !radioButton.prop("checked")).trigger('change');
+                hideNotificationMessage();  // Hide the NotificationMessage when ".form-check" is clicked.
+
+                // Enable the Save Changes button
+                $(".notification-settings-save-changes-button").prop("disabled", false).css("background-color", "");
+            }
+        }
+
+        function handleRadioBtnChange() {
+            $(".form-check").css("background-color", "");
+            if ($(this).prop("checked")) {
+                $(this).closest(".form-check").css("background-color", "lightblue");
+
+                // Store the selected value in local storage
+                localStorage.setItem('selectedRadioButton', $(this).val());
+            }
+        }
+
+        function initSaveChangesClickHandler() {
+            $(document).on('click', '.notification-settings-save-changes-button', handleSaveChangesClick);
+        }
+
+        function handleSaveChangesClick(e) {
+            e.preventDefault();
+            var settingNameMap = {
+                "daily": "Notify Daily",
+                "weekly": "Notify Weekly",
+                "none": "No Notifications"
+            };
+            var selectedValue = $("input[name='notificationOptions']:checked").val();
+            var settingName = settingNameMap[selectedValue];
+
+            $.ajax({
+                url: '/Settings/SettingsNotificationAction',
+                type: 'GET',
+                data: { Setting1: settingName },
+                success: function (data) {
+                    $('#settingsContainer').html(data);
+                    stopProcessing();
+                    console.log('AJAX call success');
+                    applyStoredRadioButton();  // Apply the stored radio button state after refresh.
+                },
+            });
+        }
+
+        function initNotificationOptionsClickHandler() {
+            $(document).on('click', "input[name='notificationOptions']", hideNotificationMessage);
+        }
+
+        function hideNotificationMessage() {
+            console.log('$(".NotificationMessage").hide();');  // Debugging log
+            $(".NotificationMessage").hide();
+        }
+
+        function applyStoredRadioButton() {
+            let selectedValue = localStorage.getItem('selectedRadioButton');
+            if (selectedValue) {
+                $("input[name='notificationOptions'][value='" + selectedValue + "']").prop('checked', true).trigger('change');
+            }
+        }
+
+        // This function can be merged into the main script since it has a similar document.ready function.
+        $(document).ready(function () {
+            // Attach click event to radio buttons
+            $(document).on('click', "input[name='notificationOptions']", function () {
+                console.log('$(".NotificationMessage").hide();'); // Debugging
+                // Hide the NotificationMessage div
+                $(".NotificationMessage").hide();
+            });
+        });
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            // Attach click event to radio buttons
+            $(document).on('click', "input[name='notificationOptions']", function () {
+                console.log('$(".NotificationMessage").hide();'); // Debugging
+                // Hide the NotificationMessage div
+                $(".NotificationMessage").hide();
+            });
+        });
+    </script>
+
+    <script>
+
+        function adjustLabelPositions() {
+            console.log('Function called');
+
+            // Retrieve label, wrapper, and client list elements
+            let welcomeLabel = document.querySelector('.welcome-label');
+            let scheduleLabel = document.querySelector('.schedule-label');
+            let multiClientsLabel = document.querySelector('.multi-clients-label');
+            let clientListItems = multiClientsLabel.querySelectorAll('li');
+            let mainWrapper = document.querySelector('.custom-container');
+
+            if (!welcomeLabel || !scheduleLabel || !multiClientsLabel || !mainWrapper) {
+                console.log("Labels or main-wrapper not found. Exiting function.");
+                return;
+            }
+
+            // Position .schedule-label 20px below .welcome-label
+            let welcomeBottom = welcomeLabel.offsetTop + welcomeLabel.offsetHeight;
+            scheduleLabel.style.top = (welcomeBottom + 20) + "px";
+
+            // Position .multi-clients-label 16px below .schedule-label
+            let scheduleBottom = scheduleLabel.offsetTop + scheduleLabel.offsetHeight;
+            multiClientsLabel.style.top = (scheduleBottom + 16) + "px";
+
+            // Calculate the new height for .containerHeader based on the client count and labels
+            const baseHeight = 8;
+            const additionalHeightPerClient = 20;
+            let clientCount = clientListItems.length;
+            console.log('Client count:', clientCount);
+
+            const calculatedHeight = baseHeight + (clientCount * additionalHeightPerClient);
+            let multiClientsBottom = multiClientsLabel.offsetTop + multiClientsLabel.offsetHeight;
+            const newHeight = calculatedHeight + multiClientsBottom - welcomeLabel.offsetTop;
+
+            // Log new calculated height
+            console.log('New calculated height:', newHeight);
+
+            // Apply the new height to .containerHeader
+            const containerHeader = document.querySelector('.containerHeader');
+            containerHeader.style.height = newHeight + "px";
+
+            // Position .main-wrapper immediately below .containerHeader
+            const containerHeaderBottom = containerHeader.offsetTop + containerHeader.offsetHeight;
+            mainWrapper.style.marginTop = containerHeaderBottom - 200 + "px";
+        }
+
+        // Attach event listeners
+        document.addEventListener("DOMContentLoaded", adjustLabelPositions);
+        window.addEventListener("resize", adjustLabelPositions);
+
+
+    </script>
+
+</body>
+</html>

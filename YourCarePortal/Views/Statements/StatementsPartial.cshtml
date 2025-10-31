@@ -1,0 +1,86 @@
+﻿@using System.Globalization;
+@using System.Linq;
+@using System.Net;
+
+@model YourCarePortal.Models.StatementsandClients
+
+@if (Model.Statements == null || Model.Statements.StatementsList.Count == 0)
+{
+    <div class="centered-content" style="padding-left: 30px;">
+        <h1>There are no Statements for this client.</h1>
+        <p>You can check with the Provider.</p>
+    </div>
+}
+
+else
+{
+    <div id="statementsContainerlarge">
+
+        <div class="custom-container-large">
+
+            <div class="container-fluid h-100">
+                <div class="row h-100">
+                    <div class="col-3">
+                        <div class="client-name-container">
+
+                            @{
+                                var firstClientDetails = Model.ClientDetails.FirstOrDefault();
+
+                                var ClientPhoto1 = !string.IsNullOrEmpty(firstClientDetails.clientPhotoPath1)
+                                ? "https://tp1.com.au/ProfilePics/" + Uri.EscapeDataString(firstClientDetails.clientPhotoPath1)
+                                : "https://tp1.com.au/ProfilePics/" + "ProfileNoImage.jpg";
+
+                            }
+                            <img src=@ClientPhoto1 alt="Client Image" class="client-image">
+                            @* <img src=@ClientPhoto1 alt="Client Image" class="rounded-circle client-image"> *@
+                            <label> @WebUtility.HtmlDecode(Model.Statements.clientFullname_ACTIVE_SESSION)</label>
+
+                        </div>
+                        <div class="overview-label">Overview</div>
+                        <div class="statement-row current-balance-container-RemoveThis no-border-bottom">
+                            <div class="current-balance-container ">
+                                <div class="current-balance-label">Current Balance</div>
+                                <div class="current-balance-value-label">@Model.Statements.CurrentBalance</div>
+
+                            </div>
+                            <div class="date-locked-container">
+                                <div class="date-locked-label">Date Locked</div>
+                                <div class="date-locked-label-value">@Model.Statements.DateLocked</div>
+                            </div>
+                        </div>
+
+                        <br>
+
+                        <div id="statementsContainer">
+
+                            <div class="statement-row statement-header">
+                                <div>Statement Date</div>
+                                <div>Opening Balance</div>
+                            </div>
+
+                            @foreach (var item in Model.Statements.StatementsList)
+                            {
+                                DateTime dt = DateTime.ParseExact(item.Month, "MMM yyyy", CultureInfo.InvariantCulture);
+                                string displayMonth = dt.ToString("MMMM yyyy");
+
+                                <div class="statement-row">
+
+                                    @Html.ActionLink(displayMonth, "StatementsDetails", "Statements", new { month = item.Month, clientID = @Model.Statements.clientID_ACTIVE_SESSION }, null)
+
+                                    <div style="text-align: right;">@item.OpeningBalance</div>
+                                </div>
+                            }
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br/>
+
+    </div>
+
+    <br>
+}

@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>C:\Repos\YourCarePortal\bin\Release\net6.0\publish\</_PublishTargetUrl>
+    <History>True|2024-06-17T05:46:43.4054542Z;True|2024-06-17T13:35:58.7854649+10:00;True|2024-06-11T17:04:28.5596616+10:00;True|2024-06-11T15:24:43.9977345+10:00;True|2024-06-11T12:46:34.4889786+10:00;True|2024-06-11T12:41:39.2970950+10:00;True|2024-06-11T11:25:57.5448982+10:00;True|2024-06-11T07:31:29.7781207+10:00;True|2024-06-10T14:22:44.8174780+10:00;True|2024-06-10T10:25:22.3373080+10:00;True|2024-06-10T10:19:15.0243976+10:00;True|2024-06-10T09:50:56.5660375+10:00;True|2024-06-07T17:35:13.2124847+10:00;True|2024-06-07T08:25:33.8387986+10:00;True|2024-06-07T08:23:43.5482428+10:00;True|2024-03-01T13:27:01.1407823+10:00;True|2024-02-29T12:13:57.1140478+10:00;True|2024-02-28T08:54:26.1634978+10:00;True|2024-02-23T15:35:00.5227590+10:00;True|2024-02-23T08:17:59.0643690+10:00;True|2024-02-20T09:06:01.8521935+10:00;True|2024-02-19T08:31:41.7111661+10:00;True|2024-02-14T08:58:49.9986415+10:00;True|2024-02-12T09:39:29.6920527+10:00;True|2024-02-07T09:05:05.2886593+10:00;True|2024-01-25T15:53:55.7835434+10:00;True|2024-01-16T16:01:45.3800979+10:00;True|2023-08-08T15:04:29.3572831+10:00;True|2023-08-08T14:41:11.4512334+10:00;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="Controllers/AppointmentsController.cs">
+      <publishTime>02/27/2024 11:29:48</publishTime>
+    </File>
+    <File Include="Controllers/BudgetController.cs">
+      <publishTime>02/27/2024 11:34:19</publishTime>
+    </File>
+    <File Include="Controllers/ClientDetailsController.cs">
+      <publishTime>02/23/2024 15:14:03</publishTime>
+    </File>
+    <File Include="Controllers/CustomFormsController.cs">
+      <publishTime>02/27/2024 11:26:18</publishTime>
+    </File>
+    <File Include="Controllers/HomeController.cs">
+      <publishTime>02/13/2024 09:01:32</publishTime>
+    </File>
+    <File Include="Controllers/NDISQuotesController.cs">
+      <publishTime>02/27/2024 11:26:18</publishTime>
+    </File>
+    <File Include="Controllers/SettingsController.cs">
+      <publishTime>02/27/2024 11:27:00</publishTime>
+    </File>
+    <File Include="Controllers/StatementsController.cs">
+      <publishTime>02/27/2024 11:28:03</publishTime>
+    </File>
+    <File Include="Controllers/SupportPlanController.cs">
+      <publishTime>02/27/2024 11:28:50</publishTime>
+    </File>
+    <File Include="Controllers/TemplateController.cs">
+      <publishTime>02/09/2024 08:23:11</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,464 @@
+﻿@using System.Globalization;
+@using System.Linq;
+@using System.Net;
+
+@model YourCarePortal.Models.StatementDetailsandClients
+
+@if (Context.Session.GetString("DebugFlag") == "true")
+{
+    <h2>DEBUG ON:</h2>
+    <p>@ViewBag.DebugMessage</p>
+    <pre>@ViewBag.JsonString</pre>
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Inter Font -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rsms/inter@v3.15/dst/inter.css">
+
+    <style>
+
+        .containerHeader {
+            background-image: url("@Url.Content("~/Images/AppointmentsHdrBG.jpg")");
+            height: 169px;
+            background-size: cover;
+            background-position: left;
+            position: relative;
+            width: 100%;
+        }
+
+
+        .today-label {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            color: var(--blue-blue-10, #B4E4F9);
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        .welcome-label {
+            position: absolute;
+            top: 48px; /* 30px + 18px (line-height of the first label) */
+            left: 30px;
+            color: #FFF;
+            font-family: 'Inter', sans-serif;
+            font-size: 40px;
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 30px;
+        }
+
+        .schedule-label {
+            position: absolute;
+            top: 93px;
+            left: 30px;
+            color: var(--blue-blue-10, #B4E4F9);
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        .custom-container {
+            max-width: 800px;
+            height: 950px;
+            margin-left: 30px;
+            margin-bottom: 30px;
+        }
+
+        .custom-container-small {
+            height: 50px;
+            border-bottom: 1px solid lightgrey;
+        }
+
+        .client-name-container {
+            /*height: 56px;*/
+            /* border: 1px solid lightgrey; */
+            padding-left: 0px;
+            display: flex;
+            align-items: center;
+            margin-top: 24px;
+            margin-left: 0px;
+            overflow: hidden;
+            width: fit-content;
+        }
+
+        .custom-container-large {
+            /* height: calc(1200px); */
+            border: 1px solid lightgrey;
+            box-sizing: border-box;
+            margin-top: 24px;
+            margin-bottom 24px;
+            border-radius: 5px;
+        }
+
+        .client-name-container label {
+            font-size: 24px;
+            font-weight: 500;
+            line-height: 120%;
+            white-space: nowrap;
+        }
+
+/*         .client-image {
+            width: 56px;
+            height: 56px;
+            margin-right: 10px;
+            object-fit: cover;
+        } */
+
+        .client-image {
+            width: 100px;
+            height: 100px;
+            margin-right: 10px;
+            object-fit: cover;
+            border-radius: 8px; /* This sets the border radius to make it a circle */
+            overflow: hidden; /* This ensures the image stays within the rounded corners */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a shadow for depth (optional) */
+        }
+
+        .overview-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 20px;
+            font-weight: 500;
+            line-height: 120%;
+            margin-top: 24px;
+            margin-left: 0px;
+        }
+
+
+        .current-balance-container, .date-locked-container {
+            height: 98px;
+            border: 1px solid lightgrey;
+            border-radius: 5px;
+            margin-top: 24px;
+        }
+
+        .current-balance-container {
+            margin-left: 0px;
+        }
+
+        .date-locked-container {
+            margin-left: 12px;
+        }
+
+        .current-balance-label {
+            position: relative;
+            top: 16px;
+            left: 24px;
+            margin-bottom: 10px; /* Adjust this value as needed */
+        }
+
+        .current-balance-value-label {
+            margin-top: 10px; /* Adjust this value as needed */
+            position: relative;
+            left: 24px;
+        }
+
+        .date-locked-label {
+            position: relative;
+            top: 16px;
+            left: 24px;
+            margin-bottom: 10px; /* Adjust this value as needed */
+        }
+
+        .date-locked-label-value {
+            margin-top: 10px; /* Adjust this value as needed */
+            position: relative;
+            left: 24px;
+        }
+
+
+        .budget-row {
+            display: flex;
+            justify-content: space-between;
+            width: 752px; /* The combined width of the two divs */
+        }
+
+            .budget-row > div {
+                width: 376px;
+                border-bottom: 1px solid lightgrey;
+                box-sizing: border-box;
+            }
+
+        .budget-header {
+            background-color: #EDEDED;
+        }
+
+        .adjustments-row {
+            background-color: #FFF2E4;
+        }
+
+        .income-row {
+            background-color: #EBFAE2;
+        }
+
+        .expenses-row {
+            background-color: #FFF2E4;
+        }
+
+        .total-text {
+            color: var(--black-black-100, #1A1919);
+            /* font-family: Inter; */
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 120%; /* 24px */
+            border-top: 1px solid #1A1919; /* Add this line for the top border */
+        }
+
+        .TotalRow {
+            font-weight: 500;
+        }
+
+        /* main.css */
+        .currency-right-align {
+            text-align: right;
+        }
+
+        .custom-container {
+            position: absolute;
+            margin-top: 200px;
+        }
+
+        @@media only screen and (max-width: 599px) {
+
+            .budget-row {
+                flex-direction: column;
+                width: 270px;
+            }
+
+                .budget-row > div {
+                    width: 270px;
+                    margin: 2px;
+                }
+
+            .current-balance-container, .date-locked-container {
+                width: 200px;
+            }
+
+            .custom-container-small {
+                width: 290px;
+            }
+
+            .client-name-container {
+                display: flex;
+                padding: 8px;
+                align-items: center;
+                margin-top: 24px;
+                margin-left: 0px;
+                overflow: hidden;
+                width: fit-content;
+           
+            }
+
+            .client-name-container label {
+                white-space: normal;
+                width: fit-content;
+            } 
+
+        }
+    </style>
+</head>
+<body>
+
+    <div class="containerHeader">
+        <div class="welcome-label">Statement Details</div>
+    @{
+        DateTime dt = DateTime.ParseExact(ViewBag.StatmentMonth, "MMM yyyy", CultureInfo.InvariantCulture);
+        string displayMonth = dt.ToString("MMMM yyyy");
+    }
+
+
+        <div class="schedule-label">Below is the statement details for your connection(s).
+            <div>@displayMonth</div>
+        </div>
+    </div>
+
+    <div class="custom-container">
+  
+            <div class="container-fluid h-100">
+                <div class="row h-100">
+                    <div class="col-3">
+
+                        @{
+                            var firstClientDetails = Model.ClientDetails.FirstOrDefault();
+
+                            var ClientPhoto1 = !string.IsNullOrEmpty(firstClientDetails.clientPhotoPath1)
+                            ? "https://tp1.com.au/ProfilePics/" + Uri.EscapeDataString(firstClientDetails.clientPhotoPath1)
+                                    : "https://tp1.com.au/ProfilePics/" + "ProfileNoImage.jpg";
+
+                            var ClientName = !string.IsNullOrEmpty(firstClientDetails.clientFullName)                               
+                            ? firstClientDetails.clientFullName
+                                : ""; 
+                        }
+
+                        <div class="client-name-container">
+                            @* <img src=@ClientPhoto1 alt="Client Image" class="rounded-circle client-image"> *@
+                               <img src=@ClientPhoto1 alt="Client Image" class="client-image">
+                            <label> @WebUtility.HtmlDecode(ClientName)</label>
+                        </div>
+
+                        <div class="overview-label">Overview</div>
+                         <div class="budget-row">
+                            <div class="current-balance-container">
+                                <div class="current-balance-label">Current Balance</div>
+                                <div class="current-balance-value-label">@Model.StatementDetails.CurrentBalance</div>
+                            </div>
+                            <div class="date-locked-container">
+                                <div class="date-locked-label">Date Locked</div>
+                                <div class="date-locked-label-value">@Model.StatementDetails.DateLocked</div>
+                            </div>
+                        </div> 
+                        <div class="budget-table-container">
+                            
+                            <br />
+
+                           @*  <div class="budget-label">Statement Details</div> *@
+
+                            <div class="budget-row budget-header">
+                                <div>Item</div>
+                                <div>Amount</div>
+                            </div>
+
+                            @{
+                                bool incomeCategoryFound = false;
+                                decimal totalIncomeAmount = 0;  // Initialize total to 0
+                            }
+
+                            @foreach (var statementDetailsContent in Model.StatementDetails.RootStatementDetailsContent)
+                            {
+                                // Initialize variables for each statementDetailsContent
+                                incomeCategoryFound = false;
+                                totalIncomeAmount = 0;
+
+                                // Check if there are items before displaying the Category Header
+                                if (statementDetailsContent.StatementCategoryContent.Count > 0)
+                                {
+                                    // Display the Category Header
+                                    <div class="budget-row income-row">
+                                        <div>@WebUtility.HtmlDecode(statementDetailsContent.StatementCategoryHeading)</div>
+                                    </div>
+
+                                    foreach (var item in statementDetailsContent.StatementCategoryContent)
+                                    {
+                                        bool success = decimal.TryParse(item.StatementItemAmount, System.Globalization.NumberStyles.Currency, System.Globalization.CultureInfo.GetCultureInfo("en-US"), out decimal amount);
+                                        if (success)
+                                        {
+                                            totalIncomeAmount += amount; // Accumulate the total if conversion is successful
+
+                                            // Display each item
+                                            <div class="budget-row">
+                                                <div>@WebUtility.HtmlDecode(item.StatementItemName)</div>
+                                                <div class="currency-right-align">@amount.ToString("C2", CultureInfo.GetCultureInfo("en-US"))</div>
+                                            </div>
+
+                                            incomeCategoryFound = true;
+                                        }
+                                        else
+                                        {
+                                            // Handle error for conversion failure.
+                                        }
+                                    }
+                                }
+
+                                // Display the total if incomeCategoryFound is true
+                                if (incomeCategoryFound)
+                                {
+                                    <div class="budget-row TotalRow">
+                                        <div>Total</div>
+                                        <div class="currency-right-align">@totalIncomeAmount.ToString("C2", CultureInfo.GetCultureInfo("en-US"))</div>
+                                    </div>
+                                }
+                            }
+
+                            @{
+                                decimal totalAmount = 0;
+                                foreach (var budgetContent in Model.StatementDetails.RootStatementDetailsContent)
+                                {
+                                    bool success = decimal.TryParse(budgetContent.StatementCategoryTotal, System.Globalization.NumberStyles.Currency, System.Globalization.CultureInfo.GetCultureInfo("en-US"), out decimal amount);
+                                    if (success)
+                                    {
+                                        totalAmount += amount;
+                                    }
+                                    else
+                                    {
+                                        // Log or handle the error in an appropriate way for your application
+                                    }
+                                }
+                            }
+
+                            <div class="budget-row">
+                                <div class="total-text">Total</div>
+                                <div class="total-text final-total currency-right-align">@totalAmount.ToString("C2", CultureInfo.GetCultureInfo("en-US"))</div>
+                            </div>
+
+                            <br />
+                  
+        </div>
+    </div>
+
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+
+        <script>
+
+            function adjustLabelPositions() {
+                console.log('Function called');
+
+                // Retrieve label, wrapper, and client list elements
+                let welcomeLabel = document.querySelector('.welcome-label');
+                let scheduleLabel = document.querySelector('.schedule-label');
+                let multiClientsLabel = document.querySelector('.multi-clients-label');
+                let clientListItems = multiClientsLabel.querySelectorAll('li');
+                let mainWrapper = document.querySelector('.main-wrapper');
+
+                if (!welcomeLabel || !scheduleLabel || !multiClientsLabel || !mainWrapper) {
+                    console.log("Labels or main-wrapper not found. Exiting function.");
+                    return;
+                }
+
+                // Position .schedule-label 20px below .welcome-label
+                let welcomeBottom = welcomeLabel.offsetTop + welcomeLabel.offsetHeight;
+                scheduleLabel.style.top = (welcomeBottom + 20) + "px";
+
+                // Position .multi-clients-label 16px below .schedule-label
+                let scheduleBottom = scheduleLabel.offsetTop + scheduleLabel.offsetHeight;
+                multiClientsLabel.style.top = (scheduleBottom + 16) + "px";
+
+                // Calculate the new height for .containerHeader based on the client count and labels
+                const baseHeight = 8;
+                const additionalHeightPerClient = 20;
+                let clientCount = clientListItems.length;
+                console.log('Client count:', clientCount);
+
+                const calculatedHeight = baseHeight + (clientCount * additionalHeightPerClient);
+                let multiClientsBottom = multiClientsLabel.offsetTop + multiClientsLabel.offsetHeight;
+                const newHeight = calculatedHeight + multiClientsBottom - welcomeLabel.offsetTop;
+
+                // Log new calculated height
+                console.log('New calculated height:', newHeight);
+
+                // Apply the new height to .containerHeader
+                const containerHeader = document.querySelector('.containerHeader');
+                containerHeader.style.height = newHeight + "px";
+
+                // Position .main-wrapper immediately below .containerHeader
+                const containerHeaderBottom = containerHeader.offsetTop + containerHeader.offsetHeight;
+                mainWrapper.style.marginTop = containerHeaderBottom - 200 + "px";
+            }
+
+            // Attach event listeners
+            document.addEventListener("DOMContentLoaded", adjustLabelPositions);
+            window.addEventListener("resize", adjustLabelPositions);
+
+        </script>
+</body>
+</html>

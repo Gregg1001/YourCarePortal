@@ -1,0 +1,8 @@
+'2023-11-13 10:25:06','Settings',13,65
+'2023-11-13 10:25:06','currentUrl:https://localhost:7228/Home/Settings',13,65
+'2023-11-13 10:25:12','currentUrl:https://localhost:7228/Home/Budget',13,65
+'2023-11-13 10:25:12','label:/Images/thumbnailTCP.png',13,65
+'2023-11-13 10:25:14','Statements',13,65
+'2023-11-13 10:25:14','currentUrl:https://localhost:7228/Home/Statements',13,65
+'2023-11-13 10:33:58','Settings',13,65
+'2023-11-13 10:33:58','currentUrl:https://localhost:7228/Home/Settings',13,65

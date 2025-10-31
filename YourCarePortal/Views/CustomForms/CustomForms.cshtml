@@ -1,0 +1,357 @@
+﻿@using System.Net
+@model RootCustomForms
+
+<!-- CDN for szimek/signature_pad -->
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+
+@{
+    Layout = "_Layout"; // Assuming you have a layout file
+    int rowsPerPage = 1000;
+    int totalPages = (int)Math.Ceiling((double)Model.RootCustomFormsFields.Count() / rowsPerPage);
+    int currentPage = 1; // this can be updated based on your logic or a query parameter
+}
+
+<div id="CustomFormsContainer1">
+
+<div class="container mt-4">
+   
+    <div class="data-section">
+
+        <h2 style="text-align:center; margin-bottom: 30px;">@Model.CustomFormTypeTitle</h2>
+
+
+            <div class="fields-section">
+                @foreach (var field in Model.RootCustomFormsFields.Skip((currentPage - 1) * rowsPerPage).Take(rowsPerPage))
+                {
+                    // Decode first
+                    string decodedDataValue = WebUtility.UrlDecode(field.CustomFormDataValue);
+                    string decodedFieldName = WebUtility.UrlDecode(field.CustomFormFieldName);
+
+                    // Replace --^ occurrences and then format the values
+                    string formattedDataValue = decodedDataValue.Replace("--^", "<br>").Replace("<h2>--^</h2>", "");
+                    string formattedFieldName = decodedFieldName.Replace("--^", "<br>").Replace("<h2>--^</h2>", "");
+
+                    // Debugging: Check if DataValue contains "SERVICES / SUPPORT"
+                    @if (decodedDataValue.Contains("SERVICES / SUPPORT"))
+                    {
+                        Console.WriteLine($"Debug: DataValue for field '{formattedFieldName}' contains 'SERVICES / SUPPORT'");
+                    }
+
+                   <div class="data-row">
+
+                        <div class="data-key"><strong>@Html.Raw(formattedFieldName)</strong></div>
+                        
+                        <!-- <div class="data-value">@field.CustomFormFieldID</div> -->
+
+                        @if (field.CustomFormFieldTypeID == "15")
+                        {
+                            <div>
+
+                                @if ((Html.Raw(formattedDataValue) != null) && (Html.Raw(formattedDataValue).ToString() != "signed"))
+                                
+                                {
+                                
+                                    <img src="@Html.Raw(formattedDataValue)" alt="Client Signature Image" class="client-signature-image" style="width: 300px; height: auto; margin-bottom: 10px;">
+                                    <div style="text-align: center;"><strong>Client Signature</strong></div>
+                         
+                                    <div style="text-align: center;">@Html.Raw(WebUtility.UrlDecode(field.CustomFormSignatureName))</div>
+                                }
+                                else
+                                {
+
+                                <div>{ No Signature }</div>
+
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="data-value">@Html.Raw(formattedDataValue)</div>
+                        }
+
+                    </div>
+
+                }
+            </div>
+
+            <!-- Pagination Controls -->
+            <div style="text-align: center; margin-top: 30px;">
+@*                 @for (int pagenum = 1; pagenum <= totalPages; pagenum++)
+                {
+                    if (pagenum == currentPage)
+                    {
+                        <span>@pagenum</span>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("CustomForms", new { pagenum = pagenum })">@pagenum</a>
+                    }
+                } *@
+
+            </div>
+
+@*          // Removed as read-only atm.
+
+
+            <button class="submit-button">Submit</button>
+
+            @if (1==1) //ViewBag.ShowNotificationSuccess == "true")
+            {
+                <div class="home-toast">
+                    <div class="home-toaster-content">
+                        <img src="~/Images/GreenTick2.png"
+                             alt="checkcircleI127"
+                             class="home-checkcircle" />
+                        <div class="home-toaster-content1">
+                            <span class="home-text BodyMedium">
+                                <span>Successfully Submitted form</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            } *@
+
+        </div>
+    </div>
+</div>
+
+<style>
+    .home-toast
+     {
+        gap: 16px;
+        width: 100%;
+        height: auto;
+        display: flex;
+        padding: 13px 16px;
+        overflow: hidden;
+        align-self: stretch;
+        align-items: center;
+        flex-shrink: 0;
+        border-color: rgba(237, 237, 237, 1);
+        border-style: solid;
+        border-width: 1px;
+        border-radius: 8px;
+        background: var(--green-green-10, #EBFAE2);
+    }
+    .body {
+        position: absolute;
+        padding-top: 350px;
+        font-family: 'Arial', sans-serif;
+        background-color: orange;
+        @*  #f4f4f4; *@
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .data-section {
+       
+        width: 800px; /* approx width of A4 paper */
+        padding: 40px;
+        background-color:white;
+        box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+
+    .form-container {
+        padding-bottom:20px;
+    }
+
+    .data-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid #eaeaea;
+        padding: 8px 12px;
+        margin-bottom: 10px;
+        background-color: #f9f9f9; /* light background for the boxes */
+    }
+
+    .data-key {
+        flex: 1;
+        font-weight: 600; /* bold for the field names */
+        padding-right: 10px;
+    }
+
+    .data-value {
+        flex: 2;
+    }
+    .wrapper {
+        position: relative;
+        width: 400px;
+        height: 200px;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    .signature-pad {
+        position: relative;
+        left: 0;
+        top: 300;
+        width: 400px;
+        height: 200px;
+        background-color: white;
+        border: 1px solid black;
+    } 
+   
+    .submit-button {
+        width: 146px;
+        height: 48px;
+        border: none;
+        border-radius: 8px;
+        background: var(--blue-blue-50, #005B80);
+        color: #fff; /* Button text color */
+        font-family: 'Inter', sans-serif;
+        font-size: 17px;
+        font-weight: 400;
+        line-height: 120%;
+        cursor: pointer; /* Changes the mouse cursor when hovering over the button */
+        margin-top: 24px; /* Space the button from the previous input field */
+        display: flex; /* Center the text horizontally */
+        justify-content: center; /* Center the text horizontally */
+        align-items: center; /* Center the text vertically */
+        box-shadow: 0px 5px 3px -2px rgba(0, 0, 0, 0.02), 0px 3px 1px -2px rgba(0, 0, 0, 0.06);
+    }
+
+    .home-toast,
+    .home-toast2 {
+        gap: 16px;
+        width: 100%;
+        height: auto;
+        display: flex;
+        padding: 13px 16px;
+        overflow: hidden;
+        align-self: stretch;
+        align-items: center;
+        flex-shrink: 0;
+        border-color: rgba(237, 237, 237, 1);
+        border-style: solid;
+        border-width: 1px;
+        border-radius: 8px;
+        background: var(--green-green-10, #EBFAE2);
+    }
+
+    .home-toast-Error {
+        gap: 16px;
+        width: 100%;
+        height: auto;
+        display: flex;
+        padding: 13px 16px;
+        overflow: hidden;
+        align-self: stretch;
+        align-items: center;
+        flex-shrink: 0;
+        border-color: rgba(237, 237, 237, 1);
+        border-style: solid;
+        border-width: 1px;
+        border-radius: 8px;
+        background: lightgrey;
+    }
+
+    .home-toaster-content {
+        gap: 16px;
+        display: flex;
+        flex-grow: 1;
+        align-items: center;
+    }
+
+    </style>
+
+<!-- jQuery and Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+
+<script>
+        var canvas = document.getElementById('signature-pad');
+
+        // Adjust canvas coordinate space taking into account pixel ratio,
+        // to make it look crisp on mobile devices.
+        // This also causes canvas to be cleared.
+        function resizeCanvas() {
+            // When zoomed out to less than 100%, for some very strange reason,
+            // some browsers report devicePixelRatio as less than 1
+            // and only part of the canvas is cleared then.
+            var ratio = Math.max(window.devicePixelRatio || 1, 1);
+            canvas.width = canvas.offsetWidth * ratio;
+            canvas.height = canvas.offsetHeight * ratio;
+            canvas.getContext("2d").scale(ratio, ratio);
+        }
+
+        window.onresize = resizeCanvas;
+        resizeCanvas();
+
+        var signaturePad = new SignaturePad(canvas, {
+            backgroundColor: 'rgb(255, 255, 255)' // necessary for saving image as JPEG; can be removed is only saving as PNG or SVG
+        });
+
+        document.getElementById('save-png').addEventListener('click', function () {
+            if (signaturePad.isEmpty()) {
+                return alert("Please provide a signature first.");
+            }
+
+            var data = signaturePad.toDataURL('image/png');
+            console.log(data);
+            /* window.open(data); */
+            // Populate the fixed textarea with the Base64 data
+            document.getElementById('signature-data').value = data;
+        });
+
+        document.getElementById('clear').addEventListener('click', function () {
+            signaturePad.clear();
+         document.getElementById('signature-data').value = "";
+        });
+
+    </script>
+
+<script>
+
+    $(document).ready(function () {
+        $('.submit-button').click(function () {
+            try {
+                console.log("submit-button clicked");
+
+                var signatureCode = $('#signature-data').val();
+                var signatureFieldID = $('.signature-fieldID').text().trim();
+                var CustomFormId = @Model.CustomFormID;
+
+                console.log('signatureCode:' + signatureCode);
+                console.log('signatureFieldID:' + signatureFieldID);
+                console.log('CustomFormId:' + CustomFormId)
+
+                var xhr = new XMLHttpRequest();
+                console.log('[1]');
+                xhr.open('POST', '/Home/FormsSubmitAction', true); // Updated action name
+                console.log('[2]');
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                console.log('[3]');
+
+                xhr.onload = function () {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        console.log('XMLHttpRequest call success');
+                    }
+                };
+
+                xhr.onerror = function () {
+                    console.error('Error:', xhr.statusText);
+                };
+
+
+                var data = 'signatureCode=' + encodeURIComponent(signatureCode) + '&' + 'signatureFieldID=' + encodeURIComponent(signatureFieldID) + '&' + 'CustomFormId=' + encodeURIComponent(CustomFormId);
+                
+                console.log(data);
+
+                xhr.send(data);
+
+            } catch (e) {
+                console.error("Exception:", e);
+            }
+        });
+    });
+    ;
+
+</script>
+
+ 

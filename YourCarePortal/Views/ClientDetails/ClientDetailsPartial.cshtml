@@ -1,0 +1,66 @@
+﻿@model IEnumerable<YourCarePortal.Models.QueryClientDetails>
+@using System.Net;
+
+<div id="clientDetailsContainer">
+
+    @foreach (var client in Model)
+    {
+       @*  <label> @client.clientFullName</label> <br/> *@
+
+        <div class="custom-container-large">
+            <div class="container-fluid h-100">
+                <div class="row h-100">
+                    <div class="col-3">
+                        <div class="client-name-container">
+
+                            @{
+                                var ClientPhoto1 = !string.IsNullOrEmpty(client.clientPhotoPath1)
+                                ? "https://tp1.com.au/ProfilePics/" + Uri.EscapeDataString(client.clientPhotoPath1)
+                                        : "https://tp1.com.au/ProfilePics/" + "ProfileNoImage.jpg";
+
+
+                                var Provider1 = !string.IsNullOrEmpty(client.companyLogo)
+                                ? "https://tp1.com.au/docs/" + client.companyLogo
+                                : "https://tp1.com.au/docs/" + "ProfileNoImage.jpg";
+
+                            }
+
+                            <img src=@ClientPhoto1 alt="Client Image" class="client-image">
+                            <label> @WebUtility.HtmlDecode(client.clientFullName)</label>
+                        </div>
+                        <div class="budget-row">
+                            <div class="current-balance-container">
+                                <div class="current-balance-label">Provider</div>
+                                <div class="current-balance-value-label">@client.companyName</div>
+                                <img src=@Provider1 alt="Provider Image" class="provider-image">
+                            </div>
+                            <div class="date-locked-container">
+                                <div class="date-locked-label">Case manager</div>
+                                <div class="date-locked-label-value">@WebUtility.HtmlDecode(client.userFirstName) @WebUtility.HtmlDecode(client.userSurname)</div>
+                            </div>
+                        </div>
+
+                        <div class="budget-row">
+                            <div class="custom-container-small2">
+                                <div class="current-balance-label">Phone</div>
+                                <div class="current-balance-value-label">@WebUtility.HtmlDecode(client.companyPhone)</div>
+                            </div>
+                            <div class="custom-container-small2">
+                                <div class="date-locked-label">Location</div>
+                                <div class="date-locked-label-value">@WebUtility.HtmlDecode(client.companyAddress), @WebUtility.HtmlDecode(client.companySuburb), @WebUtility.HtmlDecode(client.companyState), @WebUtility.HtmlDecode(client.companyPostcode)</div>
+                            </div>
+                        </div>
+                        <div class="budget-row"></div>
+                        <div class="message-container">
+                            <img src="/Images/QuestionMark.png" alt="Question Mark" class="question-mark-image">
+                            <div class="message-label">If you have any problems using this web platform please call the above phone number to speak to your provider.</div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    }
+
+</div>

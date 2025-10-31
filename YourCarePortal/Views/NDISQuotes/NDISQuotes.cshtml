@@ -1,0 +1,1535 @@
+﻿@using System.Globalization;
+@using Newtonsoft.Json
+@using YourCarePortal.Models
+
+<!-- CDN for szimek/signature_pad -->
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+
+@{
+   Layout = null;
+}
+
+@* @model YourCarePortal.Models.RootNDISQuotes; *@
+@model YourCarePortal.Models.NDISQuotesandClients;
+
+@if (Context.Session.GetString("DebugFlag") == "true")
+{
+    <h2>DEBUG ON:</h2>
+    <p>@ViewBag.DebugMessage</p>
+    <pre>@ViewBag.JsonString</pre>
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NDIS Quotes</title>
+
+    <style>
+        /* Inline styles for demonstration. For production use, external stylesheets are recommended. */
+        body {
+            font-family: 'Arial';
+            background-color: #333; /* Dark grey background */
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            /*  justify-content: center; /* Center the .container horizontally */ */
+            /*  align-items: center; /* Center the .container vertically */ */ min-height: 100vh; /* Full viewport height */
+        }
+
+        .top-section {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 20px; /* Space between the boxes */
+            margin-bottom: 20px; /* Space above the tables */
+            padding: 10px;
+        }
+
+        .box-frame, .table-container {
+            background-color: #fff;
+            border: 1px solid black; /* Solid 1px border */
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            background-color: white; /* White background for the content */
+            border: 1px solid black !important; /* Thin grey border */
+            width: 210mm; /* Width of A4 paper */
+            min-height: 250mm; /* Height of A4 paper */
+            padding: 15mm 30mm 30mm 80px !important; /* Padding inside the container */
+            margin: 10mm auto; /* Margin for top and bottom */
+            overflow: hidden; /* Ensures no content overflows */
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+            display: flex;
+            flex-direction: column; /* Stack children vertically */
+        }
+
+        .totals-container {
+            width: auto; /* Adjust the width to fit content */
+            max-width: 100%; /* Ensure it doesn't exceed the container's width */
+            margin-bottom: 20px; /* Spacing between sections */
+
+            font-size: 12px; /* Set base font size to 70% */
+            font-family: 'Arial';
+        }
+
+        .edit-quote-container {
+            font-size: 12px; /* Set base font size to 70% */
+        }
+
+        .edit-quote-container-wider {
+            /* If needed, to make the container wider */
+            width: calc(130%); /* 30% wider than its natural content width */
+            max-width: calc(100% - 20px); /* Adjusted to not exceed the parent container */
+        }
+        /* ... other styles ... */
+
+        /* Styles for the NDIS Quotes Lines Grid */
+
+        /* was including .quote-details */
+
+        .edit-quote-container, .totals-container, .quote-provider-container {
+            /* width: 100%; /* Make them take full width of the container */ */ width: 700px; /* Adjust this to set a maximum width */
+            /* margin-bottom: 20px; /* Spacing between sections */
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding-left: 30px;
+            border-radius: 5px;
+            /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+        }
+
+        .quote-details {
+            background-color: #fff;
+            /* padding: 15px; */
+            margin-left: 0px;
+            border-radius: 5px;
+            width: 500px !important;
+            /*  box-shadow: 0 2px 4px rgba(0,0,0,0.1); */
+            /* border: 1px solid #ddd */
+        }
+
+            .quote-details p,
+            .quote-details div {
+                line-height: 1.5;
+            }
+
+        body {
+            font-family: 'Arial';
+            background-color: #333; /* Dark grey background */
+            color: #333;
+            /* margin: 30px !important; */
+            /* padding: 0; */
+            display: flex;
+            /* justify-content: center; /* Center the .container horizontally */
+            align-items: center; /* Center the .container vertically */
+            min-height: 100vh; /* Full viewport height */
+            font-size: 12px; /* Set base font size to 70% */
+
+        }
+
+        /* Additional styles for a better layout */
+        .edit-quote-container, .totals-container {
+            width: auto; /* Adjust the width to fit content */
+            max-width: 100%; /* Ensure it doesn't exceed the container's width */
+            margin-bottom: 20px; /* Spacing between sections */
+        }
+
+        .edit-quote-container, .totals-container {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 30px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .days-checkboxes {
+            display: flex; /* Align checkboxes in a row */
+            flex-wrap: nowrap; /* Prevent wrapping */
+        }
+
+            .days-checkboxes input[type="checkbox"] {
+                transform: scale(0.7); /* Scale down to 70% of the original size */
+                transform-origin: center; /* Ensure the scaling is centered */
+            }
+
+        .day-label {
+            margin-right: 5px; /* Spacing between each checkbox */
+        }
+
+        /* Button Styles */
+        button {
+            padding: 10px 15px;
+            margin: 5px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+            button:hover {
+                background-color: #0056b3;
+            }
+
+        #save-changes-button, #downloadPdfButton, #close-button {
+            width: 146px;
+            height: 48px;
+            border: none;
+            border-radius: 8px;
+            background: var(--blue-blue-50, #005B80);
+            color: #fff;
+            font-family: 'Arial';
+            font-size: 17px;
+            font-weight: 400;
+            line-height: 120%;
+            cursor: pointer;
+            margin-top: 44px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0px 5px 3px -2px rgba(0, 0, 0, 0.02), 0px 3px 1px -2px rgba(0, 0, 0, 0.06);
+        }
+
+        .quote-header {
+            text-align: left;
+        }
+
+        /* Remove the default checkbox appearance */
+        input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            width: 16px;
+            height: 16px;
+            border: 1px solid #999;
+            border-radius: 2px;
+            background-color: white;
+            outline: none;
+            cursor: pointer;
+        }
+
+            /* Style the checkbox when it's checked */
+            input[type="checkbox"]:checked {
+                background-color: lightgrey; /* #cce0ff; /* Change this color to your preferred checkbox color */
+                border: 1px solid #cce0ff;
+            }
+
+        /* Style the checkbox label */
+        label.checkbox-label {
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        /* Add some margin to the label (adjust as needed) */
+        label.checkbox-label {
+            margin-right: 10px; /* Adjust the spacing as needed */
+        }
+
+        /* style edit-quote-body  */
+
+        .edit-quote-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-family: 'Arial'; /* Apply Arial font to the entire table */
+            font-size: 130%; /* Increase font size */
+        }
+
+        .edit-quote-body th, .edit-quote-body td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .edit-quote-body th {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .edit-quote-body tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .edit-quote-body tr:hover {
+            background-color: #e9e9e9;
+        }
+
+        .edit-quote-header {
+            font-size: 1.5em;
+        }
+
+        .main-quote-header {
+            font-family: 'Arial', sans-serif; /* Apply Arial font to the entire table */
+            font-size: 200%; /* Increase font size */
+            font: bold;
+            color: #005B80;
+        }
+
+        .quote-details h2 {
+            font-size: 1.5em;
+        }
+
+        .field {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        .field1 {
+            display: flex;
+        }
+
+        .label {
+            width: 150px;
+            font-weight: bold;
+        }
+
+        .value {
+            flex: 1;
+        }
+
+        .quote-provider-container {
+            display: flex; /* Use flexbox to arrange the Quote and Provider Details side by side */
+        }
+
+        .quote-details {
+            flex: 0 0 65%; /* Adjust this value as needed */
+        }
+
+        .provider-details {
+            flex: 0 0 35%; /* Adjust this value to ensure the total does not exceed 100% */
+            margin-left: auto; /* This can help in pushing the provider-details to the right */
+            margin-top: 20px; /* Adjust as needed */
+        }
+
+        .client-name {
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .Row1 {
+            display: flex;
+        }
+
+        .wrapper {
+            position: relative;
+            width: 300px;
+            height: 150px;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            border: 1px solid lightgrey;
+            margin: 5px;
+        }
+
+        .signature-pad {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 300px;
+            height: 150px;
+            background-color: white;
+            /* border: 1px solid black; */
+        }
+
+        .ButtonFrame {
+            display: flex;
+            margin-left: 0px;
+            justify-content: left;
+            align-items: center;
+            gap: 0px;
+        }
+
+        #save-png, #save-svg, #draw, #erase, #undo {
+            display: none;
+        }
+
+        #save-changes-button {
+        }
+
+
+        .grid-header-row, .grid-row {
+            display: grid;
+            grid-template-columns: 3.2fr 16.3fr 3.6fr 2.2fr 2.2fr 2fr 3fr 3fr; /* Define the column sizes */
+            gap: 0; /* Ensure no gap between columns */
+        }
+
+        .grid-header-row {
+            font-size: 10px;
+        }
+
+        .grid-catgroup-row {
+            display: grid;
+            grid-template-columns: 1fr; /* Full width for category headers */
+        }
+
+        .cell {
+            padding: 8px;
+            text-align: left;
+            /* border: 1px solid #ddd; /* Consistent cell borders */ */
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap; /* Prevent text from wrapping */
+        }
+
+        .header-cell {
+            padding: 8px;
+            text-align: left;
+            /* border: 1px solid #ddd; /* Consistent cell borders */ */ box-sizing: border-box; /* Include padding and border in the element's total width and height */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap; /* Prevent text from wrapping */
+        }
+
+        .cell1 {
+            text-align: left;
+            font-size: 8px;
+            /* box-sizing: border-box; /* Include padding and border in the element's total width and height */ */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap; /* Prevent text from wrapping */
+          /*   border: 1px solid lightgrey; /* Consistent cell borders */ */
+        }
+
+        .cat-group-cell {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: white;
+            background: #64a2ff;
+            font-weight: bold;
+        }
+
+        .header-cell {
+            background-color: #f2f2f2; /* Differentiate the header */
+            font-weight: bold;
+        }
+
+        /* Stripe effect for rows */
+        .grid-row:nth-child(odd) {
+            background-color: #f9f9f9;
+        }
+
+        .grid-row:nth-child(even) {
+            background-color: white;
+        }
+
+        .item-code {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+            margin: 7px;
+        }
+
+        .container1 {
+            width: 650px;
+        }
+
+        .grid-table, .grid-table .header-cell, .grid-table .cell, .grid-table .cell div {
+            font-family: Arial, sans-serif;
+            font-size: 90%;
+        }
+
+        .grid-down-arrow, .grid-start-date, .grid-end-date {
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .Row1 {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            margin-right: 5px;
+        }
+
+        .item-split-frequency {
+            margin-left: 5px;
+            padding: 8px;
+            text-align: left;
+            box-sizing: border-box;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .rates-container1 {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            flex-grow: 1;
+            
+        }
+
+        .cell-rates {
+            flex-grow: 1;
+            border: 1px solid lightgrey; /* Table-like cell borders */
+            padding: 3px;
+        }
+
+        .cell-subtotal {
+            flex-grow: 1; 
+            padding: 3px;
+        }
+
+        .terms {
+            font-family: 'Arial';
+            font-size: 12px;
+        }
+
+        /* Additional CSS for logo and text styling */
+        .provider-image {
+            width: 120px; /* Adjust as necessary */
+            height: auto;
+            margin-bottom: 10px; /* Space below the logo */
+        }
+
+        .provider-details p, .quote-details .field .label, .quote-details .field .value {
+            margin: 5px 0; /* Spacing between paragraphs and fields */
+            font-family: 'Arial', sans-serif; /* Example font family */
+            color: #333; /* Dark grey text color */
+        }
+
+        .provider-details p {
+            font-weight: bold; /* Bold text for provider details */
+        }
+
+        .quote-details h2 {
+            font-size: 24px; /* Larger font size for the heading */
+            font-weight: bold;
+            color: #000; /* Black color for the heading */
+        }
+
+        .client-details {
+            width: 180px; /* Adjust as necessary */
+            /*  border: 1px solid #ddd; /* Table-like cell borders */ */
+        }
+
+        /* Adjusting the company name style */
+        .client-name {
+            font-size: 20px; /* Larger font size for the company name */
+            font-weight: bold;
+            color: #005bac; /* Company name color */
+        }
+
+        /* Adjust layout, borders, and box-shadows if needed */
+        .edit-quote-container, .totals-container, .quote-provider-container {
+            /* Other styles remain the same */
+            /* padding: 20px; /* Adjust padding */ */
+        }
+
+        .quote-period {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .date-cell {
+            border: 1px solid #ddd; /* Table-like cell borders */
+            padding: 3px;
+        }
+
+        .summary-block {
+            margin-left: 30px !important;
+        }
+
+        .frequency-cell {
+            border: 1px solid #ddd; /* Table-like cell borders */
+        }
+
+        .amount-container {
+            border: 1px solid #ddd; /* Table-like cell borders */
+        }
+
+        .grand-total-cell {
+            padding: 8px;
+            text-align: right;
+            border: 1px solid #ddd; /* Table-like cell borders */
+            box-sizing: border-box;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            /*   color: rgb(0, 91, 172); /* Differentiate the header */ 
+            background: #64a2ff; /* Differentiate the header */
+            font-weight: bold;
+        }
+
+        .footer-buttons {
+            display: flex;
+            /* justify-content: space-between; */
+            margin-top: 20px; /* Spacing between the buttons and the content */
+        }
+
+        .signature-container {
+            display: flex;
+            /*  border: 1px solid #ddd; /* Table-like cell borders */  
+            width: 100%;
+        }
+
+
+        /* Responsive design adjustments */
+        @@media (max-width: 768px) {
+            .quote-provider-container {
+                flex-direction: column; /* Stack elements on smaller screens */
+            }
+        }
+
+        /* Responsive table design */
+        @@media (max-width: 600px) {
+
+            .edit-quote-body table {
+                width: 100%;
+                overflow-x: auto;
+            }
+        }
+
+   
+
+
+
+        .modal-custom {
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content-custom {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 40%;
+        }
+
+        .modal-footer-custom {
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically, useful if you have multiple rows of items */
+            padding: 12px; /* Adjust padding as needed */
+            /* Add any other styling for the footer here */
+        }
+
+/* Responsive design adjustments */
+@@media (max-width: 768px) {
+    .quote-provider-container {
+        flex-direction: column; /* Stack elements on smaller screens */
+    }
+}
+
+        /* Responsive table design */
+        @@media (max-width: 600px) {
+
+            .edit-quote-body table {
+                width: 100%;
+                overflow-x: auto;
+            }
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="main-quote-header">
+
+            <div>NDIS Support</div>
+            <div>Quotation/Schedule of</div>
+            <div>Support</div>
+
+        </div>
+
+@*         @{
+            if (Model.NDISQuotes.Img_ClientSignature != null)
+            {
+                    <br />
+                        <p>Quote is signed and finalised</p> 
+                    <br />
+            }
+        } *@
+
+        <br />
+
+        <div class="quote-provider-container">
+
+            <div class="quote-details">
+                <h2>Quote Details</h2>
+                <div class="field1">
+                    <div class="label">Description:</div>
+                    <div class="value">@Model.NDISQuotes.QhDescription</div>
+                </div>
+                <div class="field1">
+                    <div class="label">Reference No:</div>
+                    <div class="value">@Model.NDISQuotes.Id</div>
+                </div>
+                <div class="field1">
+                    <div class="label">Quote Period:</div>
+                    @{
+                        if (DateTime.TryParse(Model.NDISQuotes.QhStart, out DateTime startDate1) && DateTime.TryParse(Model.NDISQuotes.QhEnd, out DateTime endDate1))
+                        {
+                            var startDateFormatted = startDate1.ToString("dd-MMM-yyyy");
+                            var endDateFormatted = endDate1.ToString("dd-MMM-yyyy");
+                                                    <div class="quote-period">
+                                                        <div>@startDateFormatted to</div> 
+                                                        <text>@endDateFormatted</text>
+                                                    </div>
+                        }
+                        else
+                        {
+                                                    <text>Invalid Date Range</text>
+                        }
+                    }
+                </div>
+                <div class="field1">
+                    <div class="label">Price Zone:</div>
+                    <div class="value">@Model.NDISQuotes.QhRateIdx</div>
+                </div>
+
+                <br />
+
+                <div class="field1">
+                    <div class="client-name">@Model.NDISQuotes.QhClientName</div>
+                </div>
+
+                <div class="field1">
+                    <div class="label">Participant Number:</div>
+                    <div class="value">@Model.NDISQuotes.QhClientNDISNumber</div>
+                </div>
+
+                <!--test id-13692-->
+
+                @{
+                    var CompanyDetails = Model.ClientDetails
+                    .Select(a => new
+                    {
+                        a.companyName,
+                        a.companyAddress,
+                        a.companySuburb,
+                        a.companyState,
+                        a.companyPostcode,
+                        a.companyLogo,
+                        a.clientSuburb,
+                        a.clientState,
+                        a.companyABN
+                    })
+                    .ToList();
+                }
+
+                @foreach (var detail in CompanyDetails)
+                {
+                    <div class="label">
+                        @detail.clientSuburb, @detail.clientState
+                    </div>
+                }
+
+                <br />
+
+            </div>
+
+            <!-- Provider-Details top -->
+            <div class="provider-details" style="text-align: left; font-family: Arial, sans-serif;">
+                @{
+                    var Prov1 = "";
+                 }
+
+                @foreach (var detail in CompanyDetails)
+                {
+                    <div class="client-details" style="margin-bottom: 20px;">
+                        @{
+                            var Provider1 = !string.IsNullOrEmpty(@detail.companyLogo)
+                            ? "https://tp1.com.au/docs/" + @detail.companyLogo
+                            : "https://tp1.com.au/docs/" + "ProfileNoImage.jpg";
+
+                            Prov1 = Provider1;
+                        }
+
+                        <!-- Logo Image -->
+                        <img src="@Provider1" alt="Provider Image" class="provider-image" style="width: 120px; height: auto; margin-bottom: 10px;">
+
+                        <!-- Company Name -->
+                        <p style="font-size: 20px; font-weight: bold; color: #005bac; margin: 5px 0;">@detail.companyName</p>
+
+                        <span>@detail.companyABN</span>
+
+                        <!-- Company Details in one line -->
+                        <p style="margin: 5px 0; color: #333; display: inline-block;">
+                            <span>@detail.companyAddress</span>,
+                            <span>@detail.companySuburb</span>,
+                            <span>@detail.companyState</span>,
+                            <span>@detail.companyPostcode</span>
+                        </p>
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+        <div class="totals-container box-frame">
+
+            <h2>Summary</h2>
+
+            <!-- Placeholders for displaying totals -->
+            <div>
+                <strong>Costing Breakdown:</strong>
+                <p id="totalCost">Total: $0.00</p>
+
+                <div class="summary-block">
+
+                    <p id="coreCost">Core: $0.00</p>
+                    <p id="capitalCost">Capital: $0.00</p>
+                    <p id="capacityCost">Capacity: $0.00</p>
+                    <p id="nonNdisCost">Non-NDIS: $0.00</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <h2 >Quote Lines</h2>
+
+        <!-- NDIS Quotes Lines Grid -->
+        <div class="container1">
+           
+            <div class="grid-table" id="ndisQuotesLineGrid">
+                    <!-- Grid Header -->
+                    <div class="grid-header-row">
+                        <div class="header-cell">Start-End</div>
+                        <div class="header-cell">Item Split</div>
+                        <div class="header-cell">Frequency</div>
+                        <div class="header-cell">Type</div>
+                        <div class="header-cell">Days</div>
+                        <div class="header-cell">Qty</div>
+                        <div class="header-cell">Rate</div>
+                        <div class="header-cell">Amount</div>
+                    </div>
+
+                    <!-- Grid Data Rows -->
+                @{
+                    /// <summary>
+                    /// Fetches category ranges from the Summary and categorizes lines based on these ranges.
+                    // string category = "Non-NDIS"; // Default category
+                    // PHP code similar to:
+                    // if (line.FamCategoryCode >= 1 && line.FamCategoryCode <= 4) { category = "Core"; }
+                    // else if (line.FamCategoryCode >= 5 && line.FamCategoryCode <= 6) { category = "Capital"; }
+                    // else if (line.FamCategoryCode >= 7 && line.FamCategoryCode <= 20) { category = "Capacity"; }
+                    /// </remarks>
+
+                    // Initialize a dictionary to hold the fetched category ranges
+                    var categoryRanges = new Dictionary<string, (int FromCat, int ToCat)>();
+
+                    // Assuming 'Summary' contains the necessary range information for each category
+                    foreach (var summaryItem in Model.NDISQuotes.Summary)
+                    {
+                        // Example: Assuming 'summaryItem.Name' would be "Core", "Capital", "Capacity", etc.
+                        // and that 'summaryItem.FromCat' and 'summaryItem.ToCat' provide the category code ranges
+                        if (!categoryRanges.ContainsKey(summaryItem.Name))
+                        {
+                            categoryRanges.Add(summaryItem.Name, (summaryItem.FromCat, summaryItem.ToCat));
+                        }
+                    }
+
+                    // Initialize categorizedLines dictionary
+                    var categorizedLines = new Dictionary<string, List<RootNDISQuotesLine>>();
+
+                    foreach (var line in Model.NDISQuotes.Lines)
+                    {
+                        string category = "Non-NDIS"; // Default category
+
+                        // Determine category based on FamCategoryCode and dynamically determined ranges
+                        foreach (var kvp in categoryRanges)
+                        {
+                            if (line.FamCategoryCode >= kvp.Value.FromCat && line.FamCategoryCode <= kvp.Value.ToCat)
+                            {
+                                category = kvp.Key;
+                                break; // Break once the correct category is found
+                            }
+                        }
+
+                        // Categorize line
+                        if (!categorizedLines.ContainsKey(category)) { 
+                            categorizedLines[category] = new List<RootNDISQuotesLine>();
+                            categorizedLines[category].Add(line);
+                         }
+                    }   
+
+                    // Initialize a variable for the total sum of amounts
+                    decimal totalAmount = 0;
+
+                    // Step 2: Modify Loop to Iterate in Specific Order
+                    string[] categories = { "Core", "Capital", "Capacity", "Non-NDIS" };
+                    foreach (var category in categories)
+                    {
+                        if (categorizedLines.ContainsKey(category))
+                        {
+                            foreach (var line in categorizedLines[category])
+                            {
+                                string categoryname = line.FamCategoryName; // Assign basename based on the line
+                                
+                                <div class="cat-group-cell">@category - @categoryname</div>
+
+                                // Step 3: Your existing line rendering code here
+
+                                <div class="grid-row">
+
+                                    <div class="date-cell">
+                                        @{
+                                            DateTime startDate;
+                                            DateTime endDate;
+                                            bool isStartValid = DateTime.TryParse(@line.Start, out startDate);
+                                            bool isEndValid = DateTime.TryParse(@line.End, out endDate);
+                                        }
+
+                                        <div class="grid-start-date">@(isStartValid ? startDate.ToString("dd/MM/yyyy") : "Invalid Date")</div>
+                                        <div class="grid-down-arrow">&darr;</div> <!-- Down arrow in this cell -->
+                                        <div class="grid-end-date">@(isEndValid ? endDate.ToString("dd/MM/yyyy") : "Invalid Date")</div>
+
+                                    </div>
+
+                                    <div class="cell1" style="margin:5px">
+
+                                        <div class="item-code">@line.ItemCode</div>
+
+                                            <div class="Row1">
+
+                                                <div class="split-code">@line.SplitCode</div>
+
+                                                <div class="days-checkboxes">
+                                                @{
+                                                    var allDays = new Dictionary<string, string> {
+                                                    { "mon", "Mo" }, { "tue", "Tu" }, { "wed", "We" }, { "thu", "Th" }, { "fri", "Fri" } , { "sat", "Sa" }, { "sun", "Su" } };
+                                                    var selectedDays = @line.SelectedDays != null ? @line.SelectedDays.Split(',') : new string[0];
+                                                    }
+
+                                                    @foreach (var day in allDays)
+                                                {
+                                                    <div style="display: inline-block;">
+                                                        <input type="checkbox" name="days" value="@day.Key" @(Array.IndexOf(selectedDays, day.Key) != -1 ? "checked" : "") disabled />
+                                                    </div>
+
+                                                    <div style="display: inline-block; margin-left: 0px;margin-top: 5px;">@day.Value</div>
+                                                }
+
+                                            </div>
+
+                                        </div>                                       
+
+                                    </div>
+
+                                    <div class="frequency-cell">
+
+                                        @{
+
+                                            string[] frequencyStrings = new string[]
+                                            {
+                                                "Once Off",
+                                                "week",
+                                                "2 weeks",
+                                                "3 weeks",
+                                                "4 weeks",
+                                                "5 weeks",
+                                                "6 weeks",
+                                                "7 weeks",
+                                                "8 weeks",
+                                                "9 weeks",
+                                                "10 weeks",
+                                                "11 weeks",
+                                                "12 weeks"
+                                            };
+
+                                            int frequencyValue;
+                                            if (int.TryParse(@line.Frequency, out frequencyValue) && frequencyValue >= 0 && frequencyValue < frequencyStrings.Length)
+                                            {
+                                                string selectedFrequencyString = frequencyStrings[frequencyValue];
+
+                                                <div class="item-split-frequency">@selectedFrequencyString</div>
+
+                                                // Use the selectedFrequencyString as needed
+                                            }
+                                            else
+                                            {
+                                                // Handle the case where @line.Frequency is not a valid integer or out of range
+                                            }
+                                        }
+
+                                        @{
+                                            bool success;
+                                            decimal parsedValue;
+
+                                            decimal ParseOrDefault(string value)
+                                            {
+                                                success = decimal.TryParse(value, out parsedValue);
+                                                return success ? parsedValue : 0;
+                                            }
+                                        }
+
+                                        <div class="item-split-frequency"></div>
+
+                                        </div>
+
+                                        <div class="rates-container1">
+                                            <div class="cell-rates">Normal</div>
+                                            <div class="cell-rates">Holiday</div>
+                                        </div>
+
+                                        <div class="rates-container1">
+                                            <div class="cell-rates">@(ParseOrDefault(@line.DaysNorm).ToString("N0"))</div>
+                                            <div class="cell-rates">@(ParseOrDefault(@line.DaysHoliday).ToString("N0"))</div>
+                                        </div>
+
+                                        <div class="rates-container1">
+                                            <div class="cell-rates">@(ParseOrDefault(@line.QtyNorm).ToString("N0"))</div>
+                                            <div class="cell-rates">@(ParseOrDefault(@line.QtyHoliday).ToString("N0"))</div>
+                                        </div>
+
+                                        <div class="rates-container1" style="text-align: right;">
+
+                                            @{
+                                                var cultureInfo = new System.Globalization.CultureInfo("en-AU");
+                                                var formattedRateNorm = ParseOrDefault(@line.RateNorm).ToString("C", cultureInfo);
+                                            }
+
+                                            <div class="cell-rates">@formattedRateNorm</div>
+
+                                            @{
+                                                var cultureInfo1 = new System.Globalization.CultureInfo("en-AU");
+                                                // Check if RateHoliday is 0 or 0.00, if so use RateNorm value
+                                                var rateToFormat = ParseOrDefault(@line.RateHoliday) == 0 ? ParseOrDefault(@line.RateNorm) : ParseOrDefault(@line.RateHoliday);
+                                                var formattedRateHoliday = rateToFormat.ToString("C", cultureInfo1);
+                                            }
+
+                                            <div class="cell-rates">@formattedRateHoliday</div>
+
+                                        </div>
+
+                                        <div class="amount-container" style="text-align: right;">
+                                            
+                                            @{
+                                                var cultureInfo2 = new System.Globalization.CultureInfo("en-AU");
+                                                var formattedAmount = ParseOrDefault(@line.Amount).ToString("C", cultureInfo2);
+
+                                                decimal lineAmount = decimal.TryParse(@line.Amount, out decimal tempAmount) ? tempAmount : 0;
+
+                                                totalAmount += lineAmount;
+                                                }
+
+                                            <div class="cell-subtotal">@formattedAmount</div>
+
+                                        </div>
+
+                                </div>
+                            }
+
+                        }
+
+                    }
+
+                    <div class="grand-total-cell"> Grand Total @totalAmount.ToString("C", new System.Globalization.CultureInfo("en-AU")) </div>
+                
+                }
+
+            </div>       
+
+            <div class="signature-container">
+           
+                <div class="signature-cell" style="margin-left:20px">
+                
+                    <!-- Signature Pad -->
+                    <h4 style="margin-left: 20px;">Provider Representative</h4>
+                    <h5 style="margin-left: 20px;">Name: @Model.NDISQuotes.Qh_AgentSigner</h5>
+                    <h6 style="margin-left: 20px;">Signature:</h6>
+
+                     <div class="wrapper">
+                    <!-- <canvas id="signature-pad" class="signature-pad"</canvas> -->
+                        <img src=@Model.NDISQuotes.Img_AgentSignature alt="Provider Signature" class="provider-signature-image" style="width: 300px; height: 150px; margin-bottom: 10px;">
+                    </div>
+
+                    @{
+                        if (Model.NDISQuotes.Qh_AgentSignDate != null)
+                        {
+                                <p>Date: @Model.NDISQuotes.Qh_AgentSignDate.ToString("dddd, MMMM dd, yyyy hh:mm tt") </p>
+                        }
+                    }
+
+                </div>
+
+                <div class ="signature-cell">
+                   
+                    <!-- Signature Pad -->
+                    <h4 style="margin-left: 20px;">Participant or Advocate</h4>
+                    <div class="MyName" style="margin-left:20px">
+                        <h5>Name: @CapitalizeFirstLetter(@Context.Session.GetString("portalUserFirstName") ?? string.Empty)
+                            @CapitalizeFirstLetter(@Context.Session.GetString("portalUserSurname") ?? string.Empty)
+                        </h5>
+                    </div>
+                    
+                    <h6 style="margin-left: 20px;">Signature:</h6>
+
+                    <div class="wrapper">
+                        <canvas id="signature-pad" class="signature-pad"</canvas>
+                    </div>
+
+                    <div class="ButtonFrame">
+
+                        <button id="save-png">Save as PNG</button>
+                        <!-- <button id="save-jpeg">Save Signature</button> -->
+
+                        <button id="save-jpeg">Save and Submit</button>
+                        <button id="save-svg">Save as SVG</button>
+                        <button id="draw">Draw</button>
+                        <button id="erase">Erase</button>
+                        <button id="undo">Undo</button>
+                        <button id="clear">Clear</button>
+
+                    </div>
+                    
+                    @{
+
+                        string formattedDate = "";
+
+                        if (Model.NDISQuotes.Qh_ClientSignDate != null)
+                        {
+                            // <p class="the-client-signing-date">Date: Model.NDISQuotes.Qh_ClientSignDate.ToString("dddd, MMMM dd, yyyy hh:mm tt") </p>
+
+                            DateTime parsedDate;
+                            if (DateTime.TryParse(Model.NDISQuotes.Qh_ClientSignDate, out parsedDate))
+                            {
+                                // If parsing is successful, format the DateTime object.
+                                formattedDate = parsedDate.ToString("dddd, MMMM dd, yyyy hh:mm tt");
+                                // Use formattedDate where needed.
+                              
+                            }
+                            else
+                            {
+                                // Handle parse failure (e.g., log an error, throw an exception, etc.).
+                            }
+                        }
+                        else
+                        {
+                            <div>{ No Signature }</div>
+                        }
+                    }
+
+                    <p id="signing-date1">Date: @formattedDate </p>
+
+            </div>
+            
+                <br />
+
+            </div> <!-- added Sun -->
+
+        </div>
+
+        <h2>Terms and Conditions</h2>
+
+        <div class="terms">
+            @Html.Raw(System.Net.WebUtility.UrlDecode(Model.NDISQuotes.Terms))
+        </div>
+
+        <div class="footer-buttons">
+
+            <button id="downloadPdfButton">Download PDF</button>
+            <!-- <button id="close-button">Close</button> -->
+
+        </div>
+
+        <!-- Include the Modal Partial View -->
+        @Html.Partial("_MyModalPartial")
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+     <script>
+            var canvas = document.getElementById('signature-pad');
+
+            // Adjust canvas coordinate space taking into account pixel ratio,
+            // to make it look crisp on mobile devices.
+            // This also causes canvas to be cleared.
+            function resizeCanvas() {
+                // When zoomed out to less than 100%, for some very strange reason,
+                // some browsers report devicePixelRatio as less than 1
+                // and only part of the canvas is cleared then.
+                var ratio = Math.max(window.devicePixelRatio || 1, 1);
+                canvas.width = canvas.offsetWidth * ratio;
+                canvas.height = canvas.offsetHeight * ratio;
+                canvas.getContext("2d").scale(ratio, ratio);
+            }
+
+            window.onresize = resizeCanvas;
+            resizeCanvas();
+
+            var signaturePad = new SignaturePad(canvas, {
+                backgroundColor: 'rgb(255, 255, 255)' // necessary for saving image as JPEG; can be removed is only saving as PNG or SVG
+            });
+
+            document.getElementById('save-png').addEventListener('click', function () {
+                if (signaturePad.isEmpty()) {
+                    return alert("Please provide a signature first.");
+                }
+
+                var data = signaturePad.toDataURL('image/png');
+                console.log(data);
+                /* window.open(data); */
+                // document.getElementById('base64-output').textContent = data; // Display Base64 data
+            });
+
+            document.getElementById('save-jpeg').addEventListener('click', function () {
+                if (signaturePad.isEmpty()) {
+                    return alert("Please provide a signature first.");
+                }
+
+                var data = signaturePad.toDataURL('image/jpeg');
+                console.log(data);
+                /* window.open(data); */
+                
+                // document.getElementById('base64-output').textContent = data; // Display Base64 data
+
+                //
+
+             var logo = @Html.Raw(Json.Serialize(Prov1));
+
+            $('#modalLogo').attr('src', logo);
+            $('#modalContent').attr('src', data);
+
+            $("#myModal").show();
+            
+            });
+
+
+            document.getElementById('save-svg').addEventListener('click', function () {
+                if (signaturePad.isEmpty()) {
+                    return alert("Please provide a signature first.");
+                }
+
+                var data = signaturePad.toDataURL('image/svg+xml');
+                console.log(data);
+                console.log(atob(data.split(',')[1]));
+                /* window.open(data); */
+                // document.getElementById('base64-output').textContent = data; // Display Base64 data
+            })
+
+
+            document.getElementById('clear').addEventListener('click', function () {
+                signaturePad.clear();
+            });
+
+            document.getElementById('draw').addEventListener('click', function () {
+                signaturePad.compositeOperation = 'source-over'; // default value
+            });
+
+            document.getElementById('erase').addEventListener('click', function () {
+                signaturePad.compositeOperation = 'destination-out';
+            });
+
+            document.getElementById('undo').addEventListener('click', function () {
+                var data = signaturePad.toData();
+                if (data) {
+                    data.pop(); // remove the last dot or line
+                    signaturePad.fromData(data);
+                }
+            });
+
+     </script>
+
+     <script>
+
+            function SendDataToController() {
+
+                // Read only mode
+                signaturePad.off();
+
+                // hide buttons.
+                document.getElementById('save-jpeg').style.display = 'none';
+                document.getElementById('save-svg').style.display = 'none';
+                document.getElementById('draw').style.display = 'none';
+                document.getElementById('erase').style.display = 'none';
+                document.getElementById('undo').style.display = 'none';
+                document.getElementById('clear').style.display = 'none';
+
+                //Set Signing Date
+
+                $(document).ready(function () {
+                    var theSigningText = $('#the-signing1').text();
+                    // console.log('The signing text:', theSigningText); // Check if this logs the expected text
+
+                    $('#signing-date1').text('Date:' + theSigningText);
+                    // console.log('After setting text:', $('#signing-date1').text()); // Verify if the text was set
+                });
+
+
+                // // Step 1: Retrieve the date from the-signing-date paragraph
+                // const signingDate = document.querySelector('.the-signing-date').textContent;
+
+                // // Step 2: Set the date to the-client-signing-date paragraph
+                // const clientSigningDateElement = document.querySelector('.the-client-signing-date');
+                // // if (clientSigningDateElement) { // Ensure the element exists
+                // clientSigningDateElement.innerHTML = 'Date:' + signingDate;
+                // // } else {
+                // //     console.error('The element with class "the-client-signing-date" was not found.');
+                // // }
+
+                //Get Signature Pad Data
+                var data = signaturePad.toDataURL('image/png');
+
+                console.log('SendDataToController running');
+
+                console.log(data);
+
+               
+                // var QhCompanyNo = @Model.NDISQuotes.QhCompanyNo;
+                // var QhClientNo = @Model.NDISQuotes.QhClientNo;
+                // var QhClientNDISNumber = @Model.NDISQuotes.QhClientNDISNumber;
+                // var Qh_ClientSigner = @Model.NDISQuotes.Qh_ClientSigner;
+
+
+                var QhCompanyNo = @Html.Raw(Json.Serialize(Model.NDISQuotes.QhCompanyNo));
+                var QhClientNo = @Html.Raw(Json.Serialize(Model.NDISQuotes.QhClientNo));
+                var QhClientNDISNumber = @Html.Raw(Json.Serialize(Model.NDISQuotes.QhClientNDISNumber));
+                var Qh_ClientSigner = @Html.Raw(Json.Serialize(Model.NDISQuotes.Qh_ClientSigner));
+                var Id = @Html.Raw(Json.Serialize(Model.NDISQuotes.Id));
+
+                var QhSignature = data;
+
+
+                //Write ajax code to Send this data (NDISQuotes.QhCompanyNo,NDISQuotes.QhClientNo,NDISQuotes.QhClientNDISNumber,NDISQuotes.Qh_ClientSigner,NDISQuotes.QhSignature) to controller action method
+                $.ajax({
+                    type: "POST",
+                url: "/NDISQuotes/NDISQuotesAction",
+                data: { QhCompanyNo: QhCompanyNo, QhClientNo: QhClientNo, QhClientNDISNumber: QhClientNDISNumber, Qh_ClientSigner: Qh_ClientSigner, QhSignature: QhSignature, Id: Id },
+                    success: function (data) {
+                        alert("Signature Saved Successfully");
+                    }
+                });
+
+                // Example draw function
+                function draw(event) {
+                    if (!isDrawing) return; // `isDrawing` could be a flag to enable/disable drawing
+                    // Drawing logic here
+                }
+     }
+
+            $(document).ready(function () {
+                    $("#save-changes-button").click(function () {
+                       console.log("Save Changes Button Clicked");
+                       SendDataToController();
+                    });
+                });
+
+        // $(document).on('click', '.save-changes-button', SendDataToController);
+
+        </script>
+
+     <script>
+
+        $(document).ready(function () {
+            var summary = @Html.Raw(JsonConvert.SerializeObject(Model.NDISQuotes.Summary));
+
+            // Initialize totals
+            var totalCost = 0, ndisFundedTotal = 0, nonNdisFundedTotal = 0;
+            var coreCost = 0, capitalCost = 0, capacityCost = 0, nonNdisCost = 0;
+
+            // Calculate totals
+            summary.forEach(function (item) {
+                var total = parseFloat(item.total);
+                switch (item.name) {
+                    case "Core":
+                        coreCost = total;
+                        break;
+                    case "Capital":
+                        capitalCost = total;
+                        break;
+                    case "Capacity":
+                        capacityCost = total;
+                        break;
+                    case "Non-NDIS":
+                        nonNdisCost = total;
+                        break;
+                }
+                totalCost += total;
+            });
+
+            // Calculate NDIS and Non-NDIS funded totals
+            ndisFundedTotal = coreCost + capitalCost + capacityCost;
+            nonNdisFundedTotal = nonNdisCost;
+
+            // Display totals
+            document.getElementById("totalCost").textContent = `Total: $${totalCost.toFixed(2)} (NDIS funded: $${ndisFundedTotal.toFixed(2)} / Non-NDIS funded: $${nonNdisFundedTotal.toFixed(2)})`;
+            document.getElementById("coreCost").textContent = `Core: $${coreCost.toFixed(2)}`;
+            document.getElementById("capitalCost").textContent = `Capital: $${capitalCost.toFixed(2)}`;
+            document.getElementById("capacityCost").textContent = `Capacity: $${capacityCost.toFixed(2)}`;
+            document.getElementById("nonNdisCost").textContent = `Non-NDIS: $${nonNdisCost.toFixed(2)}`;
+
+        });
+    </script>
+
+    <script>
+
+        // $(document).ready(function () {
+        //     $('#downloadPdfButton').click(function () {
+        //         var userCompany = @Model.NDISQuotes.QhCompanyNo;
+        //         var id = @Model.NDISQuotes.Id;
+
+        //         console.log("Download PDF Button Clicked");
+
+        //         $.ajax({
+        //             type: "POST",
+        //             url: "@Url.Action("NDISQuotesPDFAction", "Home")",
+        //             data: { userCompany: userCompany, id: id },
+        //             xhrFields: { responseType: 'blob' }, // Expecting a blob response
+        //             success: function (blob) {
+        //                 console.log('NDISQuotesPDFAction-success');
+
+        //                 // Create a Blob from the PDF Stream
+        //                 const url = window.URL.createObjectURL(new Blob([blob]));
+        //                 const link = document.createElement('a');
+        //                 link.href = url;
+        //                 link.setAttribute('download', 'YourPDFName.pdf'); // Set the file name
+        //                 document.body.appendChild(link);
+        //                 link.click();
+        //                 link.parentNode.removeChild(link); // Clean up
+        //             },
+        //             error: function (jqXHR, textStatus, errorThrown) {
+        //                 console.error("Error occurred while downloading PDF: ", textStatus, errorThrown);
+        //                 alert("Error occurred while downloading PDF: " + textStatus);
+        //             }
+        //         });
+        //     });
+        // });
+
+        // $(document).ready(function () {
+        //     $('#downloadPdfButton').click(function () {
+        //         var userCompany = @Model.NDISQuotes.QhCompanyNo;
+        //         var id = @Model.NDISQuotes.Id;
+
+        //         console.log("Download PDF Button Clicked g");
+
+        //         // Redirect to the action that serves the PDF
+        //         window.location.href = "@Url.Action("NDISQuotesPDFAction", "Home")" +
+        //             "?userCompany=" + userCompany + "&id=" + id;
+        //     });
+        // });
+
+        $(document).ready(function () {
+            $('#downloadPdfButton').click(function () {
+                var userCompany = @Model.NDISQuotes.QhCompanyNo;
+                var id = @Model.NDISQuotes.Id;
+
+                // Construct the URL for the PDF
+                var pdfUrl = "@Url.Action("NDISQuotesPDFAction", "NDISQuotes")" +
+                    "?userCompany=" + encodeURIComponent(userCompany) +
+                    "&id=" + encodeURIComponent(id);
+
+                // Redirect or open in a new window
+                window.location.href = pdfUrl; // Opens in the same tab
+                // window.open(pdfUrl, '_blank'); // Opens in a new tab (optional)
+            });
+        });
+
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#launchModalBtn").click(function () {
+                $("#myModal").show();
+            });
+        });
+    </script>
+
+    <script>
+
+        function closePage() {
+            // Attempt to close the current window
+            window.close();
+
+            // Optional: Alert user if window didn't close, for UX purposes
+            setTimeout(function () {
+                alert("The window cannot be closed using script. Please close it manually.");
+            }, 100);
+        }
+
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            if (@Html.Raw(Json.Serialize(Model.NDISQuotes.Img_ClientSignature)) != "") {
+                
+                console.log('if statement worked');
+
+                var image = new Image();
+                image.src = @Html.Raw(Json.Serialize(Model.NDISQuotes.Img_ClientSignature)); // Your base64 data here
+
+                image.onload = function () {
+                    var canvas = document.getElementById('signature-pad');
+                    if (canvas.getContext) {
+                        var ctx = canvas.getContext('2d');
+
+                        // Clear the canvas
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                        // Draw the image
+                        ctx.drawImage(image, 0, 0, 300, 150);
+                    } else {
+                        console.log('Canvas is not supported by your browser.');
+                    }
+                };
+
+                // Read only mode
+                signaturePad.off();
+
+                // hide buttons.
+                document.getElementById('save-jpeg').style.display = 'none';
+                document.getElementById('save-svg').style.display = 'none';
+                document.getElementById('draw').style.display = 'none';
+                document.getElementById('erase').style.display = 'none';
+                document.getElementById('undo').style.display = 'none';
+                document.getElementById('clear').style.display = 'none';
+
+            }
+        });
+    </script>
+
+    <script>
+
+        @functions {
+            public string CapitalizeFirstLetter(string input)
+            {
+                if (string.IsNullOrEmpty(input))
+                    return string.Empty;
+
+                return char.ToUpper(input[0]) + input.Substring(1).ToLower();
+            }
+        }
+
+    </script>
+
+</body>
+</html>

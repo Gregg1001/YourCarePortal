@@ -1,0 +1,261 @@
+﻿@using System.Globalization;
+@model YourCarePortal.Models.BudgetandClients;
+@using System.Net;
+
+@if (Model.Budget == null) // This checks if the collection is empty.
+{
+    <div class="centered-content">
+        <h1>This client does not currently have any budget at this time.</h1>
+        <p>@ViewBag.NoDataSubText</p>
+    </div>
+}
+
+else
+{
+    decimal IncomeAmount = 0;
+    decimal AdjustmentsAmount = 0;
+    decimal ExpensesAmount = 0;
+    
+    <div id="budgetContainer">
+        
+        <div class="custom-container">
+            
+            <div class="custom-container-small"></div>
+            
+            <div class="custom-container-large">
+                
+                <div class="container-fluid h-100">
+                    <div class="row h-100">
+                        <div class="col-3">
+
+                            <div class="client-name-container">
+
+                                @{
+                                    var firstClientDetails = Model.ClientDetails.FirstOrDefault();
+
+                                    var ClientPhoto1 = !string.IsNullOrEmpty(firstClientDetails.clientPhotoPath1)
+                                    ? "https://tp1.com.au/ProfilePics/" + Uri.EscapeDataString(firstClientDetails.clientPhotoPath1)
+                                    : "https://tp1.com.au/ProfilePics/" + "ProfileNoImage.jpg";
+
+                                }
+
+                                @* <img src=@ClientPhoto1 alt="Client Image" class="rounded-circle client-image"> *@
+                                <img src=@ClientPhoto1 alt="Client Image" class="client-image">
+                                <label> @Model.Budget.clientFullname_ACTIVE_SESSION</label>
+
+                            </div>
+
+                        @*                             
+                            <br>
+                            <br> *@
+
+                            <div class="overview-label">Overview</div>
+                            <div class="budget-row">
+                                <div class="current-balance-container">
+                                    <div class="current-balance-label">Current Balance</div>
+                                    @{
+                                        decimal.TryParse(Model.Budget.BudgetBalance, out decimal balance);
+                                    }
+
+                                    <div class="current-balance-value-label">@balance.ToString("C", new CultureInfo("en-US"))</div>
+
+                                </div>
+                                <div class="date-locked-container">
+                                    <div class="date-locked-label">Date Locked</div>
+                                    <div class="date-locked-label-value">@Model.Budget.DateLocked</div>
+                                </div>
+                            </div>
+                            <div class="budget-table-container">
+                                <div class="budget-label">Budget</div>
+
+                                <div class="budget-row budget-header">
+                                    <div>Item</div>
+                                    <div>Amount</div>
+                                </div>
+@*                                 <div class="budget-row income-row">
+                                    <div>Income:</div>
+                                </div> *@
+
+                                @{
+                                    var incomeCategoryFound = false;
+                                    decimal totalIncomeAmount = 0;  // Initialize total to 0
+                                }
+
+                                @foreach (var budgetContent in Model.Budget.BudgetContents)
+                                {
+                                    if (budgetContent.BudgetCategoryHeading.Contains("Income"))
+                                    {
+
+                                        <div class="budget-row income-row">
+                                            <div>@budgetContent.BudgetCategoryHeading</div>
+                                        </div>
+
+                                        incomeCategoryFound = true;
+                                        foreach (var item in budgetContent.BudgetCategoryContent)
+                                        {
+                                            if (decimal.TryParse(item.budgetItemAmount, out var amount))
+                                            {
+                                                totalIncomeAmount += amount; // Accumulate the total if conversion is successful
+
+                                                <div class="budget-row">
+                                                    <div>@WebUtility.HtmlDecode(item.budgetItemName)</div>
+                                                    <div style="text-align: right;">@amount.ToString("C2", CultureInfo.GetCultureInfo("en-US"))</div> <!-- Display as string -->
+                                                </div>
+                                            }
+                                        }
+                                    }
+                                }
+
+                                @if (!incomeCategoryFound)
+                                {
+                                    <p>No content available for this category.</p>
+                                }
+                                else
+                                {
+                                    <!-- Display the total -->
+                                    <div class="budget-row TotalRow">
+                                        <div>Total</div>                                       
+                                        <div style="text-align: right;">@totalIncomeAmount.ToString("C2", CultureInfo.GetCultureInfo("en-US"))</div> <!-- Display as currency -->
+                       
+                                        @{IncomeAmount = totalIncomeAmount;}
+
+                                    </div>
+                                }
+
+@*                                 <div class="budget-row adjustments-row">
+                                    <div>Adjustments:</div>
+                                </div> *@
+
+                                @{
+                                    incomeCategoryFound = false;
+                                    totalIncomeAmount = 0;  // Initialize total to 0
+                                }
+
+                                @foreach (var budgetContent in Model.Budget.BudgetContents)
+                                {
+                                    if (budgetContent.BudgetCategoryHeading.Contains("Adjustments"))
+                                            {
+
+                                            <div class="budget-row adjustments-row">
+                                            <div>@budgetContent.BudgetCategoryHeading</div>
+                                            </div>
+
+                                            incomeCategoryFound = true;
+                                            foreach (var item in budgetContent.BudgetCategoryContent)
+                                            {
+                                                if (decimal.TryParse(item.budgetItemAmount, out var amount))
+                                                {
+                                                    totalIncomeAmount += amount; // Accumulate the total if conversion is successful
+
+                                                    <div class="budget-row">
+                                                        <div>@WebUtility.HtmlDecode(item.budgetItemName)</div>
+
+                                                        <div style="text-align: right;">@amount.ToString("C2", CultureInfo.GetCultureInfo("en-US"))</div> <!-- Display as string -->
+                                                    </div>
+                                                }
+                                            }
+                                    }
+                                }
+
+                                @if (!incomeCategoryFound)
+                                {
+                                    <p>No content available for this category.</p>
+                                }
+                                else
+                                {
+                                    <!-- Display the total -->
+                                    <div class="budget-row TotalRow">
+                                        <div>Total</div>
+                                        <div style="text-align: right;">@totalIncomeAmount.ToString("C2", CultureInfo.GetCultureInfo("en-US"))</div> <!-- Display as currency -->
+                                        @{AdjustmentsAmount = totalIncomeAmount;}
+                                    </div>
+                                }
+
+@*                                 <div class="budget-row expenses-row">
+                                    <div>Expenses:</div>
+                                </div> *@
+
+                                @{
+                                    incomeCategoryFound = false;
+                                    totalIncomeAmount = 0;  // Initialize total to 0
+                                }
+
+                                @foreach (var budgetContent in Model.Budget.BudgetContents)
+                                {
+
+                                    if (budgetContent.BudgetCategoryHeading.Contains("Expenses"))
+                                        {
+
+                                            <div class="budget-row expenses-row">
+                                            <div>@budgetContent.BudgetCategoryHeading</div>
+                                            </div>
+
+                                            incomeCategoryFound = true;
+                                            foreach (var item in budgetContent.BudgetCategoryContent)
+                                            {
+                                                if (decimal.TryParse(item.budgetItemAmount, out var amount))
+                                                {
+                                                    totalIncomeAmount += amount; // Accumulate the total if conversion is successful
+
+                                                    <div class="budget-row">
+                                                        <div>@WebUtility.HtmlDecode(item.budgetItemName)</div>
+                                                        @* <div>@Html.Raw(item.budgetItemName)</div> *@
+                                                        <div style="text-align: right;">@amount.ToString("C2", CultureInfo.GetCultureInfo("en-US"))</div> <!-- Display as string -->
+                                                    </div>
+                                                }
+                                            }
+                                    }
+                                }
+
+                                @if (!incomeCategoryFound)
+                                {
+                                    <p>No content available for this category.</p>
+                                }
+                                else
+                                {
+                                    <!-- Display the total -->
+                                    <div class="budget-row TotalRow">
+                                        <div>Total</div>
+                                        <div style="text-align: right;">@totalIncomeAmount.ToString("C2", CultureInfo.GetCultureInfo("en-US"))</div> <!-- Display as currency -->
+                                        @{ExpensesAmount = totalIncomeAmount;}
+                                    </div>
+                                }
+
+                                @{
+                                    decimal totalAmount = 0;
+                                    foreach (var budgetContent in Model.Budget.BudgetContents)
+                                    {
+                                        bool success = decimal.TryParse(budgetContent.BudgetCategoryTotal, System.Globalization.NumberStyles.Currency, System.Globalization.CultureInfo.GetCultureInfo("en-US"), out decimal amount);
+                                        if (success)
+                                        {
+                                            totalAmount += amount;
+                                        }
+                                        else
+                                        {
+                                        // Log or handle the error in an appropriate way for your application
+                                            // For example, you can continue with the next item, or stop processing and return an error message to the user.
+                                        }
+                                    }
+                                }
+
+                                @{
+                                    //income - adjustments - expense
+                                    var FinalTotal = IncomeAmount - AdjustmentsAmount - ExpensesAmount;
+                                }
+
+
+                                <div class="budget-row TotalRow">
+                                    <div class="total-text">Total</div>
+                                    <div class="total-text final-total" style="text-align: right;">@FinalTotal.ToString("C2", System.Globalization.CultureInfo.GetCultureInfo("en-US"))</div>
+                                </div>
+
+                                @ViewBag.Msg1
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

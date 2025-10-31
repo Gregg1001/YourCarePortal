@@ -1,0 +1,268 @@
+﻿@using System.Globalization;
+@using System.Linq;
+@using System.Net;
+
+@model YourCarePortal.Models.SupportPlansandClients;
+
+@if (Model == null) // This checks if the collection is empty.
+{
+    <div class="centered-content">
+        <h1>This client does not currently have any Support Plans at this time.</h1>
+        <p>@ViewBag.NoDataSubText</p>
+    </div>
+}
+
+else
+{
+    <div id="supportPlanContainer">
+
+        <div id="SupportplanContainerlarge">
+
+            <div class="custom-container-large">
+
+                <div class="container-fluid h-100">
+                    <div class="row h-100">
+                        <div class="col-3">
+                            <div class="client-name-container">
+                                @{
+                                    var firstClientDetails = Model.ClientDetails.FirstOrDefault();
+
+                                    var ClientPhoto1 = !string.IsNullOrEmpty(firstClientDetails.clientPhotoPath1)
+                                    ? "https://tp1.com.au/ProfilePics/" + Uri.EscapeDataString(firstClientDetails.clientPhotoPath1)
+                                    : "https://tp1.com.au/ProfilePics/" + "ProfileNoImage.jpg";
+
+                                    var firstClientFullName = firstClientDetails.clientFullName;
+                                }
+
+                                @* <img src=@ClientPhoto1 alt="Client Image" class="rounded-circle client-image"> *@
+                                <img src=@ClientPhoto1 alt="Client Image" class="client-image">
+
+                                <label> @WebUtility.HtmlDecode(firstClientFullName)</label>
+
+                            </div>
+
+                            @functions {
+                            string GetPlanItemValue(string planItemName)
+                            {
+                                string val1 = Model.SupportPlans.Items.FirstOrDefault(i => i.planItemName == planItemName)?.planItemValue ?? "";
+                                string val2 = val1.Replace("n/a", string.Empty); // Replace "n/a" with a an empty string
+
+                                return val2;
+                            }
+                        }
+
+                        <div class="overview-label">Overview</div>
+                        <div class="budget-row">
+                            <div class="current-balance-container">
+                                <div class="venue-label">Venue</div>
+                                <div class="venue-label-value">@WebUtility.HtmlDecode(GetPlanItemValue("Venue"))</div>
+                                </div>
+                                <div class="case-manager-container">
+                                    <div class="case-manager-label">Case manager</div>
+                                    <div class="case-manager-value">@WebUtility.HtmlDecode(GetPlanItemValue("Case Manager"))</div>
+                                </div>
+                            </div>
+                            <div class="budget-row">
+                                <div class="custom-container-small2">
+                                    <div class="people-involved-label">People involved</div>
+                                    <div class="people-involved-value">@WebUtility.HtmlDecode(GetPlanItemValue("People Involved"))</div>
+                                </div>
+                                <div class="custom-container-small2">
+                                    <div class="package-level-label">Package level</div>
+                                    <div class="package-level-value">@WebUtility.HtmlDecode(GetPlanItemValue("Package Level"))</div>
+                                </div>
+                            </div>
+                            <div class="budget-row">
+                                <div class="custom-container-small3">
+                                    <div class="services-authorised-to-commence-label">Services Authorised to commence</div>
+                                    <div class="services-authorised-to-commence-value">@WebUtility.HtmlDecode(GetPlanItemValue("Services Authorised to Commence"))</div>
+                                </div>
+                                <div class="custom-container-small3">
+                                    <div class="support-plan-review-date-label">Support plan review date</div>
+                                    <div class="support-plan-review-date-value">@WebUtility.HtmlDecode(GetPlanItemValue("Support Plan Review Date"))</div>
+                                </div>
+                            </div>
+                            <div class="budget-row-long">
+                                <div class="custom-container-small3">
+                                    <div class="summary-current-situation-label">Summary / current situation</div>
+                                    <div class="summary-current-situation-value">@WebUtility.HtmlDecode(GetPlanItemValue("Summary / Current Situation"))</div>
+                                </div>
+                            </div>
+
+
+                            @functions {
+
+                            string GetGoalValue(SupportPlanGoalGroup goalGroup, string planItemType)
+                            {
+                                return goalGroup.OtherItems.FirstOrDefault(item => item.planItemType == planItemType)?.planItemValue ?? "";
+                            }
+
+                            string GetActionValue(SupportPlanActionGroup actionGroup, string fieldName)
+                            {
+                                var actionItem = actionGroup.GetType().GetProperty(fieldName)?.GetValue(actionGroup) as SupportPlanPlanItem;
+                                return actionItem?.planItemValue ?? "";
+                            }
+                        }
+
+                        <div class="goal-label">Goals</div>
+
+                        @for (int i = 0; i < Model.SupportPlans.Goals.Count; i++)
+                            {
+                                var goal = Model.SupportPlans.Goals[i];
+                                var goalValue = GetGoalValue(goal, "textarea");
+                                var isGoalNA = goalValue == "n/a";
+
+                                if (!isGoalNA)
+                                {
+                                    var decodedGoalValue = WebUtility.HtmlDecode(goalValue);
+
+                                    <div class="goal-container">
+                                        <div class="goal-content" data-toggle="collapse" data-target="#goalActionsContainer@(i + 1)">
+                                            <img src="/Images/Flag.png" alt="Goal Image" class="goal-image">
+                                            <div class="goal-text">
+                                                <div class="planItemValue">Goal @(i + 1)</div>
+                                                <div class="goal-label3">@decodedGoalValue</div>
+                                            </div>
+                                        </div>
+                                        <span class="carrot">&#9660;</span>
+                                    </div>
+
+                                    <div class="goal-actions-container collapse" id="goalActionsContainer@(i + 1)">
+                                        @foreach (var actionGroup in goal.Actions)
+                                        {
+                                            var isAchievedNA = @GetActionValue(actionGroup, "Achieved") == "n/a";
+                                            var containerClass = isAchievedNA ? "grey-background" : "";
+                                            var achievedLabel = isAchievedNA ? "Not yet achieved" : "Achieved";
+                                            var imageSrc = !isAchievedNA ? "/Images/GreenTick.png" : "/Images/GreyCross.png";
+
+                                            var actionValue = GetActionValue(actionGroup, "Action");
+
+
+                                            if (actionValue != "n/a")
+                                            {
+                                                var decodedActionValue = WebUtility.HtmlDecode(actionValue);
+
+                                                <div class="progress-container @containerClass">
+                                                    <div class="progress-content">
+                                                        <img src="@imageSrc" alt="Goal Image" class="progress-image">
+                                                        <div class="progress-text">
+                                                            <div class="progress-label1">@achievedLabel</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="progress-action-container @containerClass">
+                                                        <div class="progress-action-progress-text">
+                                                            <div class="progress-label3">Action</div>
+                                                            <div class="progress-label4">@decodedActionValue</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="progress-action-row">
+                                                        <div class="progress-action-container-2 @containerClass">
+                                                            <div class="progress-action-progress-text">
+                                                                <div class="progress-label3">Person Responsible</div>
+                                                                <div class="progress-label4">@WebUtility.HtmlDecode(GetActionValue(actionGroup, "PersonResponsible"))</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="progress-action-container-2 @containerClass">
+                                                            <div class="progress-action-progress-text">
+                                                                <div class="progress-label3">Action Date</div>
+                                                                <div class="progress-label4">@GetActionValue(actionGroup, "ActionDate")</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+                <br />
+
+                <p class="other-details1">
+
+                    <div>
+                        <label class="other-details-label" for="otherInformation">Other Information</label>
+                        <p class="other-details-value" id="otherInformation">@WebUtility.HtmlDecode(GetPlanItemValue("Other Information"))</p>
+                    </div>
+
+                    <div>
+                        <label class="other-details-label" for="legalAuthorityToMakeDecisions">Legal Authority to make decisions</label>
+                        <p class="other-details-value" id="legalAuthorityToMakeDecisions">@WebUtility.HtmlDecode(GetPlanItemValue("Legal Authority to make decisions"))</p>
+                    </div>
+
+                    <div>
+                        <label class="other-details-label" for="caseManagement">Level of Case Management</label>
+                        <p class="other-details-value" id="caseManagement">@WebUtility.HtmlDecode(GetPlanItemValue("Level of Case Management"))</p>
+                    </div>
+
+                    <div>
+                        <label class="other-details-label" for="clientAcknowledgement">Client Acknowledgement</label>
+                        <p class="other-details-value" id=" clientAcknowledgement">@WebUtility.HtmlDecode(GetPlanItemValue("Client Acknowledgement"))</p>
+                    </div>
+
+                    <div>
+                        <label class="other-details-label">Would you like a copy of this plan sent to you?</label>
+                        <!-- Display the choice as text or disabled radio buttons (assuming "Yes" is chosen) -->
+                        <p class="other-details-value" id=" clientAcknowledgement">@WebUtility.HtmlDecode(GetPlanItemValue("Would you like a copy of this plan sent to you?"))</p>
+       
+                    </div>
+
+                    <label class="other-details-label">Client Signature</label>
+
+                    @{
+                        var ClientSignaturewithPath = "https://tp1.com.au/OutputSigs/" + @WebUtility.HtmlDecode(GetPlanItemValue("Client Signature"));
+                        string ClientSignature = @WebUtility.HtmlDecode(GetPlanItemValue("Client Signature"));
+                    }
+
+                    @{
+                        if (ClientSignature == string.Empty)
+                        {
+                            <p class="other-details-value"></p> // Currently blank
+                        }
+                        else
+                        {
+                        <div>
+                            <img class="other-details-label client-signature-image" src=@ClientSignaturewithPath alt="Client Signature">
+                        </div>
+
+                        }
+                    }
+
+                <!-- Display the date or replace with a disabled input if the value should not be editable -->
+                <div class="other-details-label">
+                    <p>Date: @WebUtility.HtmlDecode(GetPlanItemValue("Client Signature - Date")) </p>
+                </div>
+
+                <label class="other-details-label">Carer Signature</label>
+
+                    @{
+                        var CarerSignaturewithPath = "https://tp1.com.au/OutputSigs/" + @WebUtility.HtmlDecode(GetPlanItemValue("And/Or Carer Signature"));
+                        string CarerSignature = @WebUtility.HtmlDecode(GetPlanItemValue("And/Or Carer Signature"));
+                    }
+
+                    @{
+                        if (CarerSignature == string.Empty)
+                        {
+                            <p class="other-details-value"></p> // Currently blank
+                        }
+                        else
+                        {
+                        <div>
+                            <img class="other-details-label carer-signature-image" src=@CarerSignaturewithPath alt="Carer Signature">
+                        </div>
+
+                        }
+                    }
+
+                <div class="other-details-label">
+                    <p>Date: @WebUtility.HtmlDecode(GetPlanItemValue("Carer Signature - Date")) </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}

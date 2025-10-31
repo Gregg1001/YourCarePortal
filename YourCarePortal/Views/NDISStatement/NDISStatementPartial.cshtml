@@ -1,0 +1,71 @@
+﻿@using System.Globalization;
+@using System.Linq;
+@using System.Net;
+
+@model YourCarePortal.Models.NDISStatementandClients
+
+<div id="NDISStatementsContainer">
+
+    @if (Model.NDISStatement == null || Model.NDISStatement.SupportPurposes.Count == 0)
+    {
+        <div class="centered-content" style="padding-left: 30px;">
+            <h1>There is no NDIS Statement for this client.</h1>
+            <p>You can check with the Provider.</p>
+        </div>
+    }
+
+    else
+    {
+        <div class="statementsContainer">
+
+            <div class="client-name-container">
+
+            @{
+                var firstClientDetails = Model.ClientDetails.FirstOrDefault();
+
+                var ClientPhoto1 = !string.IsNullOrEmpty(firstClientDetails.clientPhotoPath1)
+                ? "https://tp1.com.au/ProfilePics/" + Uri.EscapeDataString(firstClientDetails.clientPhotoPath1)
+                : "https://tp1.com.au/ProfilePics/" + "ProfileNoImage.jpg";
+
+            }
+            <img src=@ClientPhoto1 alt="Client Image" class="client-image">
+            @* <img src=@ClientPhoto1 alt="Client Image" class="rounded-circle client-image"> *@
+            <label> @WebUtility.HtmlDecode(Model.NDISStatement.ClientFullnameActiveSession)</label>
+
+        </div>
+
+            <br />
+
+                <div class="statement-row">
+                    Statement Month: @ViewBag.PreviousMonth
+                </div>
+
+            <br />
+
+            <div class="statement-row statement-header" style="font-size:14px; font-weight: 600">
+                <div style="width:900px">Support Purpose</div>
+                <div>Start Date</div>
+                <div>End Date</div>
+                <div style="text-align: right;">Invoiced to Date</div>
+                <div style="text-align: right;">Spending Cap</div>
+            </div>
+
+            @foreach (var item in Model.NDISStatement.SupportPurposes)
+            {
+
+                <div class="statement-row" style="font-size:14px">
+
+                    <div style="text-align: left; width:900px">@item.SupportPurposeName</div>
+                    <div style="text-align: left;">@item.StartDate</div>
+                    <div style="text-align: left;">@item.EndDate</div>
+                    <div style="text-align: right;">@item.TotalInvoiced</div>
+                    <div style="text-align: right;">@item.SpendingCap</div>
+
+                </div>
+            }
+        </div>
+    }
+
+</div>
+
+

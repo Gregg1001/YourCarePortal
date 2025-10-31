@@ -1,0 +1,14 @@
+'2023-11-10 09:33:30','Statements',13,65
+'2023-11-10 09:33:30','currentUrl:https://localhost:7228/Home/Statements',13,65
+'2023-11-10 09:33:35','Statements',13,65
+'2023-11-10 09:33:35','currentUrl:https://localhost:7228/Home/Statements',13,65
+'2023-11-10 09:33:44','Statements',13,65
+'2023-11-10 09:33:44','currentUrl:https://localhost:7228/Home/Statements',13,65
+'2023-11-10 09:33:48','currentUrl:https://localhost:7228/Home/Budget',13,65
+'2023-11-10 09:33:48','label:/Images/thumbnailTCP.png',13,65
+'2023-11-10 09:33:54','Settings',13,65
+'2023-11-10 09:33:54','currentUrl:https://localhost:7228/Home/Settings',13,65
+'2023-11-10 09:34:03','currentUrl:https://localhost:7228/Home/Budget',13,65
+'2023-11-10 09:34:03','label:/Images/thumbnailTCP.png',13,65
+'2023-11-10 09:34:08','Statements',13,65
+'2023-11-10 09:34:08','currentUrl:https://localhost:7228/Home/Statements',13,65

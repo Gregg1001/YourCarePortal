@@ -1,0 +1,26 @@
+﻿@using System.Globalization;
+@model YourCarePortal.Models.BudgetandClients;
+@using System.Net;
+
+@if (Model.Budget == null) // This checks if the collection is empty.
+{
+    <div class="centered-content">
+        <h1>This client does not currently have any budget at this time.</h1>
+        <p>@ViewBag.NoDataSubText</p>
+    </div>
+}
+
+else
+{
+    <div id="budgetContainer">
+
+        <br />
+        <br />
+        <br />
+     
+        <label>Test if Partial View is working </label>
+
+        <label> @Model.Budget.clientFullname_ACTIVE_SESSION</label>
+
+    </div>
+}
