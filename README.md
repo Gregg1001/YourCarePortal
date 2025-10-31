@@ -2,7 +2,7 @@
 
 A **secure, user-friendly platform** designed to help **family members and caregivers** monitor schedules, appointments, and documentation related to their loved one’s home care.
 
-Developed for the **Royal Flying Doctors Service (RFDS)**, this solution emphasizes **transparency, coordination,** and **peace of mind** for families involved in ongoing care.
+Developed for the **Care Industry**, this solution emphasizes **transparency, coordination,** and **peace of mind** for families involved in ongoing care.
 
 ---
 
