@@ -1,1 +1,1 @@
-A secure, user-friendly platform designed to help family members and caregivers monitor schedules, appointments, and documentation related to their loved one’s home care. Built for the Royal Flying Doctors Service (RFDS) to ensure transparency, coordination, and peace of mind for families involved in ongoing care.
+
