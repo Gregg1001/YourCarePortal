@@ -57,8 +57,9 @@ _Add screenshots of key pages such as Dashboard, Appointments, and Document View
    cd YourCarePortal
 
 
-##  Application Structure
-    ```bash
+## Application Structure
+
+  ```bash
 
    └── YourCarPortal/
     ├── YourCarePortal/
