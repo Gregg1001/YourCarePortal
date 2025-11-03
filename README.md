@@ -57,3 +57,152 @@ _Add screenshots of key pages such as Dashboard, Appointments, and Document View
    git clone https://github.com/<your-username>/YourCarePortal.git
    cd YourCarePortal
 
+
+   └── YourCarPortal/
+    ├── YourCarePortal/
+    │   ├── Controllers/
+    │   │   ├── AppointmentsController.cs
+    │   │   ├── BudgetController.cs
+    │   │   ├── ClientDetailsController.cs
+    │   │   ├── CustomFormsController.cs
+    │   │   ├── HomeController.cs
+    │   │   ├── NDISQuotesController.cs
+    │   │   ├── NDISStatementController.cs
+    │   │   ├── SettingsController.cs
+    │   │   ├── StatementsController.cs
+    │   │   ├── SupportPlanController.cs
+    │   │   └── TemplateController.cs
+    │   ├── Data/
+    │   │   └── DatabaseContext.cs
+    │   ├── Models/
+    │   │   ├── Appointment/
+    │   │   │   ├── Appointment.cs
+    │   │   │   ├── AppointmentDetail.cs
+    │   │   │   ├── AppointmentFilter.cs
+    │   │   │   ├── AppointmentListItem.cs
+    │   │   │   └── AppointmentSummary.cs
+    │   │   ├── Budget/
+    │   │   │   ├── Budget.cs
+    │   │   │   ├── BudgetCategory.cs
+    │   │   │   ├── BudgetItem.cs
+    │   │   │   └── BudgetSummary.cs
+    │   │   ├── Client/
+    │   │   │   ├── Client.cs
+    │   │   │   ├── ClientContact.cs
+    │   │   │   ├── ClientDetail.cs
+    │   │   │   └── ClientSummary.cs
+    │   │   ├── Common/
+    │   │   │   ├── ApiEnvelope.cs
+    │   │   │   ├── ApiError.cs
+    │   │   │   ├── ApiResult.cs
+    │   │   │   ├── KeyValue.cs
+    │   │   │   └── Paging.cs
+    │   │   ├── Forms/
+    │   │   │   ├── CustomForm.cs
+    │   │   │   ├── CustomFormField.cs
+    │   │   │   └── CustomFormSubmission.cs
+    │   │   ├── Ndis/
+    │   │   │   ├── NdisQuote.cs
+    │   │   │   ├── NdisQuoteItem.cs
+    │   │   │   └── NdisStatement.cs
+    │   │   ├── Settings/
+    │   │   │   └── UserSettings.cs
+    │   │   ├── Statements/
+    │   │   │   ├── Statement.cs
+    │   │   │   ├── StatementDetail.cs
+    │   │   │   └── StatementSummary.cs
+    │   │   └── Template/
+    │   │       ├── Template.cs
+    │   │       └── TemplatePreview.cs
+    │   ├── Program.cs
+    │   ├── Properties/
+    │   │   └── launchSettings.json
+    │   ├── Services/
+    │   │   ├── APIResponseHelper.cs
+    │   │   ├── ApiAuthService.cs
+    │   │   ├── ApiClientFactory.cs
+    │   │   ├── ApiRequestBuilder.cs
+    │   │   ├── AppointmentService.cs
+    │   │   ├── BudgetService.cs
+    │   │   ├── ClientDetailsService.cs
+    │   │   ├── CustomFormsService.cs
+    │   │   ├── DateFormatService.cs
+    │   │   ├── HttpLoggingHandler.cs
+    │   │   ├── JsonService.cs
+    │   │   ├── NdisQuotesPdfService.cs
+    │   │   ├── NdisQuotesService.cs
+    │   │   ├── NdisStatementService.cs
+    │   │   ├── QueryStringService.cs
+    │   │   ├── RequestContextService.cs
+    │   │   ├── RouteHelper.cs
+    │   │   ├── ScheduleService.cs
+    │   │   ├── SecureStringService.cs
+    │   │   ├── SessionBootstrapService.cs
+    │   │   ├── SessionService.cs
+    │   │   ├── SettingsService.cs
+    │   │   ├── StatementService.cs
+    │   │   ├── StaticAssetsVersionService.cs
+    │   │   ├── TemplateService.cs
+    │   │   ├── TimeZoneService.cs
+    │   │   ├── UrlHelperService.cs
+    │   │   └── UserAgentService.cs
+    │   ├── Views/
+    │   │   ├── Appointments/
+    │   │   │   ├── Appointments.cshtml
+    │   │   │   ├── _AppointmentFilters.cshtml
+    │   │   │   ├── _AppointmentList.cshtml
+    │   │   │   └── _AppointmentSummary.cshtml
+    │   │   ├── Budget/
+    │   │   │   ├── Budget.cshtml
+    │   │   │   └── _BudgetSummary.cshtml
+    │   │   ├── ClientDetails/
+    │   │   │   ├── ClientDetails.cshtml
+    │   │   │   └── _ClientSummary.cshtml
+    │   │   ├── CustomForms/
+    │   │   │   ├── CustomForms.cshtml
+    │   │   │   └── _CustomFormList.cshtml
+    │   │   ├── Home/
+    │   │   │   └── Index.cshtml
+    │   │   ├── NDISQuotes/
+    │   │   │   ├── NDISQuotes.cshtml
+    │   │   │   └── _NdisQuoteList.cshtml
+    │   │   ├── NDISStatement/
+    │   │   │   └── NDISStatement.cshtml
+    │   │   ├── Settings/
+    │   │   │   └── Settings.cshtml
+    │   │   ├── Shared/
+    │   │   │   ├── _Layout.cshtml
+    │   │   │   ├── _Nav.cshtml
+    │   │   │   └── _ValidationScriptsPartial.cshtml
+    │   │   ├── Statements/
+    │   │   │   ├── Statements.cshtml
+    │   │   │   └── _StatementList.cshtml
+    │   │   └── Template/
+    │   │       ├── Template.cshtml
+    │   │       └── _TemplatePreview.cshtml
+    │   ├── YourCarePortal.csproj
+    │   ├── appsettings.Development.json
+    │   ├── appsettings.json
+    │   └── wwwroot/
+    │       ├── css/
+    │       │   ├── site.css
+    │       │   └── vendor/
+    │       │       ├── bootstrap.min.css
+    │       │       └── sb-admin.css
+    │       ├── js/
+    │       │   ├── site.js
+    │       │   └── vendor/
+    │       │       └── bootstrap.bundle.min.js
+    │       ├── fonts/
+    │       │   ├── Metropolis-Black.otf
+    │       │   ├── Metropolis-BlackItalic.otf
+    │       │   ├── Metropolis-Bold.otf
+    │       │   └── Metropolis-Regular.otf
+    │       └── images/
+    │           ├── logos/
+    │           │   └── yourcareportal-logo.png
+    │           └── icons/
+    │               └── favicon.ico
+    └── YourCarPortal.sln
+
+
