@@ -57,6 +57,7 @@ _Add screenshots of key pages such as Dashboard, Appointments, and Document View
    git clone https://github.com/<your-username>/YourCarePortal.git
    cd YourCarePortal
 
+  `bash
 
    └── YourCarPortal/
     ├── YourCarePortal/
