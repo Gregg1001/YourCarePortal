@@ -53,7 +53,6 @@ _Add screenshots of key pages such as Dashboard, Appointments, and Document View
 ## ⚙️ Installation *(Optional Section)*
 
 1. Clone the repository:
-   ```bash
    git clone https://github.com/<your-username>/YourCarePortal.git
    cd YourCarePortal
 
